@@ -1,0 +1,16 @@
+{
+  "_comment": "A celebrity is only a STYLE label that picks a coach persona. No body measurements, weights, diets or quotes are attributed to any real person.",
+  "default_archetype": "athletic",
+  "celebrities": [
+    {"name": "Lisa (BLACKPINK)", "archetype": "lean_dancer"},
+    {"name": "Jennie (BLACKPINK)", "archetype": "lean_dancer"},
+    {"name": "Karina (aespa)", "archetype": "lean_dancer"},
+    {"name": "Jungkook (BTS)", "archetype": "sculpted"},
+    {"name": "Cha Eun-woo", "archetype": "sculpted"},
+    {"name": "Zendaya", "archetype": "athletic"},
+    {"name": "Margot Robbie", "archetype": "athletic"},
+    {"name": "Simu Liu", "archetype": "sculpted"},
+    {"name": "Dwayne Johnson", "archetype": "strong"},
+    {"name": "Jason Momoa", "archetype": "strong"}
+  ]
+}

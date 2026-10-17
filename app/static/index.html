@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Muse">
+<meta name="theme-color" content="#e8457c">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/icon.svg">
+<title>Muse Coach</title>
+<style>
+  :root { --pink:#e8457c; --ink:#2a1f26; --soft:#fff7fa; --card:#fff; --line:#f1d9e2; --mute:#8a7580; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:-apple-system,system-ui,sans-serif; background:var(--soft); color:var(--ink);
+         padding:16px 16px calc(84px + env(safe-area-inset-bottom)); max-width:520px; margin-inline:auto; }
+  h1 { font-size:22px; margin:4px 0 12px; } h2 { font-size:16px; margin:18px 0 8px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:16px; padding:14px; margin-bottom:12px; }
+  .big { font-size:34px; font-weight:700; } .mute { color:var(--mute); font-size:13px; }
+  .bar { height:10px; background:var(--line); border-radius:6px; overflow:hidden; margin:8px 0; }
+  .bar > div { height:100%; background:var(--pink); width:0; transition:width .3s; }
+  button, .btn { background:var(--pink); color:#fff; border:0; border-radius:12px; padding:12px 16px;
+                 font-size:16px; font-weight:600; width:100%; display:block; text-align:center; cursor:pointer; }
+  button.ghost { background:transparent; color:var(--pink); border:1px solid var(--pink); }
+  button.small { width:auto; padding:6px 10px; font-size:13px; }
+  label { display:block; font-size:13px; color:var(--mute); margin:10px 0 4px; }
+  input, select { width:100%; padding:12px; font-size:16px; border:1px solid var(--line); border-radius:10px; background:#fff; }
+  .row { display:flex; gap:8px; } .row > * { flex:1; }
+  .meal { display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-top:1px solid var(--line); }
+  .meal:first-child { border-top:0; }
+  nav { position:fixed; bottom:0; left:0; right:0; display:flex; background:#fff; border-top:1px solid var(--line);
+        padding-bottom:env(safe-area-inset-bottom); max-width:520px; margin:auto; }
+  nav button { background:none; color:var(--mute); border-radius:0; padding:14px 4px; font-size:14px; }
+  nav button.on { color:var(--pink); }
+  .note { background:#fff1c9; border-radius:10px; padding:8px 10px; font-size:13px; margin-top:8px; }
+  .err { background:#ffd9d9; border-radius:10px; padding:8px 10px; font-size:14px; margin:8px 0; }
+  a { color:var(--pink); } .hide { display:none; }
+  .day { font-weight:700; margin-top:10px; }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<nav>
+  <button data-tab="today" class="on">Today</button>
+  <button data-tab="coach">Coach</button>
+  <button data-tab="plan">Meal plan</button>
+  <button data-tab="me">Me</button>
+</nav>
+<script>
+const $ = (s, el = document) => el.querySelector(s);
+const app = $("#app");
+let state = null, tab = "today", celebs = [], busy = "";
+
+async function api(path, opts) {
+  const r = await fetch(path, opts);
+  const body = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(body.detail || "Something went wrong.");
+  return body;
+}
+const json = (method, data) => ({ method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+async function load() {
+  [state, { celebrities: celebs }] = await Promise.all([api("/api/state"), api("/api/options")]);
+  render();
+}
+
+function render() {
+  document.querySelectorAll("nav button").forEach(b => b.classList.toggle("on", b.dataset.tab === tab));
+  if (!state.profile) { app.innerHTML = setupHtml(); wireSetup(); return; }
+  ({ today: renderToday, coach: renderCoach, plan: renderPlan, me: () => { app.innerHTML = setupHtml(state.profile); wireSetup(); } })[tab]();
+}
+
+function renderToday() {
+  const { plan, eaten_kcal, remaining_kcal, meals, message } = state;
+  const pct = Math.min(100, Math.round(eaten_kcal / plan.target_kcal * 100));
+  app.innerHTML = `
+    <h1>Today</h1>
+    <div class="card">
+      <div class="mute">Eaten / target</div>
+      <div class="big">${eaten_kcal} <span class="mute">/ ${plan.target_kcal} kcal</span></div>
+      <div class="bar"><div style="width:${pct}%"></div></div>
+      <div class="mute">${remaining_kcal >= 0 ? remaining_kcal + " left" : -remaining_kcal + " over"} · P ${plan.protein_g}g · C ${plan.carbs_g}g · F ${plan.fat_g}g</div>
+    </div>
+    <div class="card"><div>${esc(message)}</div></div>
+    <label class="btn" for="photo">${busy || "📷 Log a meal with a photo"}</label>
+    <input id="photo" type="file" accept="image/*" capture="environment" class="hide">
+    <div id="err"></div>
+    <h2>Add by hand</h2>
+    <div class="row"><input id="mname" placeholder="Meal"><input id="mkcal" type="number" inputmode="numeric" placeholder="kcal"></div>
+    <button class="ghost" id="addbtn" style="margin-top:8px">Add</button>
+    <h2>Logged today</h2>
+    <div class="card">${meals.length ? meals.map(m => `
+      <div class="meal"><div>${esc(m.name)}<div class="mute">${m.source === "photo" ? "photo estimate" : "manual"}</div></div>
+      <div>${m.kcal} <button class="small ghost" data-del="${m.id}">✕</button></div></div>`).join("") : '<span class="mute">Nothing yet.</span>'}</div>`;
+  $("#photo").onchange = async e => {
+    const f = e.target.files[0]; if (!f) return;
+    busy = "Estimating…"; renderToday();
+    const fd = new FormData(); fd.append("photo", f);
+    try {
+      const r = await api("/api/meals/photo", { method: "POST", body: fd });
+      state = r; busy = ""; renderToday();
+      if (r.estimate.demo) showErr("Demo estimate: set ANTHROPIC_API_KEY on the server for real photo estimates.");
+      else if (r.estimate.confidence === "low") showErr("Low confidence estimate. Delete and edit it if it looks off.");
+    } catch (err) { busy = ""; renderToday(); showErr(err.message); }
+  };
+  $("#addbtn").onclick = async () => {
+    const name = $("#mname").value.trim(), kcal = parseInt($("#mkcal").value, 10);
+    if (!name || isNaN(kcal)) return showErr("Enter a meal name and calories.");
+    try { state = await api("/api/meals", json("POST", { name, kcal })); renderToday(); } catch (err) { showErr(err.message); }
+  };
+  document.querySelectorAll("[data-del]").forEach(b => b.onclick = async () => {
+    state = await api("/api/meals/" + b.dataset.del, { method: "DELETE" }); renderToday();
+  });
+}
+function showErr(msg) { const e = $("#err"); if (e) e.innerHTML = `<div class="err">${esc(msg)}</div>`; }
+
+function renderCoach() {
+  const c = state.coach, p = state.plan;
+  app.innerHTML = `
+    <h1>${esc(c.coach)}</h1>
+    <div class="mute">${esc(c.tagline)}${state.profile.celebrity ? " · style target: " + esc(state.profile.celebrity) : ""}</div>
+    <div class="card"><b>Your plan</b><br>${p.target_kcal} kcal/day (maintenance ${p.maintenance_kcal}).
+      ${p.weekly_change_kg ? `Expected change: ${p.weekly_change_kg > 0 ? "+" : ""}${p.weekly_change_kg} kg/week${p.weeks_to_goal ? ", about " + p.weeks_to_goal + " weeks to " + p.goal_weight_kg + " kg" : ""}.` : "Holding steady."}
+      ${p.notes.map(n => `<div class="note">${esc(n)}</div>`).join("")}</div>
+    <div class="card"><b>Training style</b><br>${esc(c.style)}</div>
+    <h2>This week</h2><div class="card">${c.week.map(d => `<div class="meal">${esc(d)}</div>`).join("")}</div>
+    <h2>Tips</h2><div class="card">${c.tips.map(t => `<div class="meal">${esc(t)}</div>`).join("")}</div>
+    <p class="mute">The celebrity you pick only chooses a coach style. Your targets come from your own body and are kept within healthy limits. This isn't medical advice.</p>`;
+}
+
+async function renderPlan() {
+  app.innerHTML = "<h1>Meal plan</h1><p class='mute'>Loading…</p>";
+  const { week, target_kcal } = await api("/api/mealplan");
+  app.innerHTML = `<h1>Meal plan</h1><p class="mute">Real recipes from the web, with portions scaled to your ${target_kcal} kcal. Tap to open.</p>` +
+    week.map(d => `<div class="card"><div class="day">${d.day}</div>${d.meals.map(m => `
+      <div class="meal"><div><span class="mute">${m.slot}</span><br><a href="${esc(m.url)}" target="_blank" rel="noopener">${esc(m.name)}</a>
+      <div class="mute">${esc(m.source)} · ${m.servings}× serving</div></div><div>${m.kcal}</div></div>`).join("")}
+      <div class="mute" style="margin-top:6px">Snacks: ~${d.snack_budget} kcal</div></div>`).join("");
+}
+
+function setupHtml(p = {}) {
+  const sel = (v, o) => o.map(([k, t]) => `<option value="${k}" ${p[v] === k ? "selected" : ""}>${t}</option>`).join("");
+  return `<h1>${p.age ? "Your profile" : "Welcome to Muse Coach"}</h1>
+    <p class="mute">Pick a celebrity style you admire. A coach built for that style takes it from here.</p>
+    <label>Style inspiration (type any celebrity or pick one)</label>
+    <input id="celeb" list="celebs" value="${esc(p.celebrity || "")}" placeholder="e.g. Zendaya">
+    <datalist id="celebs">${celebs.map(c => `<option value="${esc(c)}">`).join("")}</datalist>
+    <div class="row"><div><label>Age</label><input id="age" type="number" inputmode="numeric" value="${p.age || ""}"></div>
+    <div><label>Sex (calorie formula)</label><select id="sex">${sel("sex", [["female", "Female"], ["male", "Male"]])}</select></div></div>
+    <div class="row"><div><label>Height (cm)</label><input id="height" type="number" inputmode="decimal" value="${p.height_cm || ""}"></div>
+    <div><label>Weight (kg)</label><input id="weight" type="number" inputmode="decimal" value="${p.weight_kg || ""}"></div></div>
+    <label>Goal</label><select id="goal">${sel("goal", [["lose", "Lose fat"], ["maintain", "Maintain"], ["build", "Build muscle"]])}</select>
+    <label>Goal weight (kg, optional)</label><input id="gw" type="number" inputmode="decimal" value="${p.goal_weight_kg || ""}">
+    <label>Activity</label><select id="act">${sel("activity", [["low", "Low (desk job, 1-3 workouts)"], ["medium", "Medium (3-5 workouts)"], ["high", "High (6-7 hard workouts)"]])}</select>
+    <div id="err"></div><button id="save" style="margin-top:14px">Save and meet my coach</button>`;
+}
+function wireSetup() {
+  $("#save").onclick = async () => {
+    const num = id => { const v = $(id).value; return v === "" ? null : parseFloat(v); };
+    const body = { age: parseInt($("#age").value, 10), sex: $("#sex").value, height_cm: num("#height"), weight_kg: num("#weight"),
+      goal: $("#goal").value, activity: $("#act").value, goal_weight_kg: num("#gw"), celebrity: $("#celeb").value.trim() };
+    if ([body.age, body.height_cm, body.weight_kg].some(v => v === null || isNaN(v))) return showErr("Fill in age, height and weight.");
+    try { state = await api("/api/profile", json("PUT", body)); tab = "coach"; render(); } catch (err) { showErr(err.message); }
+  };
+}
+
+document.querySelectorAll("nav button").forEach(b => b.onclick = () => { tab = b.dataset.tab; if (state) render(); });
+load();
+</script>
+</body>
+</html>
