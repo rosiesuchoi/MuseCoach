@@ -2,6 +2,31 @@
 
 Newest entry on top.
 
+## 2026-10-17: Dropped Cloudflare; the server runs the AI pipeline with a key from `.env`
+
+**Decision (Rosie):** no Cloudflare, and no key shared with the assistant: she will use her own Anthropic key. (An attempt to deploy the Worker
+had hit a Cloudflare "Authentication error 10000" while creating the KV store; moot now. Rosie can revoke wrangler's access with `npx wrangler logout`.)
+Earlier entries below mention the Worker; it no longer exists (`worker/`, `deploy.ps1` and the proxy code in the browser edition are deleted, still in git history).
+
+**Built**
+- `app/rag.py`: Python port of the identify → retrieve → explain → compute pipeline, same logic and same prompts. Prompts moved to
+  `shared/prompts.json` (one source; `tools/sync_prompts.py` generates `prompts.mjs` for the browser; a test checks they're in sync).
+- `app/config.py` + `.env.example`: the key comes from the gitignored `.env` (or the environment), read per request. `tools/check_key.py` lets
+  Rosie confirm her key and the image analysis work, without printing the key.
+- `POST /api/meals/photo` now runs the pipeline when a key is set (off the event loop), saves the full analysis with the meal (new `analysis` column,
+  old databases upgraded in place), and falls back to the labelled demo value with no key. Same UI as the web edition: verdict, totals, flags, ⓘ details.
+- Error handling: Anthropic errors become fixed messages (key rejected, rate limit, offline); unexpected errors log only the exception type.
+
+**Safety checks:** key never in any response, log, DB row or test output; tests use a fake key and a mocked model, and `tests/conftest.py` blocks real
+API calls and the real `.env`; `.env` is verified gitignored by a test.
+
+**Verified:** 38 pytest tests; `node tools/pipeline_parity.mjs` (identical retrieval order for 19 queries, byte-identical model requests, identical full
+analysis for the same mocked model); with a deliberately fake key the running server called the real Anthropic API, got a 401, and returned the
+clean "key was rejected" message with the key nowhere in the response or the server log.
+**Not verified:** a successful call with a real key (I never had one): that is what `tools/check_key.py` is for.
+
+**Next:** Rosie creates `.env`, runs `tools/check_key.py`, then logs real meal photos and reports what it gets wrong.
+
 ## 2026-10-16: In-app recipes and AI photo analysis (RAG)
 
 **Asked for:** (1) stop sending users to external recipe pages that ask them to subscribe; scrape the recipe and show it inside

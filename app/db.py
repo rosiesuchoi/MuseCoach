@@ -34,6 +34,9 @@ def conn():
             );
             """
         )
+        # Older databases predate the AI analysis column: add it in place so existing meals are kept.
+        if "analysis" not in {r["name"] for r in c.execute("PRAGMA table_info(meals)")}:
+            c.execute("ALTER TABLE meals ADD COLUMN analysis TEXT")
         yield c
         c.commit()
     finally:
@@ -51,11 +54,11 @@ def load_profile() -> dict | None:
     return json.loads(row["data"]) if row else None
 
 
-def add_meal(name: str, kcal: int, items: list, source: str) -> int:
+def add_meal(name: str, kcal: int, items: list, source: str, analysis: dict | None = None) -> int:
     with conn() as c:
         cur = c.execute(
-            "INSERT INTO meals (day, name, kcal, items, source) VALUES (?, ?, ?, ?, ?)",
-            (date.today().isoformat(), name, kcal, json.dumps(items), source),
+            "INSERT INTO meals (day, name, kcal, items, source, analysis) VALUES (?, ?, ?, ?, ?, ?)",
+            (date.today().isoformat(), name, kcal, json.dumps(items), source, json.dumps(analysis) if analysis else None),
         )
         return cur.lastrowid
 
@@ -63,10 +66,10 @@ def add_meal(name: str, kcal: int, items: list, source: str) -> int:
 def todays_meals() -> list[dict]:
     with conn() as c:
         rows = c.execute(
-            "SELECT id, name, kcal, items, source FROM meals WHERE day = ? ORDER BY id",
+            "SELECT id, name, kcal, items, source, analysis FROM meals WHERE day = ? ORDER BY id",
             (date.today().isoformat(),),
         ).fetchall()
-    return [{**dict(r), "items": json.loads(r["items"])} for r in rows]
+    return [{**dict(r), "items": json.loads(r["items"]), "analysis": json.loads(r["analysis"]) if r["analysis"] else None} for r in rows]
 
 
 def update_meal(meal_id: int, name: str, kcal: int) -> bool:

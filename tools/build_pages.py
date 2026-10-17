@@ -7,8 +7,6 @@ The UI file is shared with the server edition; the build only fixes paths and ad
 
 from __future__ import annotations
 
-import json
-import os
 import shutil
 from pathlib import Path
 
@@ -31,15 +29,11 @@ def main() -> None:
     manifest = manifest.replace('"start_url": "/"', '"start_url": "./"').replace('"src": "/icon.svg"', '"src": "icon.svg"')
     (DOCS / "manifest.webmanifest").write_text(manifest, encoding="utf-8")
 
-    # proxy_url: where the key-holding Worker lives (see worker/README.md). Empty = users paste their own key.
-    config = json.loads((ROOT / "tools/pages/config.json").read_text(encoding="utf-8"))
-    config["proxy_url"] = os.environ.get("MUSE_PROXY_URL", config["proxy_url"])
-    (DOCS / "config.json").write_text(json.dumps(config, indent=2) + "\n", encoding="utf-8")
-
     shutil.copy(ROOT / "app/static/icon.svg", DOCS / "icon.svg")
     shutil.copy(ROOT / "tools/pages/local-backend.js", DOCS / "local-backend.js")
-    # pipeline.mjs is shared with the Worker; the browser imports it for the AI analysis.
+    # pipeline.mjs is the AI analysis pipeline (also ported to Python for the server edition: app/rag.py).
     shutil.copy(ROOT / "shared/pipeline.mjs", DOCS / "pipeline.mjs")
+    shutil.copy(ROOT / "shared/prompts.mjs", DOCS / "prompts.mjs")  # pipeline.mjs imports it
     for name in ("celebrities", "coaches", "recipes", "food_calories", "nutrition"):
         shutil.copy(ROOT / f"app/data/{name}.json", DOCS / "data" / f"{name}.json")
     (DOCS / ".nojekyll").write_text("", encoding="utf-8")

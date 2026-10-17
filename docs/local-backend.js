@@ -193,25 +193,15 @@
   }
 
   // ---------- AI analysis: identify -> retrieve (USDA) -> explain, see shared/pipeline.mjs ----------
-  // The two model calls go either through the Worker proxy (key stays secret there) or straight to Anthropic
-  // with the user's own pasted key. Retrieval and all the calorie math always run here in the browser.
+  // The two model calls go straight to Anthropic with the user's own pasted key (it never touches a server of ours).
+  // Retrieval and all the calorie math run here in the browser.
   const NETWORK_MSG = "Couldn't reach the AI service. Check your connection or enter calories by hand.";
-  const failure = (res, who) => {
-    if (res.status === 429) return new HttpError(429, "Today's AI photo analyses are used up. Try again tomorrow, or enter calories by hand.");
-    if (res.status === 401 && who === "key") return new HttpError(502, "Your API key was rejected. Check it on the Me tab.");
+  const failure = res => {
+    if (res.status === 401) return new HttpError(502, "Your API key was rejected. Check it on the Me tab.");
+    if (res.status === 429) return new HttpError(429, "The AI service is rate-limiting this key. Wait a minute and try again, or enter calories by hand.");
     return new HttpError(502, "Couldn't analyze that photo right now. Enter calories by hand.");
   };
-  const textOf = async (res, who, field) => { if (!res.ok) throw failure(res, who); const b = await res.json(); return field(b); };
-
-  function proxyClient(base) {
-    const post = async (route, body) => {
-      let res;
-      try { res = await fetch(base.replace(/\/+$/, "") + route, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) }); }
-      catch { throw new HttpError(502, NETWORK_MSG); }
-      return textOf(res, "proxy", b => b.text);
-    };
-    return { identify: image => post("/identify", { image }), explain: payload => post("/explain", payload) };
-  }
+  const textOf = async (res, field) => { if (!res.ok) throw failure(res); const b = await res.json(); return field(b); };
 
   function directClient(apiKey, pipeline) {
     const call = async body => {
@@ -222,7 +212,7 @@
           "anthropic-dangerous-direct-browser-access": "true", // required for browser calls; the key is the user's own
         } });
       } catch { throw new HttpError(502, NETWORK_MSG); }
-      return textOf(res, "key", b => b.content?.[0]?.text ?? "");
+      return textOf(res, b => b.content?.[0]?.text ?? "");
     };
     return { identify: image => call(pipeline.identifyRequest(image)), explain: payload => call(pipeline.explainRequest(payload)) };
   }
@@ -243,7 +233,7 @@
     try { say("Loading the nutrition database…"); ai = await loadAi(); }
     catch (e) { console.error("pipeline failed to load", e); throw new HttpError(502, "Couldn't load the nutrition database. Check your connection."); }
     const { pipeline, index } = ai;
-    const client = config.proxy_url ? proxyClient(config.proxy_url) : directClient(apiKey, pipeline);
+    const client = directClient(apiKey, pipeline);
     try {
       return await pipeline.analyzeMeal({
         image: b64, context, index,
@@ -258,8 +248,8 @@
 
   async function estimateMeal(file, apiKey, context) {
     const b64 = await toJpegBase64(file);
-    if (config.proxy_url || apiKey) return analyzeWithAI(b64, context, apiKey);
-    return estimateOnDevice(b64); // no proxy and no key: the smaller on-device model, calories only
+    if (apiKey) return analyzeWithAI(b64, context, apiKey);
+    return estimateOnDevice(b64); // no key: the smaller on-device model, calories only
   }
 
   // ---------- storage ----------
@@ -273,11 +263,10 @@
 
   // ---------- browser wiring ----------
   root.MUSE_STATIC = true;
-  let core = null, config = { proxy_url: "" }, foodTable = {};
+  let core = null, foodTable = {};
   const getJson = path => fetch(path).then(r => r.json());
-  const dataReady = Promise.all([getJson("data/celebrities.json"), getJson("data/coaches.json"), getJson("data/recipes.json"), getJson("config.json"), getJson("data/food_calories.json")])
-    .then(([celebrities, coaches, recipes, cfg, food]) => {
-      config = { proxy_url: "", ...cfg };
+  const dataReady = Promise.all([getJson("data/celebrities.json"), getJson("data/coaches.json"), getJson("data/recipes.json"), getJson("data/food_calories.json")])
+    .then(([celebrities, coaches, recipes, food]) => {
       foodTable = Object.fromEntries(Object.entries(food).filter(([k]) => !k.startsWith("_")));
       core = makeCore({ celebrities, coaches, recipes: recipes.recipes });
       core.data = { celebrities, coaches };
@@ -383,9 +372,7 @@
     };
     if (rm) rm.onclick = () => { localStorage.removeItem(API_KEY); redraw(); };
   };
-  root.museExtraHtml = () => config.proxy_url
-    ? `<h2>Photo analysis</h2><p class="mute">AI photo analysis is built in. There's nothing to set up.</p>`
-    : `<h2>Photo estimates</h2>
+  root.museExtraHtml = () => `<h2>Photo estimates</h2>
        <p class="mute"><b>With an Anthropic API key</b>, photos get a full AI analysis: every food and drink identified, calories and
        nutrients looked up in the USDA database, what's in it, benefits, things to watch, and whether it fits your goal.
        The key stays in this browser and is only sent to api.anthropic.com. Use one with a low spend limit.</p>

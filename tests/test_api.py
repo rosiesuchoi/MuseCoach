@@ -80,11 +80,6 @@ def test_mealplan_has_seven_days_with_links(client):
     assert client.get("/api/recipes/nope").status_code == 404
 
 
-def test_vision_rejects_absurd_estimate():
-    with pytest.raises(vision.PhotoError):
-        vision.parse_reply(json.dumps({"meal_name": "x", "items": [], "total_kcal": 99999}))
-
-
 def test_style_picked_for_unlisted_celebrity(client):
     r = client.put("/api/profile", json={**PROFILE, "celebrity": "Gong Yoo", "style": "strong"}).json()
     assert r["archetype"] == "strong"

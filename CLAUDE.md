@@ -25,10 +25,11 @@ Home Screen). Python (FastAPI) back end, one static HTML page for the UI.
 4. **Recipes: only openly licensed text.** `app/data/recipes.json` comes from Wikibooks Cookbook (CC BY-SA 4.0) via `tools/build_recipes.py`.
    Never paste in text scraped from commercial recipe sites. Keep each recipe's source, history link and license visible in the app.
    Nutrition is computed from USDA data, never scraped.
-5. **No secrets in git, and none in the public site.** Never put a key in `docs/`, `config.json` or any
-   client code. The public site gets estimates through the Worker proxy, whose prompt and model are fixed.
-   The server edition reads `ANTHROPIC_API_KEY` from the environment. Without any key, photo estimates
-   return a labelled demo value so the app still runs.
+5. **No secrets in git, in chat, or in the public site.** The server edition reads `ANTHROPIC_API_KEY` from the gitignored `.env`
+   file (or the environment) via `app/config.py`, and only ever sends it to api.anthropic.com. Never print, log, store or echo it, never
+   put it in `docs/` or client code, and never ask the user to paste it into chat (if they do, tell them to revoke it). Without a key,
+   photo estimates return a labelled demo value so the app still runs. The Pages edition has each visitor paste their own key in their browser.
+   Tests must never read the real `.env` or call the real API (`tests/conftest.py` enforces this).
 6. **The model never supplies the numbers.** In `shared/pipeline.mjs` calories and nutrients are computed in code from retrieved USDA
    rows; a database id the model returns must be one that was actually retrieved, and model-supplied estimates are only accepted if they
    agree with their own macros and are labelled "AI estimate". Health text must follow from the numbers, make no medical claims, and
@@ -50,11 +51,13 @@ Home Screen). Python (FastAPI) back end, one static HTML page for the UI.
 | `tools/build_pages.py` | builds `docs/` (generated: never edit by hand) |
 | `tools/parity_check.mjs` | compares the JS plan math with `goals.py` |
 | `docs/` | the GitHub Pages site, served from `main` / `/docs` |
-| `shared/pipeline.mjs` | the identify → retrieve → explain → compute pipeline, shared by the browser and the Worker |
+| `shared/pipeline.mjs`, `app/rag.py` | the identify → retrieve → explain → compute pipeline: JavaScript for the browser edition, a Python port for the server. Must stay in step: `node tools/pipeline_parity.mjs` |
+| `shared/prompts.json` | the two model prompts, one source for both languages (`tools/sync_prompts.py` regenerates `prompts.mjs`) |
+| `app/config.py`, `.env.example` | `.env` loading and the key placeholder |
+| `tools/check_key.py` | self-test the user runs to confirm their key and image analysis work |
 | `app/data/nutrition.json` | USDA SR Legacy knowledge base (built by `tools/build_nutrition_kb.py`; public domain) |
 | `app/data/recipes.json` | scraped recipes + computed nutrition (built by `tools/build_recipes.py` from `tools/recipes_src.json`) |
 | `app/data/food_calories.json` | typical-serving calories for the 101 classes the on-device model knows (approximate; keys must match the model's labels, checked by `node tools/ondevice_check.mjs --live`) |
-| `worker/` | Cloudflare Worker that holds the API key as a secret; `node worker/test.mjs` tests it |
 
 After changing `app/static/`, `app/data/` or `local-backend.js`, run `tools/build_pages.py` and commit `docs/`.
 

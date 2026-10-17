@@ -3,14 +3,17 @@
 
 from __future__ import annotations
 
+import base64
 from pathlib import Path
 
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
+from starlette.concurrency import run_in_threadpool
 
-from . import coach, db, goals, mealplan, vision
+from . import coach, config, db, goals, mealplan, rag, vision
 
+config.load_env()  # reads ANTHROPIC_API_KEY from the gitignored .env file, if there is one
 app = FastAPI(title="Muse Coach")
 MAX_UPLOAD = 10 * 1024 * 1024  # 10 MB
 
@@ -82,14 +85,29 @@ async def meal_photo(photo: UploadFile = File(...)):
     if len(data) > MAX_UPLOAD:
         raise HTTPException(413, "Photo is too large (max 10 MB).")
     try:
-        result = vision.estimate_meal(data)
+        jpeg = vision.prepare_image(data)
     except vision.PhotoError as e:
         raise HTTPException(422, str(e))
-    except Exception as e:  # API outage, bad key, etc. Don't crash the phone UI.
-        print(f"[vision] estimate failed: {e}")
-        raise HTTPException(502, "Couldn't estimate that photo right now. Enter calories by hand.")
+
+    key = config.anthropic_key()  # read per request; never logged, stored or sent anywhere but api.anthropic.com
+    if not key:
+        result, analysis = vision.demo_estimate(), None  # no key configured: clearly-labelled demo value
+    else:
+        st = _state()
+        context = {"goal": st["plan"]["goal"], "remaining_kcal": st["remaining_kcal"], "target_kcal": st["plan"]["target_kcal"],
+                   "minor": st["profile"]["age"] < 18}
+        identify, explain = rag.anthropic_functions(key)
+        try:  # the model calls are blocking, so keep them off the event loop
+            result = await run_in_threadpool(rag.analyze_meal, base64.b64encode(jpeg).decode(), context, identify, explain)
+        except rag.PipelineError as e:
+            raise HTTPException(e.status, e.message)
+        except Exception as e:  # anything unexpected: log only the type, never the details
+            print(f"[rag] analysis failed: {type(e).__name__}")
+            raise HTTPException(502, "Couldn't analyze that photo right now. Enter calories by hand.")
+        analysis = result
     if result["total_kcal"] > 0:
-        db.add_meal(result["meal_name"], result["total_kcal"], result["items"], "photo")
+        items = [{"name": i["name"], "kcal": i["kcal"]} for i in result["items"]]
+        db.add_meal(result["meal_name"], result["total_kcal"], items, "photo", analysis)
     return {"estimate": result, **_state()}
 
 
