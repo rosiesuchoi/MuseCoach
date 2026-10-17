@@ -18,12 +18,13 @@ Due Sun Oct 18, 2026, 11:59 PM. Scope: one week, small, runs, and Rosie will kee
 - [x] Photo → calorie estimate with Claude vision, demo fallback with no key
 - [x] FastAPI routes: profile, state, photo, manual meal, delete, meal plan
 - [x] Mobile web UI: Today / Coach / Meal plan / Me
-- [x] 7-day meal plan with 9 verified real recipe links
+- [x] 7-day meal plan (now 9 Wikibooks recipes shown in-app instead of external links)
 - [x] API tests (16 passing)
 - [x] GitHub Pages edition: static build in `docs/` with an in-browser backend
 - [ ] Rosie: enable Pages (Settings → Pages → main → /docs) and open the live link
 - [x] Celebrity photo carousel (Wikipedia), name search, coach-style picker for unlisted names
 - [x] Key hidden after saving; Worker proxy written and tested (not deployed)
+- [x] AI photo analysis (identify → USDA retrieval → explain), recipes shown in-app from Wikibooks (CC BY-SA)
 - [x] On-device photo estimates (no key): food model in the browser + calorie table + meal editing
 - [ ] Optional: Rosie: make an Anthropic key + spend limit, deploy `worker/` (see its README), rebuild with `MUSE_PROXY_URL`
 - [ ] Rosie: test a real photo on her iPhone
@@ -31,7 +32,7 @@ Due Sun Oct 18, 2026, 11:59 PM. Scope: one week, small, runs, and Rosie will kee
 - [ ] Portfolio card: title, repo link, short reflection
 
 ### Later (Week 5+)
-- [ ] More recipes (snacks, vegetarian), checked link by link
+- [ ] More recipes (snacks, vegetarian) from Wikibooks via `tools/recipes_src.json`
 - [ ] Weight check-ins and a weekly chart
 - [ ] Editing a photo estimate (rename / change kcal)
 - [ ] HEIC upload support, HTTPS for off-network use

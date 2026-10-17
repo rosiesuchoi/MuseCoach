@@ -1,0 +1,515 @@
+{
+ "_license": "Ingredient lists and instructions are from Wikibooks Cookbook contributors, licensed CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/), reformatted for this app. Each recipe links its page and edit history for attribution. Nutrition is computed by this project from USDA FoodData Central (public domain). This file is therefore also available under CC BY-SA 4.0.",
+ "recipes": [
+  {
+   "id": "scrambled-eggs",
+   "slot": "breakfast",
+   "name": "Basic Scrambled Eggs",
+   "servings": 1,
+   "servings_note": "1 serving (3 eggs)",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "3 eggs",
+      "2–3 tbsp milk (optional)",
+      "2 tbsp butter",
+      "¼ tsp salt (or to taste)",
+      "⅛ tsp black pepper (or to taste)"
+     ]
+    }
+   ],
+   "steps": [
+    "Crack eggs into a measuring cup.",
+    "Add the milk (if desired) and salt.",
+    "Using a whisk or fork, beat the mixture until foamy.",
+    "Melt butter in a frying pan on medium heat",
+    "Pour eggs into frying pan.",
+    "Stir mixture to break up the egg as it cooks and allow more liquid to touch the hot pan. Stirring rapidly will create small curds, while slower stirring will create larger curds.",
+    "Cook until just before you feel that they are done, since the eggs will continue to cook after being removed from the pan. The eggs are done when the sheen disappears; stop cooking just before this happens.",
+    "Transfer to a plate. Season with black pepper (black pepper will burn and become bitter if seasoned before cooking).",
+    "Eat as is or with ketchup (tomato sauce), salsa, and/or butter on toast."
+   ],
+   "notes": [
+    "For a low-sodium version, omit salt and use unsalted butter.",
+    "Grated cheddar cheese can be added into the mixture or on top of the cooked eggs.",
+    "Sour cream may be used in place of milk for a creamier and richer version.",
+    "Cook ⅓ cup (25 g / 0.88 oz) of crumbled cooked meats (like bacon or sausage) or chopped vegetables (like mushrooms or bell pepper) for a couple of minutes before adding the egg mixture. See also Southwestern Scramble."
+   ],
+   "nutrition": {
+    "kcal": 442,
+    "protein": 20.3,
+    "fat": 38.5,
+    "satfat": 19.7,
+    "carb": 3.1,
+    "fiber": 0.1,
+    "sugar": 2.4,
+    "sodium": 814,
+    "chol": 622.8,
+    "potassium": 266.8,
+    "calcium": 134.3,
+    "iron": 2.7,
+    "vitc": 0.0
+   },
+   "assumptions": "Includes the optional milk (2.5 tbsp). Excludes toast and toppings.",
+   "source": {
+    "title": "Basic Scrambled Eggs (Wikibooks Cookbook)",
+    "url": "https://en.wikibooks.org/wiki/Cookbook%3ABasic_Scrambled_Eggs",
+    "history": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ABasic_Scrambled_Eggs&action=history",
+    "revision": 4523414,
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/"
+   }
+  },
+  {
+   "id": "banana-pancakes",
+   "slot": "breakfast",
+   "name": "Banana Pancakes",
+   "servings": 5,
+   "servings_note": "5 servings (the page says 4-6)",
+   "ingredients": [
+    {
+     "heading": "Wet",
+     "items": [
+      "40 grams unsalted butter",
+      "3 medium-size ripe bananas",
+      "3 standard eggs",
+      "375 ml whole milk"
+     ]
+    },
+    {
+     "heading": "Dry",
+     "items": [
+      "300 grams self-raising flour (or 300 grams all-purpose flour + 1 tablespoon baking powder)",
+      "1 tsp ground cinnamon",
+      "1 pinch salt",
+      "3 tbsp soft brown sugar"
+     ]
+    }
+   ],
+   "steps": [
+    "Melt the butter in a medium-size heat-safe mixing bowl.",
+    "Add the bananas, and mash the bananas and butter together with a potato masher.",
+    "Add the eggs and continue to mash until smooth.",
+    "Gradually stir in the milk with a wooden spoon.",
+    "In a separate large bowl, whisk together the dry ingredients.",
+    "Slowly mix the wet ingredients into the dry to get a batter.",
+    "Heat a nonstick skillet over medium heat.",
+    "For each round of frying, grease the pan with a little extra butter. Pour about ⅓ cup of batter onto the pan for each pancake, making sure they don't run into each other.",
+    "Cook the pancakes on on medium-low heat for about 3 minutes on each side until the side is lightly browned. You can tell if it's time to turn the pancake if you can see bubbles on the other side.",
+    "Flip the pancakes using a spatula, and cook through on the other side.",
+    "Remove the pancakes from the pan, and repeat the cooking process with the remaining batter."
+   ],
+   "notes": [
+    "If using salted butter, omit the extra salt in the ingredients."
+   ],
+   "nutrition": {
+    "kcal": 455,
+    "protein": 13.0,
+    "fat": 12.7,
+    "satfat": 6.6,
+    "carb": 73.1,
+    "fiber": 3.7,
+    "sugar": 20.8,
+    "sodium": 827,
+    "chol": 136.5,
+    "potassium": 486.5,
+    "calcium": 324.6,
+    "iron": 3.6,
+    "vitc": 6.2
+   },
+   "assumptions": "Uses 5 servings. Excludes syrup and any oil or butter used to grease the pan.",
+   "source": {
+    "title": "Banana Pancakes (Wikibooks Cookbook)",
+    "url": "https://en.wikibooks.org/wiki/Cookbook%3ABanana_Pancakes",
+    "history": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ABanana_Pancakes&action=history",
+    "revision": 4523328,
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/"
+   }
+  },
+  {
+   "id": "granola",
+   "slot": "breakfast",
+   "name": "Granola",
+   "servings": 16,
+   "servings_note": "about 16 servings (roughly 2/3 cup each)",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "½ cup chopped Castilla walnuts",
+      "½ cup chopped Indian walnuts",
+      "½ cup of chopped almonds",
+      "½ cup brown sugar",
+      "½ cup wheat germ",
+      "¾ cup olive oil",
+      "1½ cup honey",
+      "1 teaspoon salt",
+      "4 cups rolled oats",
+      "½ cup raisins",
+      "½ cup blueberries"
+     ]
+    }
+   ],
+   "steps": [
+    "Combine all ingredients except the raisins and blueberries.",
+    "Spread the mixture on a tray and bake for 1 hour at 250°F, stirring every 10 minutes.",
+    "Let cool, then mix in the raisins and blueberries."
+   ],
+   "notes": [],
+   "nutrition": {
+    "kcal": 392,
+    "protein": 6.2,
+    "fat": 18.7,
+    "satfat": 2.2,
+    "carb": 54.6,
+    "fiber": 4.0,
+    "sugar": 36.7,
+    "sodium": 152,
+    "chol": 0.0,
+    "potassium": 237.1,
+    "calcium": 40.6,
+    "iron": 1.8,
+    "vitc": 0.8
+   },
+   "assumptions": "The page gives no yield. This assumes 16 servings of about 2/3 cup. It is calorie-dense, so a smaller bowl is normal.",
+   "source": {
+    "title": "Granola (Wikibooks Cookbook)",
+    "url": "https://en.wikibooks.org/wiki/Cookbook%3AGranola",
+    "history": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AGranola&action=history",
+    "revision": 4513189,
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/"
+   }
+  },
+  {
+   "id": "red-lentil-soup",
+   "slot": "lunch",
+   "name": "Red Lentil Soup",
+   "servings": 4,
+   "servings_note": "4 servings",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "1–2 tablespoons olive oil",
+      "1 onion, diced",
+      "2 carrots, diced",
+      "2 cloves garlic, minced",
+      "½ lb dry red lentils",
+      "6 cups water or stock",
+      "1 bay leaf"
+     ]
+    }
+   ],
+   "steps": [
+    "Pick over the lentils to remove any debris if needed. Rinse well.",
+    "Heat the olive oil in a large pan over medium heat. Once oil is hot, add the onion and carrots. Sauté for a few minutes, until the vegetables have started to soften, then add the garlic.",
+    "Add the lentils, bay leaf, and water to the pot. Simmer over low-medium heat for 20–30 minutes until lentils are softened.",
+    "Serve hot."
+   ],
+   "notes": [
+    "Herbs and/or spices can be added to the sautéing vegetables, such as cumin, thyme, oregano, and/or red pepper flakes.",
+    "Hot sauce can be added to taste. Freshly-squeezed lemon juice is a nice addition, preferably immediately before serving."
+   ],
+   "nutrition": {
+    "kcal": 273,
+    "protein": 14.3,
+    "fat": 6.3,
+    "satfat": 0.9,
+    "carb": 41.8,
+    "fiber": 7.5,
+    "sugar": 2.6,
+    "sodium": 26,
+    "chol": 0.0,
+    "potassium": 522.9,
+    "calcium": 46.4,
+    "iron": 4.4,
+    "vitc": 5.3
+   },
+   "assumptions": "Made with water (not stock) and 1.5 tbsp olive oil (the page says 1-2).",
+   "source": {
+    "title": "Red Lentil Soup (Wikibooks Cookbook)",
+    "url": "https://en.wikibooks.org/wiki/Cookbook%3ARed_Lentil_Soup",
+    "history": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ARed_Lentil_Soup&action=history",
+    "revision": 4518501,
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/"
+   }
+  },
+  {
+   "id": "tuna-salad",
+   "slot": "lunch",
+   "name": "Tuna Salad",
+   "servings": 3,
+   "servings_note": "3 servings (the page says 2-4)",
+   "ingredients": [
+    {
+     "heading": "Variation I",
+     "items": [
+      "1 large can (12 oz) tuna",
+      "1 can water chestnuts, drained and chopped",
+      "½ small onion, chopped",
+      "1–2 stalks celery, chopped",
+      "½ cup carrot, shredded",
+      "½ cup mayonnaise",
+      "1 tablespoon Dijon mustard",
+      "1 teaspoon soy sauce",
+      "Salt to taste",
+      "Pepper to taste"
+     ]
+    }
+   ],
+   "steps": [
+    "Mix all ingredients in a bowl.",
+    "Chill before serving.",
+    "Serve on toast."
+   ],
+   "notes": [],
+   "nutrition": {
+    "kcal": 366,
+    "protein": 18.1,
+    "fat": 28.6,
+    "satfat": 4.5,
+    "carb": 10.0,
+    "fiber": 2.5,
+    "sugar": 3.1,
+    "sodium": 633,
+    "chol": 46.0,
+    "potassium": 374.9,
+    "calcium": 42.4,
+    "iron": 2.1,
+    "vitc": 3.4
+   },
+   "assumptions": "Variation I only. Assumes the tuna and water chestnuts are drained. Excludes the toast it is served on.",
+   "source": {
+    "title": "Tuna Salad (Wikibooks Cookbook)",
+    "url": "https://en.wikibooks.org/wiki/Cookbook%3ATuna_Salad",
+    "history": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ATuna_Salad&action=history",
+    "revision": 4613413,
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/"
+   }
+  },
+  {
+   "id": "black-bean-soup",
+   "slot": "lunch",
+   "name": "Black Bean Soup",
+   "servings": 12,
+   "servings_note": "12 servings of about 2 cups",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "6 cups dried black beans",
+      "5 bay leaves",
+      "1 red bell pepper, diced",
+      "1 green bell pepper, diced",
+      "1 teaspoon chili powder",
+      "1 teaspoon cumin",
+      "7 cloves garlic, minced",
+      "1 or 2 jalapeños, finely-chopped (to taste)",
+      "1½ large onions, diced",
+      "1 tablespoon red wine vinegar",
+      "Salt and pepper to taste",
+      "½ cup chopped cilantro",
+      "1 cup sour cream for garnish"
+     ]
+    }
+   ],
+   "steps": [
+    "Pick over the beans.",
+    "Place in large bean pot and add water to cover by at least 2 inches (~5 cm).",
+    "Soak overnight, then change water.",
+    "Bring beans to a boil. Reduce heat, then simmer until beans start to soften, around ½ hour.",
+    "Add bay leaves, bell peppers, chili powder, cumin, garlic, jalapeños, onions, and red wine vinegar.",
+    "Add salt and pepper to taste.",
+    "Simmer ½ to 1 hour, until beans are soft.",
+    "Take out bay leaves.",
+    "Stir in cilantro.",
+    "Add some sour cream.",
+    "Serve."
+   ],
+   "notes": [],
+   "nutrition": {
+    "kcal": 387,
+    "protein": 22.1,
+    "fat": 5.3,
+    "satfat": 2.3,
+    "carb": 65.4,
+    "fiber": 16.0,
+    "sugar": 4.4,
+    "sodium": 20,
+    "chol": 11.3,
+    "potassium": 1560.7,
+    "calcium": 151.4,
+    "iron": 5.2,
+    "vitc": 30.3
+   },
+   "assumptions": "Uses 1.5 jalapeños and counts the optional sour cream garnish in full. Salt and pepper 'to taste' are not counted, so sodium may be higher. Needs overnight soaking and about 2 hours of cooking.",
+   "source": {
+    "title": "Black Bean Soup (Wikibooks Cookbook)",
+    "url": "https://en.wikibooks.org/wiki/Cookbook%3ABlack_Bean_Soup",
+    "history": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ABlack_Bean_Soup&action=history",
+    "revision": 4524842,
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/"
+   }
+  },
+  {
+   "id": "baked-chicken-breasts",
+   "slot": "dinner",
+   "name": "Baked Chicken Breasts",
+   "servings": 4,
+   "servings_note": "4 servings (1 breast each)",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "4 boneless skinless chicken breasts",
+      "Kosher salt",
+      "Freshly-ground black pepper",
+      "Olive oil",
+      "Finely-grated lemon zest"
+     ]
+    }
+   ],
+   "steps": [
+    "Brush both sides of chicken with olive oil. Sprinkle both sides liberally with kosher salt, freshly ground black pepper, and finely grated lemon zest.",
+    "Place chicken on a 13x9-inch baking pan. Insert a probe thermometer into one of the chicken breasts and bake in the center of a 400°F (200°C) oven until internal temperature reaches 165°F (75°C).",
+    "Remove to a plate and let rest 5 minutes. Serve warm."
+   ],
+   "notes": [],
+   "nutrition": {
+    "kcal": 234,
+    "protein": 38.3,
+    "fat": 7.8,
+    "satfat": 1.4,
+    "carb": 0.2,
+    "fiber": 0.1,
+    "sugar": 0.0,
+    "sodium": 658,
+    "chol": 124.1,
+    "potassium": 570.7,
+    "calcium": 10.2,
+    "iron": 0.7,
+    "vitc": 0.6
+   },
+   "assumptions": "The page gives no amounts for oil, salt or zest. Assumes 1 tbsp olive oil, 1 tsp salt, 1 tsp zest and 170 g raw per breast.",
+   "source": {
+    "title": "Baked Chicken Breasts (Wikibooks Cookbook)",
+    "url": "https://en.wikibooks.org/wiki/Cookbook%3ABaked_Chicken_Breasts",
+    "history": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ABaked_Chicken_Breasts&action=history",
+    "revision": 4509908,
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/"
+   }
+  },
+  {
+   "id": "grilled-salmon-steaks",
+   "slot": "dinner",
+   "name": "Rosemary Grilled Salmon Steaks",
+   "servings": 5,
+   "servings_note": "5 servings (1 steak each)",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "5 ea. 3-ounce salmon steaks",
+      "1 tbsp canola oil",
+      "1 tbsp apple cider vinegar",
+      "1 rosemary sprig",
+      "2 tsp black pepper"
+     ]
+    }
+   ],
+   "steps": [
+    "Combine the oil, vinegar, rosemary, and pepper. Add salmon steaks, and marinate for 15 minutes.",
+    "Place the steaks on a hot grill, cooking on each side for 3 minutes until flaky."
+   ],
+   "notes": [
+    "Use cedar/alder planks or charcoal for added flavor."
+   ],
+   "nutrition": {
+    "kcal": 204,
+    "protein": 17.5,
+    "fat": 14.2,
+    "satfat": 2.8,
+    "carb": 0.6,
+    "fiber": 0.2,
+    "sugar": 0.0,
+    "sodium": 50,
+    "chol": 46.8,
+    "potassium": 323.0,
+    "calcium": 11.9,
+    "iron": 0.4,
+    "vitc": 3.3
+   },
+   "assumptions": "Uses farmed Atlantic salmon and counts all of the marinade, although some drips off, so real figures are slightly lower.",
+   "source": {
+    "title": "Rosemary Grilled Salmon Steaks (Wikibooks Cookbook)",
+    "url": "https://en.wikibooks.org/wiki/Cookbook%3ARosemary_Grilled_Salmon_Steaks",
+    "history": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ARosemary_Grilled_Salmon_Steaks&action=history",
+    "revision": 4508858,
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/"
+   }
+  },
+  {
+   "id": "chicken-fajitas",
+   "slot": "dinner",
+   "name": "Chicken Fajitas",
+   "servings": 4,
+   "servings_note": "4 servings (filling only)",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "1 Tbsp olive oil",
+      "1–2 lb (½–1 kg) skinless, boneless chicken breast",
+      "1 red bell pepper",
+      "1 green bell pepper",
+      "½ yellow onion",
+      "1 tsp ground cumin (or to taste)",
+      "1 Tbsp crushed red pepper (or to taste)"
+     ]
+    }
+   ],
+   "steps": [
+    "Cut chicken into roughly 1x1-inch (2.5 x 2.5 cm) pieces.",
+    "Marinate the chicken with a spoonful of turmeric, salt and black pepper.",
+    "Cook chicken in olive oil, cumin and red pepper over high heat in a large skillet or wok.",
+    "While meat is cooking, chop/julienne vegetables peppers and onion).",
+    "When meat is completely cooked, add vegetables, stirring frequently so that all are evenly cooked.",
+    "Remove from heat when vegetables are soft.",
+    "Serve with tortilla shells and toppings such as cheese, sour cream, lettuce, tomato, onions, and/or guacamole."
+   ],
+   "notes": [],
+   "nutrition": {
+    "kcal": 263,
+    "protein": 39.3,
+    "fat": 8.4,
+    "satfat": 1.5,
+    "carb": 6.3,
+    "fiber": 2.1,
+    "sugar": 3.2,
+    "sodium": 81,
+    "chol": 124.1,
+    "potassium": 768.7,
+    "calcium": 24.9,
+    "iron": 1.4,
+    "vitc": 80.1
+   },
+   "assumptions": "Assumes 1.5 lb of chicken and 4 servings. Calories are for the filling only: tortillas and toppings are not included.",
+   "source": {
+    "title": "Chicken Fajitas (Wikibooks Cookbook)",
+    "url": "https://en.wikibooks.org/wiki/Cookbook%3AChicken_Fajitas",
+    "history": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AChicken_Fajitas&action=history",
+    "revision": 4513985,
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/"
+   }
+  }
+ ]
+}

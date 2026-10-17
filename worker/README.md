@@ -1,7 +1,10 @@
 # Photo proxy (Cloudflare Worker)
 
-Keeps the Anthropic API key **secret** so the public GitHub Pages site can do photo estimates without any
+Keeps the Anthropic API key **secret** so the public GitHub Pages site can do the AI photo analysis without any
 key in the browser or the repo. Free Cloudflare plan is enough.
+
+It only makes the two model calls of the meal pipeline (`POST /identify` with a JPEG, `POST /explain` with the retrieved USDA
+candidates). Retrieval from the USDA database and all calorie math run in the browser, which keeps this Worker tiny. One meal analysis = 2 calls.
 
 ## One-time setup (about 10 minutes)
 
@@ -34,18 +37,20 @@ set MUSE_PROXY_URL=https://muse-coach-proxy.<you>.workers.dev
 git add -A && git commit -m "Use photo proxy" && git push
 ```
 
-On the live site the key box on the Me tab disappears, since photo estimates are built in.
+On the live site the key box on the Me tab disappears, since the AI analysis is built in.
 
 ## What protects it
 
-- The model, prompt and token limit are fixed in `worker.js`; callers can only send a JPEG.
+- The model, prompts and token limits are built in the Worker (from `shared/pipeline.mjs`). Callers send only a JPEG or a size-limited,
+  sanitized data payload, so it can't be used as a free general-purpose chatbot. (A determined caller could still stuff short text into the
+  payload, which is why the caps below exist.)
 - Only origins in `ALLOWED_ORIGINS` get CORS access. A script outside a browser can fake an origin, so the
   caps below matter more than this.
-- Daily caps: `DAILY_LIMIT` for everyone and `IP_LIMIT` per visitor. If the KV namespace is missing the Worker refuses to run.
+- Daily caps on model calls: `DAILY_LIMIT` for everyone (default 300) and `IP_LIMIT` per visitor (default 30). If the KV namespace is missing the Worker refuses to run.
 - The spend limit from step 1.
 
 If you ever suspect a leak, delete the key in the Anthropic console and run `npx wrangler secret put ANTHROPIC_API_KEY` with a new one.
 
 ## Test
 
-`node test.mjs` runs 11 checks with mocked network. No key needed.
+`node test.mjs` runs 15 checks with mocked network. No key needed.

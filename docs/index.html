@@ -48,6 +48,23 @@
   .cc.on .ph { border-color:var(--pink); box-shadow:0 0 0 2px #fff inset; }
   .cc.on .cn { color:var(--pink); font-weight:700; }
   .cn { font-size:13px; line-height:1.2; text-align:center; } .cd { font-size:11px; color:var(--mute); line-height:1.2; text-align:center; }
+  .rowbtn { background:none; color:var(--ink); border-radius:0; width:100%; text-align:left; font-weight:400; font-size:16px; padding:8px 0;
+            display:flex; justify-content:space-between; align-items:center; }
+  .modal { position:fixed; inset:0; background:rgba(42,31,38,.55); z-index:50; display:flex; align-items:flex-end; justify-content:center; }
+  .sheet { position:relative; background:var(--soft); width:100%; max-width:520px; max-height:92vh; overflow-y:auto; -webkit-overflow-scrolling:touch;
+           border-radius:20px 20px 0 0; padding:20px 16px calc(24px + env(safe-area-inset-bottom)); }
+  .sheet .x { position:sticky; top:0; float:right; width:36px; height:36px; padding:0; border-radius:50%; background:#fff; color:var(--ink);
+              border:1px solid var(--line); font-size:16px; z-index:1; }
+  .sheet h2 { font-size:20px; margin:0 0 4px; } .sheet h3 { font-size:15px; margin:16px 0 4px; }
+  .sheet ul, .sheet ol { margin:4px 0; padding-left:20px; } .sheet li { margin:3px 0; }
+  .steps li { margin:8px 0; } .grp { font-weight:700; margin-top:8px; font-size:14px; } .small-print { font-size:12px; margin-top:16px; }
+  .chips { display:flex; flex-wrap:wrap; gap:6px; margin:8px 0; }
+  .chip2 { background:#fff; border:1px solid var(--line); border-radius:999px; padding:4px 10px; font-size:13px; }
+  .f-watch { background:#fff1c9; border-color:#f0d98a; } .f-good { background:#e4f6e8; border-color:#b7e2c1; } .f-info { background:#eef0ff; border-color:#cfd4f5; }
+  .verdict { border-radius:14px; padding:10px 12px; margin:10px 0; } .verdict b { display:block; font-size:15px; }
+  .v-good { background:#e4f6e8; border:1px solid #b7e2c1; } .v-okay { background:#fff1c9; border:1px solid #f0d98a; } .v-limit { background:#fde6ea; border:1px solid #f5bcc8; }
+  .tag { font-size:11px; border-radius:6px; padding:1px 6px; margin-left:4px; } .t-usda { background:#e4f6e8; } .t-est { background:#fff1c9; }
+  .items .meal { padding:6px 0; }
   .chip { background:#fff; color:var(--ink); border:1px solid var(--line); text-align:left; font-weight:400; margin-bottom:8px; font-size:14px; }
   .chip.on { border-color:var(--pink); background:#fff1f6; }
 </style>
@@ -116,8 +133,8 @@ function renderToday() {
       <div class="meal" style="display:block"><div class="row"><input id="ename" value="${esc(m.name)}" maxlength="80">
       <input id="ekcal" type="number" inputmode="numeric" value="${m.kcal}"></div>
       <div class="row" style="margin-top:8px"><button class="small" id="esave">Save</button><button class="small ghost" id="ecancel">Cancel</button></div></div>` : `
-      <div class="meal"><div>${esc(m.name)}<div class="mute">${m.source === "photo" ? "photo estimate (approximate)" : "manual"}</div></div>
-      <div>${m.kcal} <button class="small ghost" data-edit="${m.id}" aria-label="Edit">✎</button> <button class="small ghost" data-del="${m.id}" aria-label="Delete">✕</button></div></div>`).join("") : '<span class="mute">Nothing yet.</span>'}</div>`;
+      <div class="meal"><div>${esc(m.name)}<div class="mute">${m.source === "photo" ? (m.analysis ? "AI analysis (approximate)" : "photo estimate (approximate)") : "manual"}</div></div>
+      <div>${m.kcal} ${m.analysis ? `<button class="small ghost" data-info="${m.id}" aria-label="Details">ⓘ</button>` : ""}<button class="small ghost" data-edit="${m.id}" aria-label="Edit">✎</button> <button class="small ghost" data-del="${m.id}" aria-label="Delete">✕</button></div></div>`).join("") : '<span class="mute">Nothing yet.</span>'}</div>`;
   $("#photo").onchange = async e => {
     const f = e.target.files[0]; if (!f) return;
     busy = "Estimating…"; renderToday();
@@ -127,10 +144,12 @@ function renderToday() {
       state = r; busy = ""; renderToday();
       const est = r.estimate;
       if (est.demo) showErr("Demo estimate: set ANTHROPIC_API_KEY on the server for real photo estimates.");
+      else if (est.method === "ai-rag") openModal(analysisHtml(est, true));
       else if (est.method === "on-device") showNote(`Looks like ${est.meal_name.toLowerCase()}. This is about one typical serving (${est.serving}), worked out on your device. If your portion was different, tap ✎ to adjust.`);
       else if (est.confidence === "low") showErr("Low confidence estimate. Tap ✎ to fix it if it looks off.");
     } catch (err) { busy = ""; renderToday(); showErr(err.message); }
   };
+  document.querySelectorAll("[data-info]").forEach(b => b.onclick = () => openModal(analysisHtml(state.meals.find(m => m.id === +b.dataset.info).analysis, false)));
   document.querySelectorAll("[data-edit]").forEach(b => b.onclick = () => { editing = +b.dataset.edit; renderToday(); });
   if ($("#esave")) {
     $("#ecancel").onclick = () => { editing = null; renderToday(); };
@@ -175,11 +194,78 @@ function renderCoach() {
 async function renderPlan() {
   app.innerHTML = "<h1>Meal plan</h1><p class='mute'>Loading…</p>";
   const { week, target_kcal } = await api("/api/mealplan");
-  app.innerHTML = `<h1>Meal plan</h1><p class="mute">Real recipes from the web, with portions scaled to your ${target_kcal} calories. Tap to open.</p>` +
+  app.innerHTML = `<h1>Meal plan</h1><p class="mute">Recipes with portions scaled to your ${target_kcal} calories. Tap one for the ingredients and cooking steps.</p>` +
     week.map(d => `<div class="card"><div class="day">${d.day}</div>${d.meals.map(m => `
-      <div class="meal"><div><span class="mute">${m.slot}</span><br><a href="${esc(m.url)}" target="_blank" rel="noopener">${esc(m.name)}</a>
-      <div class="mute">${esc(m.source)} · ${m.servings}× serving</div></div><div>${m.kcal}</div></div>`).join("")}
+      <button type="button" class="meal rowbtn" data-recipe="${esc(m.recipe_id)}" data-serv="${m.servings}"><div><span class="mute">${m.slot}</span><br><b>${esc(m.name)}</b>
+      <div class="mute">${m.servings}× serving</div></div><div>${m.kcal} <span class="mute">›</span></div></button>`).join("")}
       <div class="mute" style="margin-top:6px">Snacks: ~${d.snack_budget} calories</div></div>`).join("");
+  document.querySelectorAll("[data-recipe]").forEach(b => b.onclick = async () => {
+    try { openRecipe(await api("/api/recipes/" + b.dataset.recipe), +b.dataset.serv); } catch (err) { openModal(`<h2>Couldn't open recipe</h2><p>${esc(err.message)}</p>`); }
+  });
+}
+
+// ---- modals (stackable: the cooking steps open in their own modal on top of the ingredients) ----
+function openModal(html) {
+  const m = document.createElement("div");
+  m.className = "modal"; m.setAttribute("role", "dialog"); m.setAttribute("aria-modal", "true");
+  m.innerHTML = `<div class="sheet"><button type="button" class="x" aria-label="Close">✕</button>${html}</div>`;
+  m.addEventListener("click", e => { if (e.target === m) closeModal(); });
+  m.querySelector(".x").onclick = closeModal;
+  document.body.appendChild(m); document.body.style.overflow = "hidden";
+  m.querySelector(".x").focus();
+  return m;
+}
+function closeModal() {
+  const all = document.querySelectorAll(".modal"); if (all.length) all[all.length - 1].remove();
+  if (!document.querySelector(".modal")) document.body.style.overflow = "";
+}
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
+
+const li = items => `<ul>${items.map(t => `<li>${esc(t)}</li>`).join("")}</ul>`;
+const g1 = n => (n == null ? "–" : Math.round(n * 10) / 10);
+
+function openRecipe(r, serv) {
+  const n = r.nutrition, a = r.source;
+  const attribution = `<p class="mute small-print">Recipe text adapted from <a href="${esc(a.url)}" target="_blank" rel="noopener">${esc(a.title)}</a>
+    (<a href="${esc(a.history)}" target="_blank" rel="noopener">authors</a>), licensed <a href="${esc(a.license_url)}" target="_blank" rel="noopener">${esc(a.license)}</a>.
+    Nutrition is calculated from USDA FoodData Central.</p>`;
+  const stepsHtml = `<h2>Cooking steps</h2><div class="mute">${esc(r.name)}</div>
+    <ol class="steps">${r.steps.map(s => `<li>${esc(s)}</li>`).join("")}</ol>
+    ${r.notes.length ? `<h3>Tips and variations</h3>${li(r.notes)}` : ""}${attribution}`;
+  const html = `<h2>${esc(r.name)}</h2>
+    <div class="mute">Makes ${esc(r.servings_note)}${serv && serv !== 1 ? ` · your plan uses ${serv}× a serving` : ""}</div>
+    <div class="chips"><span class="chip2"><b>${n.kcal}</b> cal</span><span class="chip2"><b>${g1(n.protein)}</b> g protein</span><span class="chip2"><b>${g1(n.carb)}</b> g carbs</span>
+      <span class="chip2"><b>${g1(n.fat)}</b> g fat</span><span class="chip2"><b>${g1(n.sodium)}</b> mg sodium</span></div>
+    <div class="mute">per serving</div>
+    <h3>Ingredients</h3>
+    ${r.ingredients.map(g => `${g.heading ? `<div class="grp">${esc(g.heading)}</div>` : ""}${li(g.items)}`).join("")}
+    ${r.assumptions ? `<div class="note">${esc(r.assumptions)}</div>` : ""}
+    <button type="button" data-open-steps style="margin-top:12px">Cooking instructions</button>
+    ${attribution}`;
+  const m = openModal(html);
+  m.querySelector("[data-open-steps]").onclick = () => openModal(stepsHtml); // its own modal, on top of the ingredients
+}
+
+const VERDICT = { good: ["Good choice", "v-good"], okay: ["Fine in moderation", "v-okay"], limit: ["Better as an occasional treat", "v-limit"] };
+function analysisHtml(a, fresh) {
+  const [label, cls] = VERDICT[a.insight.verdict.rating] || VERDICT.okay, t = a.totals, v = a.insight.verdict;
+  const src = s => s.type === "usda" ? `<span class="tag t-usda">USDA</span>` : s.type === "estimate" ? `<span class="tag t-est">AI estimate</span>` : `<span class="tag t-est">no data</span>`;
+  return `<h2>${esc(a.meal_name)}</h2>
+    ${fresh ? `<div class="mute">Logged to today. Tap ✎ on the list to adjust if your portion was different.</div>` : ""}
+    <div class="verdict ${cls}"><b>${label}</b><div>${esc(v.headline)}</div></div>
+    ${v.why ? `<p>${esc(v.why)}</p>` : ""}${v.fits_goal ? `<p class="mute">${esc(v.fits_goal)}</p>` : ""}
+    <div class="big">${a.total_kcal} <span class="mute">calories · likely ${a.kcal_range[0]}–${a.kcal_range[1]}</span></div>
+    <div class="mute">Protein ${g1(t.protein)} g · Carbs ${g1(t.carb)} g · Fat ${g1(t.fat)} g · Fiber ${g1(t.fiber)} g · Sugars ${g1(t.sugar)} g · Sodium ${g1(t.sodium)} mg</div>
+    ${a.flags.length ? `<div class="chips">${a.flags.map(f => `<span class="chip2 f-${f.level}" title="${esc(f.detail)}">${esc(f.label)}</span>`).join("")}</div>
+      <ul class="mute">${a.flags.map(f => `<li>${esc(f.label)}: ${esc(f.detail)}</li>`).join("")}</ul>` : ""}
+    <h3>What I found</h3>
+    <div class="items">${a.items.map(i => `<div class="meal"><div>${esc(i.name)}<div class="mute">about ${i.grams} g ${src(i.source)}</div></div><div>${i.kcal ?? "?"}</div></div>`).join("")}</div>
+    ${a.insight.contents.length ? `<h3>What's in it</h3>${li(a.insight.contents)}` : ""}
+    ${a.insight.benefits.length ? `<h3>Good to know</h3>${li(a.insight.benefits)}` : ""}
+    ${a.insight.concerns.length ? `<h3>Worth watching</h3>${li(a.insight.concerns)}` : ""}
+    ${a.insight.tips.length ? `<h3>Tips</h3>${li(a.insight.tips)}` : ""}
+    <p class="mute small-print">Numbers come from ${esc(a.sources)}; the AI identified the food and estimated the amount from the photo, so treat totals as approximate.
+    ${a.grounded_share < 1 ? "Items marked “AI estimate” had no database match. " : ""}General information, not medical advice.</p>`;
 }
 
 // ---- celebrity picker: carousel of Wikipedia portraits + name search ----

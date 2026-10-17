@@ -7,11 +7,11 @@ Read this first in every session. Artifact 2 for TCSS 490 (due Sun Oct 18, 2026,
 A calorie tracker and fitness coach that runs as an iPhone-friendly web app (Safari → Add to
 Home Screen). Python (FastAPI) back end, one static HTML page for the UI.
 
-- Log meals by **photo** (Claude vision estimates calories) or by hand.
+- Log meals by **photo** (Claude identifies the food, the app looks up USDA nutrition, Claude explains it) or by hand.
 - Enter age / sex / height / weight / goal. The app computes calorie and macro targets.
 - Pick a **celebrity as a style inspiration**. That selects a **fictional coach persona**
   (Coach Rhea, Dax, Juno, Bram) with its own training week, tips and voice.
-- A 7-day meal plan links to **real recipes**, with portions scaled to the user's calorie target.
+- A 7-day meal plan of **Wikibooks recipes shown inside the app** (ingredients + cooking steps modal), portions scaled to the calorie target.
 
 ## Hard rules
 
@@ -22,11 +22,17 @@ Home Screen). Python (FastAPI) back end, one static HTML page for the UI.
 3. **Server authority.** The browser sends intents (profile, photo, meal). The server computes every number.
    The one exception is the GitHub Pages edition (no server exists there); its JS port must match
    `goals.py`, checked by `node tools/parity_check.mjs`.
-4. **Real links only.** Every URL in `app/data/meals.json` must be opened and checked before it is added.
+4. **Recipes: only openly licensed text.** `app/data/recipes.json` comes from Wikibooks Cookbook (CC BY-SA 4.0) via `tools/build_recipes.py`.
+   Never paste in text scraped from commercial recipe sites. Keep each recipe's source, history link and license visible in the app.
+   Nutrition is computed from USDA data, never scraped.
 5. **No secrets in git, and none in the public site.** Never put a key in `docs/`, `config.json` or any
    client code. The public site gets estimates through the Worker proxy, whose prompt and model are fixed.
    The server edition reads `ANTHROPIC_API_KEY` from the environment. Without any key, photo estimates
    return a labelled demo value so the app still runs.
+6. **The model never supplies the numbers.** In `shared/pipeline.mjs` calories and nutrients are computed in code from retrieved USDA
+   rows; a database id the model returns must be one that was actually retrieved, and model-supplied estimates are only accepted if they
+   agree with their own macros and are labelled "AI estimate". Health text must follow from the numbers, make no medical claims, and
+   never encourage skipping meals or restriction (nothing about dieting for under-18s).
 
 ## Layout
 
@@ -37,13 +43,16 @@ Home Screen). Python (FastAPI) back end, one static HTML page for the UI.
 | `app/vision.py` | photo → calories via Claude |
 | `app/coach.py`, `app/mealplan.py` | personas, check-in text, weekly plan |
 | `app/db.py` | SQLite (profile + meals), file `app/data/muse.db` (gitignored) |
-| `app/data/*.json` | celebrities, coach personas, verified recipes |
+| `app/data/*.json` | celebrities, coach personas, recipes, food data (see below) |
 | `app/static/` | the iPhone web UI (`index.html`, manifest, icon) |
 | `tests/` | pytest: goal math and API |
 | `tools/pages/local-backend.js` | in-browser copy of the API for GitHub Pages (localStorage, direct Claude call with the user's own key) |
 | `tools/build_pages.py` | builds `docs/` (generated: never edit by hand) |
 | `tools/parity_check.mjs` | compares the JS plan math with `goals.py` |
 | `docs/` | the GitHub Pages site, served from `main` / `/docs` |
+| `shared/pipeline.mjs` | the identify → retrieve → explain → compute pipeline, shared by the browser and the Worker |
+| `app/data/nutrition.json` | USDA SR Legacy knowledge base (built by `tools/build_nutrition_kb.py`; public domain) |
+| `app/data/recipes.json` | scraped recipes + computed nutrition (built by `tools/build_recipes.py` from `tools/recipes_src.json`) |
 | `app/data/food_calories.json` | typical-serving calories for the 101 classes the on-device model knows (approximate; keys must match the model's labels, checked by `node tools/ondevice_check.mjs --live`) |
 | `worker/` | Cloudflare Worker that holds the API key as a secret; `node worker/test.mjs` tests it |
 

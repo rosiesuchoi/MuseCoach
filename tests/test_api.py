@@ -71,7 +71,13 @@ def test_mealplan_has_seven_days_with_links(client):
     client.put("/api/profile", json=PROFILE)
     plan = client.get("/api/mealplan").json()
     assert len(plan["week"]) == 7
-    assert all(m["url"].startswith("https://") for d in plan["week"] for m in d["meals"])
+    ids = {m["recipe_id"] for d in plan["week"] for m in d["meals"]}
+    assert len(ids) >= 6
+    for rid in ids:  # every planned meal opens a full in-app recipe, no external link needed
+        r = client.get(f"/api/recipes/{rid}").json()
+        assert r["ingredients"] and r["steps"] and r["nutrition"]["kcal"] > 0
+        assert r["source"]["license"] == "CC BY-SA 4.0" and r["source"]["url"].startswith("https://en.wikibooks.org/")
+    assert client.get("/api/recipes/nope").status_code == 404
 
 
 def test_vision_rejects_absurd_estimate():

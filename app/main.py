@@ -122,4 +122,12 @@ def meal_plan():
     return {"target_kcal": s["plan"]["target_kcal"], "week": mealplan.build_week(s["plan"]["target_kcal"])}
 
 
+@app.get("/api/recipes/{recipe_id}")
+def recipe(recipe_id: str):
+    r = mealplan.get_recipe(recipe_id)
+    if r is None:
+        raise HTTPException(404, "Recipe not found.")
+    return r
+
+
 app.mount("/", StaticFiles(directory=Path(__file__).parent / "static", html=True), name="static")

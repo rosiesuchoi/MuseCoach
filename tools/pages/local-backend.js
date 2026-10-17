@@ -101,33 +101,17 @@
     };
     const portion = (budget, kcal) => Math.min(2, Math.max(0.5, Math.round(budget / kcal * 4) / 4));
     const SHARES = [["breakfast", 0.25], ["lunch", 0.35], ["dinner", 0.30]];
+    const bySlot = slot => data.recipes.filter(r => r.slot === slot);
+    const getRecipe = id => data.recipes.find(r => r.id === id) || null;
     const buildWeek = target => ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day, i) => ({
       day,
       meals: SHARES.map(([slot, share]) => {
-        const opts = data.meals[slot], r = opts[(i + slot.length) % opts.length], serv = portion(target * share, r.kcal);
-        return { slot, name: r.name, source: r.source, url: r.url, servings: serv, kcal: Math.round(r.kcal * serv) };
+        const opts = bySlot(slot), r = opts[(i + slot.length) % opts.length], serv = portion(target * share, r.nutrition.kcal);
+        return { slot, recipe_id: r.id, name: r.name, servings: serv, kcal: Math.round(r.nutrition.kcal * serv) };
       }),
       snack_budget: Math.round(target * 0.10),
     }));
-    return { archetypeFor, checkin, buildWeek, buildPlan };
-  }
-
-  // ---------- vision (mirrors app/vision.py) ----------
-  const PROMPT = "You are a nutrition assistant. Look at this meal photo and estimate calories. Reply with ONLY JSON: " +
-    '{"meal_name": str, "items": [{"name": str, "kcal": int}], "total_kcal": int, "confidence": "low"|"medium"|"high"}. ' +
-    "If the photo does not show food, return total_kcal 0 and meal_name 'No food found'.";
-  const MODEL = "claude-sonnet-5-5";
-
-  function parseReply(text) {
-    const m = text.match(/\{[\s\S]*\}/);
-    if (!m) throw new HttpError(422, "The estimate came back in an unexpected format.");
-    const d = JSON.parse(m[0]), total = parseInt(d.total_kcal, 10) || 0;
-    if (total < 0 || total > 5000) throw new HttpError(422, "The estimate looked wrong. Try another photo or enter calories by hand.");
-    return {
-      meal_name: String(d.meal_name || "Meal").slice(0, 80),
-      items: (d.items || []).map(i => ({ name: String(i.name || "?"), kcal: parseInt(i.kcal, 10) || 0 })),
-      total_kcal: total, confidence: d.confidence || "low", demo: false,
-    };
+    return { archetypeFor, checkin, buildWeek, buildPlan, getRecipe };
   }
 
   // ---------- on-device estimate (no key, no upload) ----------
@@ -141,7 +125,7 @@
   };
   const MIN_SCORE = 0.20; // below this the model is basically guessing: ask for manual entry instead
 
-  // preds: [{label, score}] sorted best first. Returns the same shape as parseReply().
+  // preds: [{label, score}] sorted best first. Returns the same shape as the AI analysis (minus the insight).
   function fromPredictions(preds, table) {
     const best = preds && preds[0];
     if (!best || best.score < MIN_SCORE || !table[best.label]) {
@@ -208,41 +192,74 @@
     return c.toDataURL("image/jpeg", 0.85).split(",")[1];
   }
 
-  // Preferred path: a small proxy (see worker/) holds the real key, so no key is ever in the browser.
-  async function estimateViaProxy(url, b64) {
-    let res;
-    try {
-      res = await fetch(url, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ image: b64 }) });
-    } catch { throw new HttpError(502, "Couldn't reach the estimate service. Check your connection or enter calories by hand."); }
-    if (res.status === 429) throw new HttpError(429, "Today's free photo estimates are used up. Try again tomorrow or enter calories by hand.");
-    if (!res.ok) throw new HttpError(502, "Couldn't estimate that photo right now. Enter calories by hand.");
-    return parseReply((await res.json()).text);
+  // ---------- AI analysis: identify -> retrieve (USDA) -> explain, see shared/pipeline.mjs ----------
+  // The two model calls go either through the Worker proxy (key stays secret there) or straight to Anthropic
+  // with the user's own pasted key. Retrieval and all the calorie math always run here in the browser.
+  const NETWORK_MSG = "Couldn't reach the AI service. Check your connection or enter calories by hand.";
+  const failure = (res, who) => {
+    if (res.status === 429) return new HttpError(429, "Today's AI photo analyses are used up. Try again tomorrow, or enter calories by hand.");
+    if (res.status === 401 && who === "key") return new HttpError(502, "Your API key was rejected. Check it on the Me tab.");
+    return new HttpError(502, "Couldn't analyze that photo right now. Enter calories by hand.");
+  };
+  const textOf = async (res, who, field) => { if (!res.ok) throw failure(res, who); const b = await res.json(); return field(b); };
+
+  function proxyClient(base) {
+    const post = async (route, body) => {
+      let res;
+      try { res = await fetch(base.replace(/\/+$/, "") + route, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) }); }
+      catch { throw new HttpError(502, NETWORK_MSG); }
+      return textOf(res, "proxy", b => b.text);
+    };
+    return { identify: image => post("/identify", { image }), explain: payload => post("/explain", payload) };
   }
 
-  async function estimateMeal(file, apiKey) {
-    const b64 = await toJpegBase64(file);
-    if (config.proxy_url) return estimateViaProxy(config.proxy_url, b64);
-    if (!apiKey) return estimateOnDevice(b64); // no key and no proxy: run the model right here
-    let res;
-    try {
-      res = await fetch("https://api.anthropic.com/v1/messages", {
-        method: "POST",
-        headers: {
+  function directClient(apiKey, pipeline) {
+    const call = async body => {
+      let res;
+      try {
+        res = await fetch("https://api.anthropic.com/v1/messages", { method: "POST", body: JSON.stringify(body), headers: {
           "content-type": "application/json", "x-api-key": apiKey, "anthropic-version": "2023-06-01",
           "anthropic-dangerous-direct-browser-access": "true", // required for browser calls; the key is the user's own
-        },
-        body: JSON.stringify({
-          model: MODEL, max_tokens: 500,
-          messages: [{ role: "user", content: [
-            { type: "image", source: { type: "base64", media_type: "image/jpeg", data: b64 } },
-            { type: "text", text: PROMPT }] }],
-        }),
+        } });
+      } catch { throw new HttpError(502, NETWORK_MSG); }
+      return textOf(res, "key", b => b.content?.[0]?.text ?? "");
+    };
+    return { identify: image => call(pipeline.identifyRequest(image)), explain: payload => call(pipeline.explainRequest(payload)) };
+  }
+
+  let aiLoad = null; // pipeline module + USDA index, loaded once on first use
+  function loadAi() {
+    if (!aiLoad) {
+      aiLoad = (async () => {
+        const [pipeline, kb] = await Promise.all([import("./pipeline.mjs"), getJson("data/nutrition.json")]);
+        return { pipeline, index: pipeline.buildIndex(kb) };
+      })().catch(e => { aiLoad = null; throw e; });
+    }
+    return aiLoad;
+  }
+
+  async function analyzeWithAI(b64, context, apiKey) {
+    let ai;
+    try { say("Loading the nutrition database…"); ai = await loadAi(); }
+    catch (e) { console.error("pipeline failed to load", e); throw new HttpError(502, "Couldn't load the nutrition database. Check your connection."); }
+    const { pipeline, index } = ai;
+    const client = config.proxy_url ? proxyClient(config.proxy_url) : directClient(apiKey, pipeline);
+    try {
+      return await pipeline.analyzeMeal({
+        image: b64, context, index,
+        identify: async img => { say("Looking at your photo…"); return client.identify(img); },
+        explain: async payload => { say("Checking the USDA nutrition facts…"); const t = await client.explain(payload); say("Writing your food notes…"); return t; },
       });
-    } catch { throw new HttpError(502, "Couldn't reach the estimate service. Check your connection or enter calories by hand."); }
-    if (res.status === 401) throw new HttpError(502, "Your API key was rejected. Check it on the Me tab.");
-    if (!res.ok) throw new HttpError(502, "Couldn't estimate that photo right now. Enter calories by hand.");
-    const body = await res.json();
-    return parseReply(body.content[0].text);
+    } catch (e) {
+      if (e instanceof pipeline.PipelineError) throw new HttpError(e.status, e.message);
+      throw e;
+    }
+  }
+
+  async function estimateMeal(file, apiKey, context) {
+    const b64 = await toJpegBase64(file);
+    if (config.proxy_url || apiKey) return analyzeWithAI(b64, context, apiKey);
+    return estimateOnDevice(b64); // no proxy and no key: the smaller on-device model, calories only
   }
 
   // ---------- storage ----------
@@ -251,19 +268,18 @@
   const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || { profile: null, meals: [], nextId: 1 }; } catch { return { profile: null, meals: [], nextId: 1 }; } };
   const save = s => localStorage.setItem(KEY, JSON.stringify(s));
 
-  const exported = { makeCore, parseReply, HttpError, buildPlan, fromPredictions };
+  const exported = { makeCore, HttpError, buildPlan, fromPredictions };
   if (typeof module !== "undefined" && module.exports) { module.exports = exported; return; }
 
   // ---------- browser wiring ----------
   root.MUSE_STATIC = true;
   let core = null, config = { proxy_url: "" }, foodTable = {};
   const getJson = path => fetch(path).then(r => r.json());
-  const dataReady = Promise.all([getJson("data/celebrities.json"), getJson("data/coaches.json"), getJson("data/meals.json"), getJson("config.json"), getJson("data/food_calories.json")])
-    .then(([celebrities, coaches, meals, cfg, food]) => {
+  const dataReady = Promise.all([getJson("data/celebrities.json"), getJson("data/coaches.json"), getJson("data/recipes.json"), getJson("config.json"), getJson("data/food_calories.json")])
+    .then(([celebrities, coaches, recipes, cfg, food]) => {
       config = { proxy_url: "", ...cfg };
       foodTable = Object.fromEntries(Object.entries(food).filter(([k]) => !k.startsWith("_")));
-      const m = Object.fromEntries(Object.entries(meals).filter(([k]) => !k.startsWith("_")));
-      core = makeCore({ celebrities, coaches, meals: m });
+      core = makeCore({ celebrities, coaches, recipes: recipes.recipes });
       core.data = { celebrities, coaches };
     });
 
@@ -297,12 +313,25 @@
       const t = stateOf(s).plan.target_kcal;
       return { target_kcal: t, week: core.buildWeek(t) };
     }
+    const rec = path.match(/^\/api\/recipes\/([\w-]+)$/);
+    if (method === "GET" && rec) {
+      const r = core.getRecipe(rec[1]);
+      if (!r) throw new HttpError(404, "Recipe not found.");
+      return r;
+    }
     if (method === "POST" && path === "/api/meals/photo") {
       needProfile(s);
       const file = init.body.get("photo");
       if (file.size > 10 * 1024 * 1024) throw new HttpError(413, "Photo is too large (max 10 MB).");
-      const est = await estimateMeal(file, localStorage.getItem(API_KEY) || "");
-      if (est.total_kcal > 0) { s.meals.push({ id: s.nextId++, day: today(), name: est.meal_name, kcal: est.total_kcal, items: est.items, source: "photo" }); save(s); }
+      const before = stateOf(s);
+      const context = { goal: before.plan.goal, remaining_kcal: before.remaining_kcal, target_kcal: before.plan.target_kcal, minor: s.profile.age < 18 };
+      const est = await estimateMeal(file, localStorage.getItem(API_KEY) || "", context);
+      if (est.total_kcal > 0) {
+        // `analysis` keeps the full AI breakdown (items, nutrients, insight) so the meal's details can be reopened later.
+        s.meals.push({ id: s.nextId++, day: today(), name: est.meal_name, kcal: est.total_kcal, items: est.items.map(i => ({ name: i.name, kcal: i.kcal })),
+          source: "photo", analysis: est.method === "ai-rag" ? est : null });
+        save(s);
+      }
       return { estimate: est, ...stateOf(s) };
     }
     if (method === "POST" && path === "/api/meals") {
@@ -355,12 +384,13 @@
     if (rm) rm.onclick = () => { localStorage.removeItem(API_KEY); redraw(); };
   };
   root.museExtraHtml = () => config.proxy_url
-    ? `<h2>Photo estimates</h2><p class="mute">Photo estimates are built in. There's nothing to set up.</p>`
+    ? `<h2>Photo analysis</h2><p class="mute">AI photo analysis is built in. There's nothing to set up.</p>`
     : `<h2>Photo estimates</h2>
-       <p class="mute">Photo estimates already work with no key: a small food-recognition model runs on your device
-       (about 60 MB the first time) and your photos never leave it. It names the dish and assumes one typical serving, so edit the
-       calories if your portion differs. Optional: paste your own Anthropic API key for sharper estimates of mixed plates.
+       <p class="mute"><b>With an Anthropic API key</b>, photos get a full AI analysis: every food and drink identified, calories and
+       nutrients looked up in the USDA database, what's in it, benefits, things to watch, and whether it fits your goal.
        The key stays in this browser and is only sent to api.anthropic.com. Use one with a low spend limit.</p>
+       <p class="mute"><b>Without a key</b>, a small food-recognition model runs on your device (about 60 MB the first time; photos never
+       leave it). It only names the dish and assumes one typical serving, so edit the calories if your portion differs.</p>
        <div id="keybox">${keyBoxHtml()}</div>`;
   root.museWireExtra = wireKeyBox;
 })(typeof window !== "undefined" ? window : globalThis);

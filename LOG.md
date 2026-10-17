@@ -2,6 +2,46 @@
 
 Newest entry on top.
 
+## 2026-10-16: In-app recipes and AI photo analysis (RAG)
+
+**Asked for:** (1) stop sending users to external recipe pages that ask them to subscribe; scrape the recipe and show it inside
+the app, ingredients first and cooking steps in a separate modal. (2) Make photo analysis accurate with a smart AI agent, as a RAG app:
+photo in, then retrieve calories, contents, benefits/harms and whether it's a good idea to eat or drink.
+
+**Recipes.** I did not scrape the blog sites we linked before: republishing their writing in a public app and repo is copying
+their copyrighted text. Chosen with Rosie: scrape Wikibooks Cookbook (CC BY-SA 4.0). `tools/build_recipes.py` fetches each page's wikitext
+(revision id recorded), cleans it, and writes `app/data/recipes.json` with source page, authors link and license, all shown in the app.
+Nutrition is NOT scraped: I curated ingredient weights and servings in `tools/recipes_src.json` (stating assumptions where a page is vague)
+and compute per-serving nutrition from USDA data. Check: Black Bean Soup computed 387 cal/serving vs 390 printed on its own page.
+The 9 recipes replaced the 9 external links; `GET /api/recipes/{id}` exists in both back ends. Because the recipe data is CC BY-SA,
+that file is too.
+
+**Knowledge base.** Downloaded USDA FoodData Central SR Legacy (public domain, 6.07 MB zip) into a scratch folder, extracted it safely, and
+`tools/build_nutrition_kb.py` builds a compact `app/data/nutrition.json` (7,283 foods, 1.37 MB, ~350 KB gzipped): per-100 g nutrients plus
+household portions. Only that file is committed.
+
+**Pipeline** (`shared/pipeline.mjs`, used by the browser and the Worker): identify (Claude vision) → retrieve (lexical search over the USDA
+index, 8 candidates per item) → explain (Claude chooses among only the retrieved candidates and writes contents, benefits, concerns, a verdict
+and goal fit) → compute (code multiplies grams × per-100 g and sums; flags use label-style thresholds). Guards: a database id the model returns
+must be one we retrieved; fallback estimates must agree with their own macros; absurd totals refused; items are labelled USDA or "AI estimate";
+confidence never "high"; totals shown as a likely range; prompts forbid medical claims and restriction advice and drop diet talk for minors; text in
+the photo is treated as data.
+
+**Where it runs.** The Worker only makes the two model calls (`/identify`, `/explain`), so it stays small enough for Cloudflare's free CPU limit;
+retrieval and math run in the browser. With a pasted key the browser makes the same two calls itself. With neither, the on-device model is the fallback
+and shows calories only. The Python server edition is unchanged (no AI analysis there).
+
+**Honest limits.** I cannot be the app's runtime: the AI step needs an Anthropic key via the Worker or a pasted key, so Rosie still has to do that
+setup. I have **not** run it against the real model (no key): the pipeline was tested with a mocked model against the real USDA data, and in the browser
+through a fake proxy. Retrieval is lexical, so unusual dish names may miss (those become "AI estimate"). Amounts from a photo are estimates.
+SR Legacy is a 2018 snapshot and is light on newer products and some prepared foods (for example, no sushi roll entry).
+
+**Verified:** 20 pytest tests; 12 pipeline tests (real index, mocked model); 15 Worker tests; on-device and parity checks; in a phone-sized browser:
+the analysis modal rendered (verdict, totals with range, flags, items with USDA tags, contents, benefits, concerns, tips), all 9 recipes open with
+ingredients, the steps modal stacks on top, and Close/Esc work.
+
+**Next:** Rosie creates an Anthropic key with a spend limit and deploys the Worker (`worker/README.md`), then tries real meal photos and reports what it gets wrong.
+
 ## 2026-10-16: On-device photo estimates (no API key)
 
 **Why:** Rosie wanted photo logging that works without an API key.

@@ -1,0 +1,418 @@
+{
+  "_comment": "Curation input for tools/build_recipes.py. Text (ingredients, steps) is scraped live from Wikibooks Cookbook (CC BY-SA 4.0). Nutrition is NOT scraped: it is computed from USDA data using the weights below. Weights/servings are my reading of each recipe; where the page is vague I say so in 'assumptions' and the app shows it.",
+  "recipes": [
+    {
+      "id": "scrambled-eggs",
+      "slot": "breakfast",
+      "page": "Cookbook:Basic Scrambled Eggs",
+      "servings": 1,
+      "servings_note": "1 serving (3 eggs)",
+      "assumptions": "Includes the optional milk (2.5 tbsp). Excludes toast and toppings.",
+      "nutrition": [
+        {
+          "fdc": 171287,
+          "g": 150,
+          "what": "3 eggs"
+        },
+        {
+          "fdc": 171265,
+          "g": 37,
+          "what": "2.5 tbsp milk"
+        },
+        {
+          "fdc": 173430,
+          "g": 28.4,
+          "what": "2 tbsp butter"
+        },
+        {
+          "fdc": 173468,
+          "g": 1.5,
+          "what": "1/4 tsp salt"
+        },
+        {
+          "fdc": 170931,
+          "g": 0.3,
+          "what": "1/8 tsp pepper"
+        }
+      ]
+    },
+    {
+      "id": "banana-pancakes",
+      "slot": "breakfast",
+      "page": "Cookbook:Banana Pancakes",
+      "servings": 5,
+      "servings_note": "5 servings (the page says 4-6)",
+      "assumptions": "Uses 5 servings. Excludes syrup and any oil or butter used to grease the pan.",
+      "nutrition": [
+        {
+          "fdc": 173430,
+          "g": 40,
+          "what": "40 g butter"
+        },
+        {
+          "fdc": 173944,
+          "g": 354,
+          "what": "3 medium bananas"
+        },
+        {
+          "fdc": 171287,
+          "g": 150,
+          "what": "3 eggs"
+        },
+        {
+          "fdc": 171265,
+          "g": 387,
+          "what": "375 ml whole milk"
+        },
+        {
+          "fdc": 168895,
+          "g": 300,
+          "what": "300 g self-raising flour"
+        },
+        {
+          "fdc": 171320,
+          "g": 2.6,
+          "what": "1 tsp cinnamon"
+        },
+        {
+          "fdc": 173468,
+          "g": 0.4,
+          "what": "1 pinch salt"
+        },
+        {
+          "fdc": 168833,
+          "g": 41,
+          "what": "3 tbsp brown sugar"
+        }
+      ]
+    },
+    {
+      "id": "granola",
+      "slot": "breakfast",
+      "page": "Cookbook:Granola",
+      "servings": 16,
+      "servings_note": "about 16 servings (roughly 2/3 cup each)",
+      "assumptions": "The page gives no yield. This assumes 16 servings of about 2/3 cup. It is calorie-dense, so a smaller bowl is normal.",
+      "nutrition": [
+        {
+          "fdc": 170187,
+          "g": 58.5,
+          "what": "1/2 cup chopped walnuts"
+        },
+        {
+          "fdc": 170186,
+          "g": 62.5,
+          "what": "1/2 cup chopped black walnuts"
+        },
+        {
+          "fdc": 170567,
+          "g": 70,
+          "what": "1/2 cup chopped almonds"
+        },
+        {
+          "fdc": 168833,
+          "g": 110,
+          "what": "1/2 cup brown sugar"
+        },
+        {
+          "fdc": 168892,
+          "g": 57.5,
+          "what": "1/2 cup wheat germ"
+        },
+        {
+          "fdc": 171413,
+          "g": 162,
+          "what": "3/4 cup olive oil"
+        },
+        {
+          "fdc": 169640,
+          "g": 508.5,
+          "what": "1 1/2 cups honey"
+        },
+        {
+          "fdc": 173468,
+          "g": 6,
+          "what": "1 tsp salt"
+        },
+        {
+          "fdc": 173904,
+          "g": 324,
+          "what": "4 cups rolled oats"
+        },
+        {
+          "fdc": 168165,
+          "g": 72.5,
+          "what": "1/2 cup raisins"
+        },
+        {
+          "fdc": 171711,
+          "g": 74,
+          "what": "1/2 cup blueberries"
+        }
+      ]
+    },
+    {
+      "id": "red-lentil-soup",
+      "slot": "lunch",
+      "page": "Cookbook:Red Lentil Soup",
+      "servings": 4,
+      "servings_note": "4 servings",
+      "assumptions": "Made with water (not stock) and 1.5 tbsp olive oil (the page says 1-2).",
+      "nutrition": [
+        {
+          "fdc": 171413,
+          "g": 20,
+          "what": "1.5 tbsp olive oil"
+        },
+        {
+          "fdc": 170000,
+          "g": 110,
+          "what": "1 onion"
+        },
+        {
+          "fdc": 170393,
+          "g": 122,
+          "what": "2 carrots"
+        },
+        {
+          "fdc": 169230,
+          "g": 6,
+          "what": "2 cloves garlic"
+        },
+        {
+          "fdc": 174284,
+          "g": 227,
+          "what": "1/2 lb dry red lentils"
+        }
+      ]
+    },
+    {
+      "id": "tuna-salad",
+      "slot": "lunch",
+      "page": "Cookbook:Tuna Salad",
+      "keep_groups": [
+        "Variation I"
+      ],
+      "servings": 3,
+      "servings_note": "3 servings (the page says 2-4)",
+      "assumptions": "Variation I only. Assumes the tuna and water chestnuts are drained. Excludes the toast it is served on.",
+      "nutrition": [
+        {
+          "fdc": 173709,
+          "g": 255,
+          "what": "12 oz can tuna, drained"
+        },
+        {
+          "fdc": 170067,
+          "g": 140,
+          "what": "1 can water chestnuts, drained"
+        },
+        {
+          "fdc": 170000,
+          "g": 35,
+          "what": "1/2 small onion"
+        },
+        {
+          "fdc": 169988,
+          "g": 80,
+          "what": "2 stalks celery"
+        },
+        {
+          "fdc": 170393,
+          "g": 55,
+          "what": "1/2 cup shredded carrot"
+        },
+        {
+          "fdc": 171009,
+          "g": 110,
+          "what": "1/2 cup mayonnaise"
+        },
+        {
+          "fdc": 172234,
+          "g": 15,
+          "what": "1 tbsp Dijon mustard (yellow mustard used as the closest match)"
+        },
+        {
+          "fdc": 174277,
+          "g": 5.3,
+          "what": "1 tsp soy sauce"
+        }
+      ]
+    },
+    {
+      "id": "black-bean-soup",
+      "slot": "lunch",
+      "page": "Cookbook:Black Bean Soup",
+      "servings": 12,
+      "servings_note": "12 servings of about 2 cups",
+      "assumptions": "Uses 1.5 jalapeños and counts the optional sour cream garnish in full. Salt and pepper 'to taste' are not counted, so sodium may be higher. Needs overnight soaking and about 2 hours of cooking.",
+      "nutrition": [
+        {
+          "fdc": 173734,
+          "g": 1164,
+          "what": "6 cups dried black beans"
+        },
+        {
+          "fdc": 170108,
+          "g": 150,
+          "what": "1 red bell pepper"
+        },
+        {
+          "fdc": 170427,
+          "g": 150,
+          "what": "1 green bell pepper"
+        },
+        {
+          "fdc": 171319,
+          "g": 2.7,
+          "what": "1 tsp chili powder"
+        },
+        {
+          "fdc": 170923,
+          "g": 2.1,
+          "what": "1 tsp cumin"
+        },
+        {
+          "fdc": 169230,
+          "g": 21,
+          "what": "7 cloves garlic"
+        },
+        {
+          "fdc": 168576,
+          "g": 20,
+          "what": "1-2 jalapeños"
+        },
+        {
+          "fdc": 170000,
+          "g": 225,
+          "what": "1.5 large onions"
+        },
+        {
+          "fdc": 172240,
+          "g": 14.9,
+          "what": "1 tbsp red wine vinegar"
+        },
+        {
+          "fdc": 169997,
+          "g": 8,
+          "what": "1/2 cup chopped cilantro"
+        },
+        {
+          "fdc": 171257,
+          "g": 230,
+          "what": "1 cup sour cream (garnish)"
+        }
+      ]
+    },
+    {
+      "id": "baked-chicken-breasts",
+      "slot": "dinner",
+      "page": "Cookbook:Baked Chicken Breasts",
+      "servings": 4,
+      "servings_note": "4 servings (1 breast each)",
+      "assumptions": "The page gives no amounts for oil, salt or zest. Assumes 1 tbsp olive oil, 1 tsp salt, 1 tsp zest and 170 g raw per breast.",
+      "nutrition": [
+        {
+          "fdc": 171077,
+          "g": 680,
+          "what": "4 boneless skinless chicken breasts, raw"
+        },
+        {
+          "fdc": 171413,
+          "g": 13.5,
+          "what": "1 tbsp olive oil"
+        },
+        {
+          "fdc": 173468,
+          "g": 6,
+          "what": "1 tsp salt"
+        },
+        {
+          "fdc": 167749,
+          "g": 2,
+          "what": "1 tsp lemon zest"
+        },
+        {
+          "fdc": 170931,
+          "g": 0.6,
+          "what": "1/4 tsp pepper"
+        }
+      ]
+    },
+    {
+      "id": "grilled-salmon-steaks",
+      "slot": "dinner",
+      "page": "Cookbook:Rosemary Grilled Salmon Steaks",
+      "servings": 5,
+      "servings_note": "5 servings (1 steak each)",
+      "assumptions": "Uses farmed Atlantic salmon and counts all of the marinade, although some drips off, so real figures are slightly lower.",
+      "nutrition": [
+        {
+          "fdc": 175167,
+          "g": 425,
+          "what": "5 salmon steaks, 3 oz each, raw"
+        },
+        {
+          "fdc": 172336,
+          "g": 14,
+          "what": "1 tbsp canola oil"
+        },
+        {
+          "fdc": 173469,
+          "g": 14.9,
+          "what": "1 tbsp cider vinegar"
+        },
+        {
+          "fdc": 170931,
+          "g": 4.6,
+          "what": "2 tsp black pepper"
+        }
+      ]
+    },
+    {
+      "id": "chicken-fajitas",
+      "slot": "dinner",
+      "page": "Cookbook:Chicken Fajitas",
+      "servings": 4,
+      "servings_note": "4 servings (filling only)",
+      "assumptions": "Assumes 1.5 lb of chicken and 4 servings. Calories are for the filling only: tortillas and toppings are not included.",
+      "nutrition": [
+        {
+          "fdc": 171077,
+          "g": 680,
+          "what": "1.5 lb chicken breast, raw"
+        },
+        {
+          "fdc": 171413,
+          "g": 13.5,
+          "what": "1 tbsp olive oil"
+        },
+        {
+          "fdc": 170108,
+          "g": 150,
+          "what": "1 red bell pepper"
+        },
+        {
+          "fdc": 170427,
+          "g": 150,
+          "what": "1 green bell pepper"
+        },
+        {
+          "fdc": 170000,
+          "g": 55,
+          "what": "1/2 yellow onion"
+        },
+        {
+          "fdc": 170923,
+          "g": 2.1,
+          "what": "1 tsp cumin"
+        },
+        {
+          "fdc": 170932,
+          "g": 5.3,
+          "what": "1 tbsp crushed red pepper"
+        }
+      ]
+    }
+  ]
+}
