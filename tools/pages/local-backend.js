@@ -130,6 +130,74 @@
     };
   }
 
+  // ---------- on-device estimate (no key, no upload) ----------
+  // A small open food classifier runs in the browser; calories come from a typical-serving table.
+  // Pinned library and model revision so a remote change can't alter behaviour under users.
+  const ONDEVICE = {
+    lib: "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.8.1",
+    model: "onnx-community/swin-finetuned-food101-ONNX",
+    revision: "e5e50bfc6425aa546f3b4421ca8bd79d0dd610b8",
+    dtype: "q4", // ~60 MB, the smallest variant that kept accuracy in testing
+  };
+  const MIN_SCORE = 0.20; // below this the model is basically guessing: ask for manual entry instead
+
+  // preds: [{label, score}] sorted best first. Returns the same shape as parseReply().
+  function fromPredictions(preds, table) {
+    const best = preds && preds[0];
+    if (!best || best.score < MIN_SCORE || !table[best.label]) {
+      throw new HttpError(422, "Couldn't recognize that dish. Try a closer photo, or enter it by hand.");
+    }
+    const f = table[best.label];
+    return {
+      meal_name: f.name,
+      items: [{ name: `${f.name} (${f.serving})`, kcal: f.kcal }],
+      total_kcal: f.kcal,
+      // Never "high": the model can name the dish but cannot see how big the portion is.
+      confidence: best.score >= 0.6 ? "medium" : "low",
+      demo: false, method: "on-device", serving: f.serving, score: best.score,
+    };
+  }
+
+  let classifierPromise = null;
+  const say = text => { if (typeof root.dispatchEvent === "function") root.dispatchEvent(new CustomEvent("muse-status", { detail: text })); };
+
+  function loadClassifier() {
+    if (!classifierPromise) {
+      classifierPromise = (async () => {
+        const { pipeline, env } = await import(ONDEVICE.lib);
+        env.allowLocalModels = false;
+        const files = {};
+        // Only the very first run downloads (~60 MB); later runs read the browser's cache, so word it accordingly.
+        let firstTime = true;
+        try { firstTime = !(await caches.keys()).includes("transformers-cache"); } catch { /* no Cache API: assume first time */ }
+        const verb = firstTime ? "Downloading food model (first time only)" : "Loading food model";
+        say(`${verb}…`);
+        return pipeline("image-classification", ONDEVICE.model, {
+          dtype: ONDEVICE.dtype, revision: ONDEVICE.revision,
+          progress_callback: p => {
+            if (p.status !== "progress" || !p.total) return;
+            files[p.file] = { loaded: p.loaded, total: p.total };
+            const all = Object.values(files), got = all.reduce((a, x) => a + x.loaded, 0), tot = all.reduce((a, x) => a + x.total, 0);
+            say(`${verb}: ${Math.round(got / tot * 100)}%`);
+          },
+        });
+      })().catch(e => { classifierPromise = null; throw e; }); // allow a retry after a network failure
+    }
+    return classifierPromise;
+  }
+
+  async function estimateOnDevice(b64) {
+    let classify;
+    try { classify = await loadClassifier(); }
+    catch (e) {
+      console.error("on-device model failed to load", e);
+      throw new HttpError(502, "Couldn't load the on-device food model (it needs a connection the first time). Enter calories by hand.");
+    }
+    say("Looking at your meal…");
+    const out = await classify(`data:image/jpeg;base64,${b64}`, { top_k: 3 });
+    return fromPredictions(out, foodTable);
+  }
+
   async function toJpegBase64(file) {
     let bmp;
     try { bmp = await createImageBitmap(file); } catch { throw new HttpError(422, "Couldn't read that image. Try a JPEG or PNG."); }
@@ -154,9 +222,7 @@
   async function estimateMeal(file, apiKey) {
     const b64 = await toJpegBase64(file);
     if (config.proxy_url) return estimateViaProxy(config.proxy_url, b64);
-    if (!apiKey) {
-      return { meal_name: "Demo meal (no API key set)", items: [{ name: "Estimated plate", kcal: 500 }], total_kcal: 500, confidence: "low", demo: true };
-    }
+    if (!apiKey) return estimateOnDevice(b64); // no key and no proxy: run the model right here
     let res;
     try {
       res = await fetch("https://api.anthropic.com/v1/messages", {
@@ -185,16 +251,17 @@
   const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || { profile: null, meals: [], nextId: 1 }; } catch { return { profile: null, meals: [], nextId: 1 }; } };
   const save = s => localStorage.setItem(KEY, JSON.stringify(s));
 
-  const exported = { makeCore, parseReply, HttpError, buildPlan };
+  const exported = { makeCore, parseReply, HttpError, buildPlan, fromPredictions };
   if (typeof module !== "undefined" && module.exports) { module.exports = exported; return; }
 
   // ---------- browser wiring ----------
   root.MUSE_STATIC = true;
-  let core = null, config = { proxy_url: "" };
+  let core = null, config = { proxy_url: "" }, foodTable = {};
   const getJson = path => fetch(path).then(r => r.json());
-  const dataReady = Promise.all([getJson("data/celebrities.json"), getJson("data/coaches.json"), getJson("data/meals.json"), getJson("config.json")])
-    .then(([celebrities, coaches, meals, cfg]) => {
+  const dataReady = Promise.all([getJson("data/celebrities.json"), getJson("data/coaches.json"), getJson("data/meals.json"), getJson("config.json"), getJson("data/food_calories.json")])
+    .then(([celebrities, coaches, meals, cfg, food]) => {
       config = { proxy_url: "", ...cfg };
+      foodTable = Object.fromEntries(Object.entries(food).filter(([k]) => !k.startsWith("_")));
       const m = Object.fromEntries(Object.entries(meals).filter(([k]) => !k.startsWith("_")));
       core = makeCore({ celebrities, coaches, meals: m });
       core.data = { celebrities, coaches };
@@ -245,6 +312,12 @@
       s.meals.push({ id: s.nextId++, day: today(), name: b.name, kcal: b.kcal, items: [], source: "manual" }); save(s); return stateOf(s);
     }
     const del = path.match(/^\/api\/meals\/(\d+)$/);
+    if (method === "PATCH" && del) { // edit a logged meal (estimates are approximate, so people fix them)
+      const b = JSON.parse(init.body), m = s.meals.find(x => x.id === +del[1]);
+      if (!m) throw new HttpError(404, "Meal not found.");
+      if (!b.name || b.name.length > 80 || !(b.kcal >= 0 && b.kcal <= 5000)) throw new HttpError(422, "Enter a meal name and calories (0-5000).");
+      m.name = b.name; m.kcal = b.kcal; save(s); return stateOf(s);
+    }
     if (method === "DELETE" && del) { s.meals = s.meals.filter(m => m.id !== +del[1]); save(s); return stateOf(s); }
     throw new HttpError(404, "Not found.");
   }
@@ -284,8 +357,10 @@
   root.museExtraHtml = () => config.proxy_url
     ? `<h2>Photo estimates</h2><p class="mute">Photo estimates are built in. There's nothing to set up.</p>`
     : `<h2>Photo estimates</h2>
-       <p class="mute">This web edition keeps everything on your device. For real photo estimates, paste your own Anthropic API key.
-       It stays in this browser and is only sent to api.anthropic.com. Use a key with a low spend limit.</p>
+       <p class="mute">Photo estimates already work with no key: a small food-recognition model runs on your device
+       (about 60 MB the first time) and your photos never leave it. It names the dish and assumes one typical serving, so edit the
+       calories if your portion differs. Optional: paste your own Anthropic API key for sharper estimates of mixed plates.
+       The key stays in this browser and is only sent to api.anthropic.com. Use one with a low spend limit.</p>
        <div id="keybox">${keyBoxHtml()}</div>`;
   root.museWireExtra = wireKeyBox;
 })(typeof window !== "undefined" ? window : globalThis);

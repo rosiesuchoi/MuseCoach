@@ -94,3 +94,13 @@ def test_options_have_wiki_titles_and_styles(client):
     o = client.get("/api/options").json()
     assert all(c["wiki"] for c in o["celebrities"])
     assert {s["key"] for s in o["styles"]} == {"lean_dancer", "sculpted", "athletic", "strong"}
+
+
+def test_edit_meal(client):
+    client.put("/api/profile", json=PROFILE)
+    s = client.post("/api/meals", json={"name": "Pizza", "kcal": 570}).json()
+    mid = s["meals"][0]["id"]
+    s = client.patch(f"/api/meals/{mid}", json={"name": "1 slice of pizza", "kcal": 285}).json()
+    assert s["eaten_kcal"] == 285 and s["meals"][0]["name"] == "1 slice of pizza"
+    assert client.patch("/api/meals/9999", json={"name": "x", "kcal": 1}).status_code == 404
+    assert client.patch(f"/api/meals/{mid}", json={"name": "x", "kcal": 99999}).status_code == 422

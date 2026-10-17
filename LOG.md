@@ -2,6 +2,30 @@
 
 Newest entry on top.
 
+## 2026-10-16: On-device photo estimates (no API key)
+
+**Why:** Rosie wanted photo logging that works without an API key.
+
+**What:** the web edition now runs `onnx-community/swin-finetuned-food101-ONNX` (Apache-2.0, `q4` build, ~60 MB)
+in the browser through transformers.js. Library version (3.8.1) and model revision are pinned. The top
+prediction maps to a typical-serving calorie figure in `app/data/food_calories.json` (101 classes, rounded
+ballpark numbers). Order of use: proxy → pasted Claude key → on-device. First use shows a download
+progress label; later uses read the browser cache. Meals can now be edited (✎ on the Today tab; new `PATCH /api/meals/{id}`
+in both back ends) because the estimate is approximate.
+
+**Honest limits:** it only knows 101 dishes, can't see portion size, and is weaker on mixed plates. It never reports
+"high" confidence, and below a 0.20 score it refuses and asks for manual entry. Food-101 models are overconfident on
+non-food in general, but a cat and a mountain photo were both refused in testing.
+
+**Verified:** real model download in the browser; Wikipedia photos of pizza, ramen, sushi, hamburger, Caesar salad
+and pancakes were all named correctly; cat and Mount Everest were refused; cache confirmed (reload ran in ~4 s); edit and
+validation work; table matches the model's 101 labels (`node tools/ondevice_check.mjs --live`); 20 pytest tests, 6+1 on-device
+checks, 576-profile parity check all pass. Layout fixed so the ✎ ✕ buttons stay on one line on a phone.
+**Not verified:** accuracy on real phone photos of home-cooked or mixed meals (the test photos were clean Wikipedia
+images), and speed/memory on an actual iPhone (the ~60 MB model plus wasm is the main risk on older phones).
+
+**Next:** Rosie tests a few of her own meal photos on her iPhone and tells me which dishes it gets wrong.
+
 ## 2026-10-16: Celebrity photo carousel + key safety
 
 **Style inspiration:** now a swipeable row of portraits with names. Portraits are fetched live from

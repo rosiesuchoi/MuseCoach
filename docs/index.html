@@ -29,6 +29,7 @@
   .row { display:flex; gap:8px; } .row > * { flex:1; }
   .meal { display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-top:1px solid var(--line); }
   .meal:first-child { border-top:0; }
+  .meal > div:last-child:not(.row) { display:flex; align-items:center; gap:6px; white-space:nowrap; }
   nav { position:fixed; bottom:0; left:0; right:0; display:flex; background:#fff; border-top:1px solid var(--line);
         padding-bottom:env(safe-area-inset-bottom); max-width:520px; margin:auto; }
   nav button { background:none; color:var(--mute); border-radius:0; padding:14px 4px; font-size:14px; }
@@ -62,7 +63,7 @@
 <script>
 const $ = (s, el = document) => el.querySelector(s);
 const app = $("#app");
-let state = null, tab = "today", celebs = [], busy = "";
+let state = null, tab = "today", celebs = [], busy = "", editing = null;
 
 async function api(path, opts) {
   const r = await fetch(path, opts);
@@ -111,9 +112,12 @@ function renderToday() {
     <div class="row"><input id="mname" placeholder="Meal"><input id="mkcal" type="number" inputmode="numeric" placeholder="Calories"></div>
     <button class="ghost" id="addbtn" style="margin-top:8px">Add</button>
     <h2>Logged today</h2>
-    <div class="card">${meals.length ? meals.map(m => `
-      <div class="meal"><div>${esc(m.name)}<div class="mute">${m.source === "photo" ? "photo estimate" : "manual"}</div></div>
-      <div>${m.kcal} <button class="small ghost" data-del="${m.id}">✕</button></div></div>`).join("") : '<span class="mute">Nothing yet.</span>'}</div>`;
+    <div class="card">${meals.length ? meals.map(m => editing === m.id ? `
+      <div class="meal" style="display:block"><div class="row"><input id="ename" value="${esc(m.name)}" maxlength="80">
+      <input id="ekcal" type="number" inputmode="numeric" value="${m.kcal}"></div>
+      <div class="row" style="margin-top:8px"><button class="small" id="esave">Save</button><button class="small ghost" id="ecancel">Cancel</button></div></div>` : `
+      <div class="meal"><div>${esc(m.name)}<div class="mute">${m.source === "photo" ? "photo estimate (approximate)" : "manual"}</div></div>
+      <div>${m.kcal} <button class="small ghost" data-edit="${m.id}" aria-label="Edit">✎</button> <button class="small ghost" data-del="${m.id}" aria-label="Delete">✕</button></div></div>`).join("") : '<span class="mute">Nothing yet.</span>'}</div>`;
   $("#photo").onchange = async e => {
     const f = e.target.files[0]; if (!f) return;
     busy = "Estimating…"; renderToday();
@@ -121,10 +125,21 @@ function renderToday() {
     try {
       const r = await api("/api/meals/photo", { method: "POST", body: fd });
       state = r; busy = ""; renderToday();
-      if (r.estimate.demo) showErr(window.MUSE_STATIC ? "Demo estimate: add your API key on the Me tab for real photo estimates." : "Demo estimate: set ANTHROPIC_API_KEY on the server for real photo estimates.");
-      else if (r.estimate.confidence === "low") showErr("Low confidence estimate. Delete and edit it if it looks off.");
+      const est = r.estimate;
+      if (est.demo) showErr("Demo estimate: set ANTHROPIC_API_KEY on the server for real photo estimates.");
+      else if (est.method === "on-device") showNote(`Looks like ${est.meal_name.toLowerCase()}. This is about one typical serving (${est.serving}), worked out on your device. If your portion was different, tap ✎ to adjust.`);
+      else if (est.confidence === "low") showErr("Low confidence estimate. Tap ✎ to fix it if it looks off.");
     } catch (err) { busy = ""; renderToday(); showErr(err.message); }
   };
+  document.querySelectorAll("[data-edit]").forEach(b => b.onclick = () => { editing = +b.dataset.edit; renderToday(); });
+  if ($("#esave")) {
+    $("#ecancel").onclick = () => { editing = null; renderToday(); };
+    $("#esave").onclick = async () => {
+      const name = $("#ename").value.trim(), kcal = parseInt($("#ekcal").value, 10);
+      if (!name || isNaN(kcal)) return showErr("Enter a meal name and calories.");
+      try { state = await api("/api/meals/" + editing, json("PATCH", { name, kcal })); editing = null; renderToday(); } catch (err) { showErr(err.message); }
+    };
+  }
   $("#addbtn").onclick = async () => {
     const name = $("#mname").value.trim(), kcal = parseInt($("#mkcal").value, 10);
     if (!name || isNaN(kcal)) return showErr("Enter a meal name and calories.");
@@ -135,6 +150,13 @@ function renderToday() {
   });
 }
 function showErr(msg) { const e = $("#err"); if (e) e.innerHTML = `<div class="err">${esc(msg)}</div>`; }
+function showNote(msg) { const e = $("#err"); if (e) e.innerHTML = `<div class="note">${esc(msg)}</div>`; }
+// The web edition reports model download / analysis progress while a photo is being processed.
+window.addEventListener("muse-status", e => {
+  if (!busy) return;
+  busy = e.detail;
+  const l = document.querySelector("label.btn"); if (l) l.textContent = busy;
+});
 
 function renderCoach() {
   const c = state.coach, p = state.plan;

@@ -101,6 +101,13 @@ def meal_manual(body: MealIn):
     return _state()
 
 
+@app.patch("/api/meals/{meal_id}")
+def meal_edit(meal_id: int, body: MealIn):
+    if not db.update_meal(meal_id, body.name, body.kcal):
+        raise HTTPException(404, "Meal not found.")
+    return _state()
+
+
 @app.delete("/api/meals/{meal_id}")
 def meal_delete(meal_id: int):
     db.delete_meal(meal_id)

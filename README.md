@@ -27,7 +27,12 @@ Pages can't run Python, so `docs/` is a static build where the same UI runs on a
 back end. Your profile and meals stay in your browser's storage. Rebuild with
 `.venv\Scripts\python tools/build_pages.py`.
 
-**Photo estimates and the API key.** There are three ways to run them, safest first:
+**Photo estimates.** The web edition works with **no key at all**: a small open food-recognition model
+(Swin Transformer fine-tuned on Food-101, Apache-2.0, about 60 MB, downloaded once and cached) runs
+inside the browser. Photos never leave the device. It names the dish (101 common dishes) and assumes one typical
+serving from `app/data/food_calories.json`, so it is approximate; every logged meal can be edited with ✎. It
+refuses to guess when it isn't sure (for example a photo that isn't food). It is weaker on mixed plates and can't see portion size.
+For sharper estimates there are three optional routes using Claude, safest first:
 1. **Proxy (best for the public site):** deploy the small Cloudflare Worker in `worker/` (see its README).
    The key lives only as a Worker secret, so no browser or repo ever has it. Daily caps limit cost.
    Then build with `MUSE_PROXY_URL` set and the key box disappears from the app.
@@ -36,7 +41,7 @@ back end. Your profile and meals stay in your browser's storage. Rebuild with
 3. **Paste your own key** on the Me tab of the web edition. It is stored only in that browser, never
    shown again (only its last 4 characters), and sent only to api.anthropic.com. Use a key with a low spend limit.
 
-Without any of these, photos give a clearly-labelled demo estimate.
+The Python server edition without a key still returns a clearly-labelled demo estimate (the on-device model is a web-edition feature).
 
 **Celebrity photos** are fetched live from Wikipedia/Wikimedia Commons, so no images live in this repo.
 

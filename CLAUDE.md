@@ -44,6 +44,7 @@ Home Screen). Python (FastAPI) back end, one static HTML page for the UI.
 | `tools/build_pages.py` | builds `docs/` (generated: never edit by hand) |
 | `tools/parity_check.mjs` | compares the JS plan math with `goals.py` |
 | `docs/` | the GitHub Pages site, served from `main` / `/docs` |
+| `app/data/food_calories.json` | typical-serving calories for the 101 classes the on-device model knows (approximate; keys must match the model's labels, checked by `node tools/ondevice_check.mjs --live`) |
 | `worker/` | Cloudflare Worker that holds the API key as a secret; `node worker/test.mjs` tests it |
 
 After changing `app/static/`, `app/data/` or `local-backend.js`, run `tools/build_pages.py` and commit `docs/`.

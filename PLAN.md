@@ -24,7 +24,8 @@ Due Sun Oct 18, 2026, 11:59 PM. Scope: one week, small, runs, and Rosie will kee
 - [ ] Rosie: enable Pages (Settings → Pages → main → /docs) and open the live link
 - [x] Celebrity photo carousel (Wikipedia), name search, coach-style picker for unlisted names
 - [x] Key hidden after saving; Worker proxy written and tested (not deployed)
-- [ ] Rosie: make an Anthropic key + spend limit, deploy `worker/` (see its README), rebuild with `MUSE_PROXY_URL`
+- [x] On-device photo estimates (no key): food model in the browser + calorie table + meal editing
+- [ ] Optional: Rosie: make an Anthropic key + spend limit, deploy `worker/` (see its README), rebuild with `MUSE_PROXY_URL`
 - [ ] Rosie: test a real photo on her iPhone
 - [ ] Rosie: add to Home Screen, use it for a few days
 - [ ] Portfolio card: title, repo link, short reflection

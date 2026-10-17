@@ -69,6 +69,12 @@ def todays_meals() -> list[dict]:
     return [{**dict(r), "items": json.loads(r["items"])} for r in rows]
 
 
+def update_meal(meal_id: int, name: str, kcal: int) -> bool:
+    with conn() as c:
+        cur = c.execute("UPDATE meals SET name = ?, kcal = ? WHERE id = ?", (name, kcal, meal_id))
+        return cur.rowcount > 0
+
+
 def delete_meal(meal_id: int) -> None:
     with conn() as c:
         c.execute("DELETE FROM meals WHERE id = ?", (meal_id,))

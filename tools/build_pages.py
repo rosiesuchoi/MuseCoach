@@ -38,7 +38,7 @@ def main() -> None:
 
     shutil.copy(ROOT / "app/static/icon.svg", DOCS / "icon.svg")
     shutil.copy(ROOT / "tools/pages/local-backend.js", DOCS / "local-backend.js")
-    for name in ("celebrities", "coaches", "meals"):
+    for name in ("celebrities", "coaches", "meals", "food_calories"):
         shutil.copy(ROOT / f"app/data/{name}.json", DOCS / "data" / f"{name}.json")
     (DOCS / ".nojekyll").write_text("", encoding="utf-8")
     print(f"[build_pages] wrote {sum(1 for _ in DOCS.rglob('*') if _.is_file())} files to {DOCS}")
