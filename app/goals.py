@@ -41,6 +41,7 @@ class Profile:
     activity: str  # "low" | "medium" | "high"
     goal_weight_kg: float | None = None
     celebrity: str = ""
+    style: str = ""  # coach style chosen for a celebrity that isn't in the built-in list
 
 
 class ProfileError(ValueError):

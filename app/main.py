@@ -24,6 +24,7 @@ class ProfileIn(BaseModel):
     activity: str
     goal_weight_kg: float | None = None
     celebrity: str = Field(default="", max_length=80)
+    style: str = Field(default="", max_length=20)
 
 
 class MealIn(BaseModel):
@@ -36,7 +37,7 @@ def _state() -> dict:
     if stored is None:
         return {"profile": None}
     profile = goals.Profile(**stored)
-    archetype = coach.archetype_for(profile.celebrity)
+    archetype = coach.archetype_for(profile.celebrity, profile.style)
     plan = goals.build_plan(profile, archetype)
     meals = db.todays_meals()
     eaten = sum(m["kcal"] for m in meals)
@@ -54,7 +55,7 @@ def _state() -> dict:
 
 @app.get("/api/options")
 def options():
-    return {"celebrities": coach.celebrity_options()}
+    return {"celebrities": coach.celebrity_options(), "styles": coach.style_options()}
 
 
 @app.get("/api/state")
@@ -66,7 +67,7 @@ def state():
 def put_profile(body: ProfileIn):
     data = body.model_dump()
     try:
-        goals.build_plan(goals.Profile(**data), coach.archetype_for(body.celebrity))  # validate first
+        goals.build_plan(goals.Profile(**data), coach.archetype_for(body.celebrity, body.style))  # validate first
     except goals.ProfileError as e:
         raise HTTPException(422, str(e))
     db.save_profile(data)

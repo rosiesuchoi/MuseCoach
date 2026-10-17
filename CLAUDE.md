@@ -23,7 +23,9 @@ Home Screen). Python (FastAPI) back end, one static HTML page for the UI.
    The one exception is the GitHub Pages edition (no server exists there); its JS port must match
    `goals.py`, checked by `node tools/parity_check.mjs`.
 4. **Real links only.** Every URL in `app/data/meals.json` must be opened and checked before it is added.
-5. **No secrets in git.** `ANTHROPIC_API_KEY` comes from the environment. Without it, photo estimates
+5. **No secrets in git, and none in the public site.** Never put a key in `docs/`, `config.json` or any
+   client code. The public site gets estimates through the Worker proxy, whose prompt and model are fixed.
+   The server edition reads `ANTHROPIC_API_KEY` from the environment. Without any key, photo estimates
    return a labelled demo value so the app still runs.
 
 ## Layout
@@ -42,6 +44,7 @@ Home Screen). Python (FastAPI) back end, one static HTML page for the UI.
 | `tools/build_pages.py` | builds `docs/` (generated: never edit by hand) |
 | `tools/parity_check.mjs` | compares the JS plan math with `goals.py` |
 | `docs/` | the GitHub Pages site, served from `main` / `/docs` |
+| `worker/` | Cloudflare Worker that holds the API key as a secret; `node worker/test.mjs` tests it |
 
 After changing `app/static/`, `app/data/` or `local-backend.js`, run `tools/build_pages.py` and commit `docs/`.
 

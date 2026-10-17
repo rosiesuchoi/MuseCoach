@@ -1,16 +1,19 @@
 {
-  "_comment": "A celebrity is only a STYLE label that picks a coach persona. No body measurements, weights, diets or quotes are attributed to any real person.",
+  "_comment": "A celebrity is only a STYLE label that picks a coach persona. No body measurements, weights, diets or quotes are attributed to any real person. 'wiki' is the Wikipedia page title used to fetch a portrait at runtime (nothing is stored in this repo). Every title was checked on 2026-10-16 to return a real portrait.",
   "default_archetype": "athletic",
   "celebrities": [
-    {"name": "Lisa (BLACKPINK)", "archetype": "lean_dancer"},
-    {"name": "Jennie (BLACKPINK)", "archetype": "lean_dancer"},
-    {"name": "Karina (aespa)", "archetype": "lean_dancer"},
-    {"name": "Jungkook (BTS)", "archetype": "sculpted"},
-    {"name": "Cha Eun-woo", "archetype": "sculpted"},
-    {"name": "Zendaya", "archetype": "athletic"},
-    {"name": "Margot Robbie", "archetype": "athletic"},
-    {"name": "Simu Liu", "archetype": "sculpted"},
-    {"name": "Dwayne Johnson", "archetype": "strong"},
-    {"name": "Jason Momoa", "archetype": "strong"}
+    {"name": "Rosé (BLACKPINK)", "wiki": "Rosé (singer)", "archetype": "lean_dancer"},
+    {"name": "Jennie (BLACKPINK)", "wiki": "Jennie (singer)", "archetype": "lean_dancer"},
+    {"name": "Jisoo (BLACKPINK)", "wiki": "Jisoo", "archetype": "lean_dancer"},
+    {"name": "Irene (Red Velvet)", "wiki": "Irene (singer)", "archetype": "lean_dancer"},
+    {"name": "Bella Hadid", "wiki": "Bella Hadid", "archetype": "lean_dancer"},
+    {"name": "Jung Kook (BTS)", "wiki": "Jung Kook", "archetype": "sculpted"},
+    {"name": "Cha Eun-woo", "wiki": "Cha Eun-woo", "archetype": "sculpted"},
+    {"name": "Simu Liu", "wiki": "Simu Liu", "archetype": "sculpted"},
+    {"name": "Zendaya", "wiki": "Zendaya", "archetype": "athletic"},
+    {"name": "Margot Robbie", "wiki": "Margot Robbie", "archetype": "athletic"},
+    {"name": "Chris Hemsworth", "wiki": "Chris Hemsworth", "archetype": "strong"},
+    {"name": "Dwayne Johnson", "wiki": "Dwayne Johnson", "archetype": "strong"},
+    {"name": "Jason Momoa", "wiki": "Jason Momoa", "archetype": "strong"}
   ]
 }

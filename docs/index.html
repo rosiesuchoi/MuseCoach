@@ -37,6 +37,18 @@
   .err { background:#ffd9d9; border-radius:10px; padding:8px 10px; font-size:14px; margin:8px 0; }
   a { color:var(--pink); } .hide { display:none; }
   .day { font-weight:700; margin-top:10px; }
+  .carousel { display:flex; gap:10px; overflow-x:auto; scroll-snap-type:x proximity; padding:4px 2px 10px;
+              -webkit-overflow-scrolling:touch; margin:0 -16px; padding-inline:16px; }
+  .cc { flex:0 0 96px; scroll-snap-align:start; background:none; border:0; padding:0; color:var(--ink); display:flex;
+        flex-direction:column; align-items:center; gap:6px; width:96px; font-weight:400; }
+  .ph { width:84px; height:84px; border-radius:50%; background:var(--line); overflow:hidden; display:flex; align-items:center;
+        justify-content:center; font-weight:700; color:var(--pink); font-size:24px; border:3px solid transparent; }
+  .ph img { width:100%; height:100%; object-fit:cover; display:block; }
+  .cc.on .ph { border-color:var(--pink); box-shadow:0 0 0 2px #fff inset; }
+  .cc.on .cn { color:var(--pink); font-weight:700; }
+  .cn { font-size:13px; line-height:1.2; text-align:center; } .cd { font-size:11px; color:var(--mute); line-height:1.2; text-align:center; }
+  .chip { background:#fff; color:var(--ink); border:1px solid var(--line); text-align:left; font-weight:400; margin-bottom:8px; font-size:14px; }
+  .chip.on { border-color:var(--pink); background:#fff1f6; }
 </style>
 </head>
 <body>
@@ -68,7 +80,9 @@ const ftInToCm = (ft, inch) => Math.round((ft * 12 + inch) * CM_PER_IN * 100) / 
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
 async function load() {
-  [state, { celebrities: celebs }] = await Promise.all([api("/api/state"), api("/api/options")]);
+  let opts;
+  [state, opts] = await Promise.all([api("/api/state"), api("/api/options")]);
+  celebs = opts.celebrities; styles = opts.styles;
   render();
 }
 
@@ -146,13 +160,95 @@ async function renderPlan() {
       <div class="mute" style="margin-top:6px">Snacks: ~${d.snack_budget} calories</div></div>`).join("");
 }
 
+// ---- celebrity picker: carousel of Wikipedia portraits + name search ----
+let styles = [], pick = { name: "", style: "" }, extraCelebs = [], photos = {};
+const isListed = name => celebs.some(c => c.name === name);
+const safeThumb = u => (typeof u === "string" && /^https:\/\/(upload|thumb)\.wikimedia\.org\//.test(u)) ? u : "";
+const PERSON = /born \d{4}|actor|actress|singer|model|rapper|dancer|athlete|player|presenter|personality|musician|wrestler|boxer|idol|comedian|influencer|businesswoman|businessman/i;
+const WIKI = "https://en.wikipedia.org/w/api.php?";
+
+async function wikiThumbs(titles) {
+  const need = titles.filter(t => !(t in photos));
+  if (!need.length) return;
+  try {
+    const r = await fetch(WIKI + new URLSearchParams({ action: "query", titles: need.join("|"), prop: "pageimages", piprop: "thumbnail",
+      pithumbsize: "240", redirects: "1", format: "json", origin: "*" }));
+    const q = (await r.json()).query || {};
+    const hop = {}; // requested title -> final page title (Wikipedia normalizes and redirects)
+    [...(q.normalized || []), ...(q.redirects || [])].forEach(m => { hop[m.from] = m.to; });
+    const byTitle = {}; Object.values(q.pages || {}).forEach(pg => { byTitle[pg.title] = safeThumb(pg.thumbnail && pg.thumbnail.source); });
+    need.forEach(t => { let f = t, n = 0; while (hop[f] && n++ < 4) f = hop[f]; photos[t] = byTitle[f] || ""; });
+  } catch { need.forEach(t => { photos[t] = ""; }); } // offline: initials fall back
+}
+
+async function wikiSearch(name) {
+  const r = await fetch(WIKI + new URLSearchParams({ action: "query", generator: "search", gsrsearch: name, gsrlimit: "10", prop: "pageimages|description",
+    piprop: "thumbnail", pithumbsize: "240", format: "json", origin: "*" }));
+  const pages = Object.values(((await r.json()).query || {}).pages || {}).sort((a, b) => a.index - b.index);
+  return pages.filter(pg => safeThumb(pg.thumbnail && pg.thumbnail.source) && PERSON.test(pg.description || "")).slice(0, 5)
+    .map(pg => ({ name: pg.title, wiki: pg.title, desc: pg.description || "", thumb: safeThumb(pg.thumbnail.source) }));
+}
+
+const initials = n => esc(n.replace(/\(.*\)/, "").trim().split(/\s+/).slice(0, 2).map(w => w[0]).join("").toUpperCase());
+function cardHtml(c, i, on) {
+  const img = photos[c.wiki] || c.thumb;
+  return `<button type="button" class="cc ${on ? "on" : ""}" data-i="${i}"><span class="ph">${img ? `<img src="${esc(img)}" alt="" loading="lazy" referrerpolicy="no-referrer">` : initials(c.name)}</span>
+    <span class="cn">${esc(c.name)}</span>${c.desc ? `<span class="cd">${esc(c.desc)}</span>` : ""}</button>`;
+}
+
+function renderCarousel() {
+  const el = $("#carousel"); if (!el) return;
+  const all = [...extraCelebs, ...celebs];
+  el.innerHTML = all.map((c, i) => cardHtml(c, i, c.name === pick.name)).join("");
+  el.querySelectorAll(".cc").forEach(b => b.onclick = () => { pick.name = all[+b.dataset.i].name; renderCarousel(); renderStyleBox(); });
+  const on = el.querySelector(".cc.on"); if (on) el.scrollTo({ left: on.offsetLeft - 16, behavior: "smooth" });
+  renderStyleBox();
+}
+
+function renderStyleBox() {
+  const el = $("#stylebox"); if (!el) return;
+  if (!pick.name || isListed(pick.name)) { el.innerHTML = ""; return; }
+  const cur = pick.style || "athletic";
+  el.innerHTML = `<label>Which coach style fits ${esc(pick.name)}?</label>` + styles.map(s =>
+    `<button type="button" class="chip ${s.key === cur ? "on" : ""}" data-s="${s.key}"><b>${esc(s.coach)}</b><br><span class="mute">${esc(s.tagline)}</span></button>`).join("");
+  el.querySelectorAll(".chip").forEach(b => b.onclick = () => { pick.style = b.dataset.s; renderStyleBox(); });
+}
+
+async function findCelebrity() {
+  const name = $("#csearch").value.trim(), out = $("#cresults"); if (!name) return;
+  out.innerHTML = '<p class="mute">Searching…</p>';
+  let hits = [];
+  try { hits = await wikiSearch(name); } catch { out.innerHTML = '<div class="err">Couldn\'t search right now. Check your connection.</div>'; return; }
+  if (!hits.length) {
+    out.innerHTML = `<p class="mute">No photo found for "${esc(name)}". Try the full name, or use it without a photo.</p>
+      <button type="button" class="ghost" id="usename">Use "${esc(name)}" anyway</button>`;
+    $("#usename").onclick = () => { addCeleb({ name, wiki: name, thumb: "" }); out.innerHTML = ""; };
+    return;
+  }
+  out.innerHTML = `<p class="mute">Tap the right one:</p><div class="carousel" id="hits">${hits.map((c, i) => cardHtml(c, i, false)).join("")}</div>`;
+  out.querySelectorAll(".cc").forEach(b => b.onclick = () => { addCeleb(hits[+b.dataset.i]); out.innerHTML = ""; $("#csearch").value = ""; });
+}
+function addCeleb(c) {
+  if (c.thumb) photos[c.wiki] = c.thumb;
+  if (!isListed(c.name) && !extraCelebs.some(e => e.name === c.name)) extraCelebs.unshift(c);
+  pick = { name: c.name, style: pick.style };
+  renderCarousel();
+}
+
 function setupHtml(p = {}) {
+  // Re-seed the picker from the saved profile (a saved name that isn't in the list shows as an extra card).
+  pick = { name: p.celebrity || "", style: p.style || "" };
+  if (pick.name && !isListed(pick.name) && !extraCelebs.some(e => e.name === pick.name)) extraCelebs.unshift({ name: pick.name, wiki: pick.name, thumb: "" });
   const sel = (v, o) => o.map(([k, t]) => `<option value="${k}" ${p[v] === k ? "selected" : ""}>${t}</option>`).join("");
   return `<h1>${p.age ? "Your profile" : "Welcome to Muse Coach"}</h1>
     <p class="mute">Pick a celebrity style you admire. A coach built for that style takes it from here.</p>
-    <label>Style inspiration (type any celebrity or pick one)</label>
-    <input id="celeb" list="celebs" value="${esc(p.celebrity || "")}" placeholder="e.g. Zendaya">
-    <datalist id="celebs">${celebs.map(c => `<option value="${esc(c)}">`).join("")}</datalist>
+    <label>Style inspiration (swipe, then tap one)</label>
+    <div id="carousel" class="carousel"></div>
+    <label>Not here? Type a celebrity's name</label>
+    <div class="row" style="align-items:stretch"><input id="csearch" placeholder="e.g. Gong Yoo" enterkeyhint="search"><button class="small" id="cfind" type="button" style="flex:0 0 auto">Find</button></div>
+    <div id="cresults"></div>
+    <div id="stylebox"></div>
+    <p class="mute" style="margin:6px 0 0">Photos come from Wikipedia and Wikimedia Commons. The celebrity only picks your coach's style; your targets come from your own numbers.</p>
     <div class="row"><div><label>Age</label><input id="age" type="number" inputmode="numeric" value="${p.age || ""}"></div>
     <div><label>Sex (calorie formula)</label><select id="sex">${sel("sex", [["female", "Female"], ["male", "Male"]])}</select></div></div>
     <label>Height</label>
@@ -167,12 +263,16 @@ function setupHtml(p = {}) {
 }
 function wireSetup() {
   if (window.museWireExtra) window.museWireExtra();
+  renderCarousel();
+  wikiThumbs([...extraCelebs, ...celebs].map(c => c.wiki)).then(renderCarousel);
+  $("#cfind").onclick = findCelebrity;
+  $("#csearch").onkeydown = e => { if (e.key === "Enter") { e.preventDefault(); findCelebrity(); } };
   $("#save").onclick = async () => {
     const num = id => { const v = $(id).value; return v === "" ? null : parseFloat(v); };
     const ft = num("#ft"), inch = num("#inch") ?? 0, lb = num("#weight"), gwLb = num("#gw");
     const body = { age: parseInt($("#age").value, 10), sex: $("#sex").value, height_cm: ft === null ? null : ftInToCm(ft, inch),
       weight_kg: lb === null ? null : lbToKg(lb), goal: $("#goal").value, activity: $("#act").value,
-      goal_weight_kg: gwLb === null ? null : lbToKg(gwLb), celebrity: $("#celeb").value.trim() };
+      goal_weight_kg: gwLb === null ? null : lbToKg(gwLb), celebrity: pick.name, style: !pick.name || isListed(pick.name) ? "" : (pick.style || "athletic") };
     if ([body.age, body.height_cm, body.weight_kg].some(v => v === null || isNaN(v))) return showErr("Fill in age, height and weight.");
     try { state = await api("/api/profile", json("PUT", body)); tab = "coach"; render(); } catch (err) { showErr(err.message); }
   };

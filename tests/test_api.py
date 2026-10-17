@@ -18,7 +18,7 @@ def client(tmp_path, monkeypatch):
 
 
 PROFILE = dict(age=25, sex="female", height_cm=165, weight_kg=60, goal="lose", activity="medium",
-               goal_weight_kg=55, celebrity="Lisa (BLACKPINK)")
+               goal_weight_kg=55, celebrity="Jennie (BLACKPINK)")
 
 
 def jpeg_bytes():
@@ -77,3 +77,20 @@ def test_mealplan_has_seven_days_with_links(client):
 def test_vision_rejects_absurd_estimate():
     with pytest.raises(vision.PhotoError):
         vision.parse_reply(json.dumps({"meal_name": "x", "items": [], "total_kcal": 99999}))
+
+
+def test_style_picked_for_unlisted_celebrity(client):
+    r = client.put("/api/profile", json={**PROFILE, "celebrity": "Gong Yoo", "style": "strong"}).json()
+    assert r["archetype"] == "strong"
+    assert r["coach"]["coach"] == "Coach Bram"
+
+
+def test_listed_celebrity_ignores_style(client):
+    r = client.put("/api/profile", json={**PROFILE, "style": "strong"}).json()
+    assert r["archetype"] == "lean_dancer"
+
+
+def test_options_have_wiki_titles_and_styles(client):
+    o = client.get("/api/options").json()
+    assert all(c["wiki"] for c in o["celebrities"])
+    assert {s["key"] for s in o["styles"]} == {"lean_dancer", "sculpted", "athletic", "strong"}

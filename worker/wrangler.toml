@@ -1,0 +1,14 @@
+name = "muse-coach-proxy"
+main = "worker.js"
+compatibility_date = "2026-10-01"
+
+[vars]
+# Only this site may call the proxy from a browser.
+ALLOWED_ORIGINS = "https://rosiesuchoi.github.io"
+DAILY_LIMIT = "150"   # total photo estimates per day, all users
+IP_LIMIT = "15"       # photo estimates per day, per visitor IP
+
+# Create with:  npx wrangler kv namespace create LIMITS   then paste the id it prints.
+[[kv_namespaces]]
+binding = "LIMITS"
+id = "PASTE_KV_NAMESPACE_ID_HERE"

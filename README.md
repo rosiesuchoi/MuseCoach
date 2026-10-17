@@ -24,9 +24,21 @@ Tests: `.venv\Scripts\python -m pytest`
 Live: https://rosiesuchoi.github.io/MuseCoach/ (open in Safari → Share → Add to Home Screen).
 
 Pages can't run Python, so `docs/` is a static build where the same UI runs on a JavaScript copy of the
-back end. Your profile and meals stay in your browser's storage. For real photo estimates, paste your own
-Anthropic API key on the Me tab; it is stored only in your browser and sent only to api.anthropic.com.
-Without a key, photos give a demo estimate. Rebuild with `.venv\Scripts\python tools/build_pages.py`.
+back end. Your profile and meals stay in your browser's storage. Rebuild with
+`.venv\Scripts\python tools/build_pages.py`.
+
+**Photo estimates and the API key.** There are three ways to run them, safest first:
+1. **Proxy (best for the public site):** deploy the small Cloudflare Worker in `worker/` (see its README).
+   The key lives only as a Worker secret, so no browser or repo ever has it. Daily caps limit cost.
+   Then build with `MUSE_PROXY_URL` set and the key box disappears from the app.
+2. **Local server:** run the FastAPI server at home with `ANTHROPIC_API_KEY` in its environment.
+   The key never leaves your PC.
+3. **Paste your own key** on the Me tab of the web edition. It is stored only in that browser, never
+   shown again (only its last 4 characters), and sent only to api.anthropic.com. Use a key with a low spend limit.
+
+Without any of these, photos give a clearly-labelled demo estimate.
+
+**Celebrity photos** are fetched live from Wikipedia/Wikimedia Commons, so no images live in this repo.
 
 ## About the celebrities and coaches
 

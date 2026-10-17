@@ -83,10 +83,12 @@
   const OPENERS = { lean_dancer: "Okay, from the top!", sculpted: "Here's today's read.", athletic: "Team check-in!", strong: "Listen up." };
 
   function makeCore(data) {
-    const archetypeFor = name => {
+    // Listed celebrities have a fixed archetype; anyone else gets the style the user picked (or the default).
+    const archetypeFor = (name, style) => {
       const w = (name || "").trim().toLowerCase();
       const hit = data.celebrities.celebrities.find(c => c.name.toLowerCase() === w);
-      return hit ? hit.archetype : data.celebrities.default_archetype;
+      if (hit) return hit.archetype;
+      return style && style in data.coaches ? style : data.celebrities.default_archetype;
     };
     const checkin = (archetype, eaten, target) => {
       const coach = data.coaches[archetype].coach, remaining = target - eaten;
@@ -138,8 +140,20 @@
     return c.toDataURL("image/jpeg", 0.85).split(",")[1];
   }
 
+  // Preferred path: a small proxy (see worker/) holds the real key, so no key is ever in the browser.
+  async function estimateViaProxy(url, b64) {
+    let res;
+    try {
+      res = await fetch(url, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ image: b64 }) });
+    } catch { throw new HttpError(502, "Couldn't reach the estimate service. Check your connection or enter calories by hand."); }
+    if (res.status === 429) throw new HttpError(429, "Today's free photo estimates are used up. Try again tomorrow or enter calories by hand.");
+    if (!res.ok) throw new HttpError(502, "Couldn't estimate that photo right now. Enter calories by hand.");
+    return parseReply((await res.json()).text);
+  }
+
   async function estimateMeal(file, apiKey) {
     const b64 = await toJpegBase64(file);
+    if (config.proxy_url) return estimateViaProxy(config.proxy_url, b64);
     if (!apiKey) {
       return { meal_name: "Demo meal (no API key set)", items: [{ name: "Estimated plate", kcal: 500 }], total_kcal: 500, confidence: "low", demo: true };
     }
@@ -176,9 +190,11 @@
 
   // ---------- browser wiring ----------
   root.MUSE_STATIC = true;
-  let core = null;
-  const dataReady = Promise.all(["celebrities", "coaches", "meals"].map(n => fetch(`data/${n}.json`).then(r => r.json())))
-    .then(([celebrities, coaches, meals]) => {
+  let core = null, config = { proxy_url: "" };
+  const getJson = path => fetch(path).then(r => r.json());
+  const dataReady = Promise.all([getJson("data/celebrities.json"), getJson("data/coaches.json"), getJson("data/meals.json"), getJson("config.json")])
+    .then(([celebrities, coaches, meals, cfg]) => {
+      config = { proxy_url: "", ...cfg };
       const m = Object.fromEntries(Object.entries(meals).filter(([k]) => !k.startsWith("_")));
       core = makeCore({ celebrities, coaches, meals: m });
       core.data = { celebrities, coaches };
@@ -186,7 +202,7 @@
 
   function stateOf(s) {
     if (!s.profile) return { profile: null };
-    const archetype = core.archetypeFor(s.profile.celebrity), plan = buildPlan(s.profile, archetype);
+    const archetype = core.archetypeFor(s.profile.celebrity, s.profile.style), plan = buildPlan(s.profile, archetype);
     const meals = s.meals.filter(m => m.day === today());
     const eaten = meals.reduce((a, m) => a + m.kcal, 0);
     return { profile: s.profile, archetype, coach: core.data.coaches[archetype], plan, meals, eaten_kcal: eaten,
@@ -197,11 +213,16 @@
   async function route(method, path, init) {
     await dataReady;
     const s = load();
-    if (method === "GET" && path === "/api/options") return { celebrities: core.data.celebrities.celebrities.map(c => c.name) };
+    if (method === "GET" && path === "/api/options") {
+      return {
+        celebrities: core.data.celebrities.celebrities.map(c => ({ name: c.name, wiki: c.wiki })),
+        styles: Object.entries(core.data.coaches).map(([key, v]) => ({ key, coach: v.coach, tagline: v.tagline })),
+      };
+    }
     if (method === "GET" && path === "/api/state") return stateOf(s);
     if (method === "PUT" && path === "/api/profile") {
       const b = JSON.parse(init.body);
-      buildPlan(b, core.archetypeFor(b.celebrity)); // validate before saving
+      buildPlan(b, core.archetypeFor(b.celebrity, b.style)); // validate before saving
       s.profile = b; save(s); return stateOf(s);
     }
     if (method === "GET" && path === "/api/mealplan") {
@@ -239,13 +260,32 @@
   };
 
   // Hooks the shared UI calls on the profile/setup screen.
-  root.museExtraHtml = () => `
-    <h2>Photo estimates</h2>
-    <p class="mute">This web edition keeps everything on your device. For real photo estimates, paste your own Anthropic API key.
-    It is stored only in this browser and sent only to api.anthropic.com. Use a key with a low spend limit.</p>
-    <input id="apikey" type="password" autocomplete="off" placeholder="sk-ant-... (optional)" value="${(localStorage.getItem(API_KEY) || "").replace(/"/g, "")}">`;
-  root.museWireExtra = () => {
-    const el = document.getElementById("apikey");
-    if (el) el.onchange = () => { const v = el.value.trim(); v ? localStorage.setItem(API_KEY, v) : localStorage.removeItem(API_KEY); };
+  // A saved key is never written back into the page: once saved, only the last 4 characters are shown.
+  const keyBoxHtml = () => {
+    const saved = localStorage.getItem(API_KEY);
+    if (saved) {
+      return `<div class="note">✓ API key saved on this device (ends in ${saved.slice(-4).replace(/[^\w-]/g, "")}).
+        <button class="small ghost" id="keyrm" type="button" style="margin-top:8px">Remove key</button></div>`;
+    }
+    return `<input id="apikey" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="sk-ant-...">
+      <button class="small" id="keysave" type="button" style="margin-top:8px">Save key</button><div id="keyerr"></div>`;
   };
+  const wireKeyBox = () => {
+    const box = document.getElementById("keybox"); if (!box) return;
+    const redraw = () => { box.innerHTML = keyBoxHtml(); wireKeyBox(); };
+    const save = document.getElementById("keysave"), rm = document.getElementById("keyrm");
+    if (save) save.onclick = () => {
+      const el = document.getElementById("apikey"), v = el.value.trim();
+      if (!/^sk-ant-[\w-]{20,}$/.test(v)) { document.getElementById("keyerr").innerHTML = '<div class="err">That doesn\'t look like an Anthropic key (it starts with sk-ant-).</div>'; return; }
+      localStorage.setItem(API_KEY, v); el.value = ""; redraw();
+    };
+    if (rm) rm.onclick = () => { localStorage.removeItem(API_KEY); redraw(); };
+  };
+  root.museExtraHtml = () => config.proxy_url
+    ? `<h2>Photo estimates</h2><p class="mute">Photo estimates are built in. There's nothing to set up.</p>`
+    : `<h2>Photo estimates</h2>
+       <p class="mute">This web edition keeps everything on your device. For real photo estimates, paste your own Anthropic API key.
+       It stays in this browser and is only sent to api.anthropic.com. Use a key with a low spend limit.</p>
+       <div id="keybox">${keyBoxHtml()}</div>`;
+  root.museWireExtra = wireKeyBox;
 })(typeof window !== "undefined" ? window : globalThis);

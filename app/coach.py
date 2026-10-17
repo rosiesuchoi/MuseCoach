@@ -13,17 +13,23 @@ def _load(name: str) -> dict:
         return json.load(f)
 
 
-def celebrity_options() -> list[str]:
-    return [c["name"] for c in _load("celebrities.json")["celebrities"]]
+def celebrity_options() -> list[dict]:
+    return [{"name": c["name"], "wiki": c["wiki"]} for c in _load("celebrities.json")["celebrities"]]
 
 
-def archetype_for(celebrity: str) -> str:
+def style_options() -> list[dict]:
+    return [{"key": k, "coach": v["coach"], "tagline": v["tagline"]} for k, v in _load("coaches.json").items()]
+
+
+def archetype_for(celebrity: str, style: str = "") -> str:
+    """Listed celebrities have a fixed archetype. For anyone else (typed in and found on Wikipedia)
+    the user picks a coach style; with no pick they get the all-round coach."""
     cfg = _load("celebrities.json")
     wanted = celebrity.strip().lower()
     for c in cfg["celebrities"]:
         if c["name"].lower() == wanted:
             return c["archetype"]
-    return cfg["default_archetype"]  # any other celebrity gets the all-round coach
+    return style if style in _load("coaches.json") else cfg["default_archetype"]
 
 
 def coach_for(archetype: str) -> dict:

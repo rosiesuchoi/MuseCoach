@@ -2,6 +2,32 @@
 
 Newest entry on top.
 
+## 2026-10-16: Celebrity photo carousel + key safety
+
+**Style inspiration:** now a swipeable row of portraits with names. Portraits are fetched live from
+Wikipedia/Wikimedia Commons by page title (nothing stored in the repo, only `https://upload|thumb.wikimedia.org`
+URLs are accepted). If a celebrity isn't listed, the user types a name, Wikipedia search shows matches
+with photos, and they tap the right one. Names that aren't in the built-in list then get a coach-style
+picker (stored as `style` on the profile). Two earlier list entries had to change: Karina's Wikipedia title
+is a disambiguation page (dropped), and Lisa's page thumbnail is a signature image (replaced by Rosé).
+All 13 listed names were checked to return real portraits.
+
+**API key:** "bypass the key" isn't possible (any hosted vision model needs one), and no key can be
+supplied for the user. Instead: a saved key is never written back into the page (only its last 4 characters,
+plus Remove), and for the public site there is a Cloudflare Worker proxy in `worker/` that holds the key as
+a secret. The Worker fixes the model, prompt and token limit, restricts origins, caps requests per day
+globally and per IP, fails closed without its KV store, and never forwards upstream errors. 11 Worker tests
+pass with mocked network. Note: localStorage is shared by every page on `rosiesuchoi.github.io`, so a pasted
+key is readable by any script on the user's other Pages sites. That is why the proxy is the recommended path.
+
+**Verified:** 19 pytest tests, 576-profile parity check (0 mismatches), 11 Worker tests; in the browser the
+carousel loaded 13 real portraits, search found Gong Yoo, the style picker worked and was restored on reload,
+a bad key was rejected, a saved key was masked and absent from the page HTML, and a photo went through a fake
+local proxy end to end (no key field shown, meal logged).
+
+**Not verified:** a real Claude photo estimate (no key available to me), and the deployed Worker.
+**Next:** Rosie creates a key with a spend limit and deploys the Worker (`worker/README.md`).
+
 ## 2026-10-16: US units
 
 **Changed:** the screen now uses feet/inches, pounds and "calories" instead of cm, kg and kcal.
