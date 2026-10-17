@@ -25,17 +25,19 @@ Home Screen). Python (FastAPI) back end, one static HTML page for the UI.
 3. **Server authority.** The browser sends intents (profile, photo, meal). The server computes every number.
    The one exception is the GitHub Pages edition (no server exists there); its JS port must match
    `goals.py`, checked by `node tools/parity_check.mjs`.
-4. **Workouts stay specific and measurable.** Every exercise needs a number (sets × reps, seconds, rounds) plus rest and a cue. No filler like "long walk" or
+4. **One page, three layouts.** `app/static/index.html` serves phone (single column, bottom nav), tablet (700px+, two columns) and desktop (960px+, sidebar nav).
+   Design phone-first, then check all three widths for horizontal overflow before committing. Keep controls as real buttons/labelled inputs (keyboard + screen reader access).
+5. **Workouts stay specific and measurable.** Every exercise needs a number (sets × reps, seconds, rounds) plus rest and a cue. No filler like "long walk" or
    "dance class" (a test enforces it). Keep the safety text and warm-ups; never prescribe training through pain or promise body changes.
-5. **Recipes: only openly licensed text.** `app/data/recipes.json` comes from Wikibooks Cookbook (CC BY-SA 4.0) via `tools/build_recipes.py`.
+6. **Recipes: only openly licensed text.** `app/data/recipes.json` comes from Wikibooks Cookbook (CC BY-SA 4.0) via `tools/build_recipes.py`.
    Never paste in text scraped from commercial recipe sites. Keep each recipe's source, history link and license visible in the app.
    Nutrition is computed from USDA data, never scraped.
-6. **No secrets in git, in chat, or in the public site.** The server edition reads `ANTHROPIC_API_KEY` from the gitignored `.env`
+7. **No secrets in git, in chat, or in the public site.** The server edition reads `ANTHROPIC_API_KEY` from the gitignored `.env`
    file (or the environment) via `app/config.py`, and only ever sends it to api.anthropic.com. Never print, log, store or echo it, never
    put it in `docs/` or client code, and never ask the user to paste it into chat (if they do, tell them to revoke it). Without a key,
    photo estimates return a labelled demo value so the app still runs. The Pages edition has each visitor paste their own key in their browser.
    Tests must never read the real `.env` or call the real API (`tests/conftest.py` enforces this).
-7. **The model never supplies the numbers.** In `shared/pipeline.mjs` calories and nutrients are computed in code from retrieved USDA
+8. **The model never supplies the numbers.** In `shared/pipeline.mjs` calories and nutrients are computed in code from retrieved USDA
    rows; a database id the model returns must be one that was actually retrieved, and model-supplied estimates are only accepted if they
    agree with their own macros and are labelled "AI estimate". Health text must follow from the numbers, make no medical claims, and
    never encourage skipping meals or restriction (nothing about dieting for under-18s).

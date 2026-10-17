@@ -2,6 +2,21 @@
 
 Newest entry on top.
 
+## 2026-10-17: Desktop layout (the app was a phone column stretched on desktop)
+
+**Problem:** on a desktop browser the app was a 560px column in the middle of a wide empty page with a phone-style bottom bar.
+
+**Fix (CSS and light markup only; no logic changed):** the page is now wrapped in a layout shell with three modes.
+Phone (default): unchanged. Tablet (700px+): wider content and two-column grids for Coach days, Meals and the Today panels, centered dialogs instead of bottom sheets.
+Desktop (960px+): a sticky left sidebar replaces the bottom bar, a 1160px-wide layout, Today as ring + message then "log a meal" beside "logged today",
+Coach with hero beside weekly progress, all six training styles in a 3 x 2 grid and days in two columns, Meals in two columns, Me with the celebrity
+picker as a wrapping gallery beside the form, hover states (only on devices that hover), and wider dialogs.
+Accessibility: a "Skip to content" link, `<main>` landmark (focus moves into it when you change tabs), nav and field labels checked, real buttons everywhere.
+
+**Verified in a browser at 1440, 820 and 375 px:** no horizontal overflow on any of the four tabs at any width; the expected column counts and nav mode at each width; the
+recipe dialog centers on desktop; skip link moves focus to the main content. **Not verified:** real devices beyond the emulated widths, and a screen reader.
+(An unrelated, uncommitted change to the intro animation was discarded at Rosie's request.)
+
 ## 2026-10-17: Coach tab rebuilt, workout check-offs, visual refresh, entrance animation
 
 **Asked for:** no dancing; other equal-effort workouts that are specific and measurable (exact exercises, reps); the user can choose the training style;

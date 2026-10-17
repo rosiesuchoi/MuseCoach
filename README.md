@@ -16,6 +16,11 @@ Add to Home Screen.
 - **Meals:** a 7-day plan with full recipes (ingredients, cooking steps) inside the app.
 - **Me:** your numbers, celebrity style inspiration, and your key settings.
 
+**Works on any screen.** On a phone it is a single column with a bottom tab bar. On a tablet the content flows into two columns. On a desktop
+browser (about 960 px and wider) it becomes a full layout: a navigation sidebar on the left, the training styles and week laid out in a grid, the celebrity
+gallery and your numbers side by side, and recipes and analyses opening as centered dialogs. It has hover effects, a "Skip to content" link for keyboard
+users, and all controls are real buttons and labelled fields.
+
 The first time you open the app in a visit it plays a short entrance animation (skipped if your device asks for reduced motion). It follows your
 light or dark setting.
 
