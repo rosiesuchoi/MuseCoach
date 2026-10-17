@@ -20,6 +20,8 @@ Home Screen). Python (FastAPI) back end, one static HTML page for the UI.
 2. **Safety clamps live in `app/goals.py` and are tested.** Goal weight never below BMI 18.5, calorie
    floor (1200 F / 1500 M), max deficit 25% of maintenance, no deficit under 18. Never loosen these.
 3. **Server authority.** The browser sends intents (profile, photo, meal). The server computes every number.
+   The one exception is the GitHub Pages edition (no server exists there); its JS port must match
+   `goals.py`, checked by `node tools/parity_check.mjs`.
 4. **Real links only.** Every URL in `app/data/meals.json` must be opened and checked before it is added.
 5. **No secrets in git.** `ANTHROPIC_API_KEY` comes from the environment. Without it, photo estimates
    return a labelled demo value so the app still runs.
@@ -36,6 +38,12 @@ Home Screen). Python (FastAPI) back end, one static HTML page for the UI.
 | `app/data/*.json` | celebrities, coach personas, verified recipes |
 | `app/static/` | the iPhone web UI (`index.html`, manifest, icon) |
 | `tests/` | pytest: goal math and API |
+| `tools/pages/local-backend.js` | in-browser copy of the API for GitHub Pages (localStorage, direct Claude call with the user's own key) |
+| `tools/build_pages.py` | builds `docs/` (generated: never edit by hand) |
+| `tools/parity_check.mjs` | compares the JS plan math with `goals.py` |
+| `docs/` | the GitHub Pages site, served from `main` / `/docs` |
+
+After changing `app/static/`, `app/data/` or `local-backend.js`, run `tools/build_pages.py` and commit `docs/`.
 
 ## Run
 

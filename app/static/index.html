@@ -100,7 +100,7 @@ function renderToday() {
     try {
       const r = await api("/api/meals/photo", { method: "POST", body: fd });
       state = r; busy = ""; renderToday();
-      if (r.estimate.demo) showErr("Demo estimate: set ANTHROPIC_API_KEY on the server for real photo estimates.");
+      if (r.estimate.demo) showErr(window.MUSE_STATIC ? "Demo estimate: add your API key on the Me tab for real photo estimates." : "Demo estimate: set ANTHROPIC_API_KEY on the server for real photo estimates.");
       else if (r.estimate.confidence === "low") showErr("Low confidence estimate. Delete and edit it if it looks off.");
     } catch (err) { busy = ""; renderToday(); showErr(err.message); }
   };
@@ -153,9 +153,11 @@ function setupHtml(p = {}) {
     <label>Goal</label><select id="goal">${sel("goal", [["lose", "Lose fat"], ["maintain", "Maintain"], ["build", "Build muscle"]])}</select>
     <label>Goal weight (kg, optional)</label><input id="gw" type="number" inputmode="decimal" value="${p.goal_weight_kg || ""}">
     <label>Activity</label><select id="act">${sel("activity", [["low", "Low (desk job, 1-3 workouts)"], ["medium", "Medium (3-5 workouts)"], ["high", "High (6-7 hard workouts)"]])}</select>
+    ${window.museExtraHtml ? window.museExtraHtml() : ""}
     <div id="err"></div><button id="save" style="margin-top:14px">Save and meet my coach</button>`;
 }
 function wireSetup() {
+  if (window.museWireExtra) window.museWireExtra();
   $("#save").onclick = async () => {
     const num = id => { const v = $(id).value; return v === "" ? null : parseFloat(v); };
     const body = { age: parseInt($("#age").value, 10), sex: $("#sex").value, height_cm: num("#height"), weight_kg: num("#weight"),

@@ -19,6 +19,15 @@ Open `http://localhost:8000`, or `http://<your PC's IP>:8000` from a phone on th
 
 Tests: `.venv\Scripts\python -m pytest`
 
+## Web edition (GitHub Pages)
+
+Live: https://rosiesuchoi.github.io/MuseCoach/ (open in Safari → Share → Add to Home Screen).
+
+Pages can't run Python, so `docs/` is a static build where the same UI runs on a JavaScript copy of the
+back end. Your profile and meals stay in your browser's storage. For real photo estimates, paste your own
+Anthropic API key on the Me tab; it is stored only in your browser and sent only to api.anthropic.com.
+Without a key, photos give a demo estimate. Rebuild with `.venv\Scripts\python tools/build_pages.py`.
+
 ## About the celebrities and coaches
 
 Picking a celebrity only chooses a coach style. The app does not claim anything about a real person's

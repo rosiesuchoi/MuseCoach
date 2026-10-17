@@ -20,7 +20,9 @@ Due Sun Oct 18, 2026, 11:59 PM. Scope: one week, small, runs, and Rosie will kee
 - [x] Mobile web UI: Today / Coach / Meal plan / Me
 - [x] 7-day meal plan with 9 verified real recipe links
 - [x] API tests (16 passing)
-- [ ] Rosie: set `ANTHROPIC_API_KEY`, test a real photo on her iPhone
+- [x] GitHub Pages edition: static build in `docs/` with an in-browser backend
+- [ ] Rosie: enable Pages (Settings → Pages → main → /docs) and open the live link
+- [ ] Rosie: set `ANTHROPIC_API_KEY` (or paste a key in the web edition), test a real photo on her iPhone
 - [ ] Rosie: add to Home Screen, use it for a few days
 - [ ] Portfolio card: title, repo link, short reflection
 
