@@ -19,6 +19,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 MODEL = "claude-sonnet-5-5"
+# Generous on purpose: the model may spend part of the budget on a "thinking" block before the JSON answer.
+MAX_TOKENS_IDENTIFY = 2500
+MAX_TOKENS_EXPLAIN = 4000
 NUTRIENTS = ["kcal", "protein", "fat", "satfat", "carb", "fiber", "sugar", "sodium", "chol", "potassium", "calcium", "iron", "vitc", "caffeine", "alcohol"]
 CONF_RANK = {"low": 0, "medium": 1, "high": 2}
 SOURCES = "USDA FoodData Central, SR Legacy (public domain)"
@@ -60,7 +63,7 @@ def _js_numbers(obj):
 
 def identify_request(image_b64: str) -> dict:
     return {
-        "model": MODEL, "max_tokens": 700,
+        "model": MODEL, "max_tokens": MAX_TOKENS_IDENTIFY,
         "messages": [{"role": "user", "content": [
             {"type": "image", "source": {"type": "base64", "media_type": "image/jpeg", "data": image_b64}},
             {"type": "text", "text": prompts()["identify"]}]}],
@@ -82,7 +85,7 @@ def explain_request(payload: dict) -> dict:
         "minor": c.get("minor") is True,
     }
     data = json.dumps(_js_numbers({"items": items, "user_context": context}), separators=(",", ":"), ensure_ascii=False)
-    return {"model": MODEL, "max_tokens": 1400,
+    return {"model": MODEL, "max_tokens": MAX_TOKENS_EXPLAIN,
             "messages": [{"role": "user", "content": f"{prompts()['explain']}\n\nDATA:\n{data}"}]}
 
 
@@ -310,6 +313,13 @@ def analyze_meal(image: str, context: dict, identify, explain, index: Index | No
 
 # ---------- talking to Anthropic with the key from the environment ----------
 
+def reply_text(msg) -> str:
+    """The answer text. Replies can begin with a "thinking" block, so join the text blocks instead of taking block 0."""
+    if getattr(msg, "stop_reason", None) == "max_tokens":
+        raise PipelineError(502, "The AI's answer was cut off. Try again.")
+    return "".join(b.text for b in (msg.content or []) if getattr(b, "type", None) == "text")
+
+
 def anthropic_functions(api_key: str):
     """Returns (identify, explain) callables that call Claude with this key. Errors are translated to
     PipelineError with fixed messages, so no request details (and never the key) can leak into a response."""
@@ -330,6 +340,6 @@ def anthropic_functions(api_key: str):
             raise PipelineError(502, "Couldn't reach the AI service. Check your internet connection.") from None
         except anthropic.APIError:
             raise PipelineError(502, "Couldn't analyze that photo right now. Enter calories by hand.") from None
-        return msg.content[0].text if msg.content else ""
+        return reply_text(msg)
 
     return (lambda image: call(identify_request(image)), lambda payload: call(explain_request(payload)))

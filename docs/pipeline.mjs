@@ -14,6 +14,15 @@
 import PROMPTS from "./prompts.mjs";
 
 export const MODEL = "claude-sonnet-5-5";
+// Generous on purpose: the model may spend part of the budget on a "thinking" block before the JSON answer.
+export const MAX_TOKENS_IDENTIFY = 2500;
+export const MAX_TOKENS_EXPLAIN = 4000;
+
+// The answer text of a Messages API reply. Replies can begin with a "thinking" block, so join the text blocks instead of taking block 0.
+export function replyText(body) {
+  if (body && body.stop_reason === "max_tokens") throw new PipelineError(502, "The AI's answer was cut off. Try again.");
+  return ((body && body.content) || []).filter(b => b.type === "text").map(b => b.text).join("");
+}
 export const NUTRIENTS = ["kcal", "protein", "fat", "satfat", "carb", "fiber", "sugar", "sodium", "chol", "potassium", "calcium", "iron", "vitc", "caffeine", "alcohol"];
 
 export class PipelineError extends Error {
@@ -24,7 +33,7 @@ const clip = (s, n) => String(s ?? "").replace(/[\u0000-\u001f]/g, " ").slice(0,
 
 export function identifyRequest(imageB64) {
   return {
-    model: MODEL, max_tokens: 700,
+    model: MODEL, max_tokens: MAX_TOKENS_IDENTIFY,
     messages: [{ role: "user", content: [
       { type: "image", source: { type: "base64", media_type: "image/jpeg", data: imageB64 } },
       { type: "text", text: PROMPTS.identify }] }],
@@ -48,7 +57,7 @@ export function explainRequest(payload) {
     minor: c.minor === true,
   };
   return {
-    model: MODEL, max_tokens: 1400,
+    model: MODEL, max_tokens: MAX_TOKENS_EXPLAIN,
     messages: [{ role: "user", content: `${PROMPTS.explain}\n\nDATA:\n${JSON.stringify({ items, user_context: context })}` }],
   };
 }

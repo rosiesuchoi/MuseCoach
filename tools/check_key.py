@@ -42,8 +42,9 @@ def main() -> int:
         return 1
     print(f"Found a key in your environment ({len(key)} characters). It will only be sent to api.anthropic.com.")
 
-    if len(sys.argv) > 1:
-        path = Path(sys.argv[1])
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    if args:
+        path = Path(args[0])
         if not path.is_file():
             print(f"Can't find the photo: {path}")
             return 1
@@ -58,10 +59,18 @@ def main() -> int:
     try:
         r = rag.analyze_meal(base64.b64encode(jpeg).decode(), context, identify, explain)
     except rag.PipelineError as e:
+        if e.status == 422 and not args:  # the AI read the drawing but, reasonably, doesn't call a cartoon real food
+            print(f"\nThe key works and the AI can see images: it looked at the drawing and answered:\n  {e.message}\n"
+                  "A cartoon isn't a good test meal. Try a real photo:\n  .venv\\Scripts\\python tools/check_key.py path\\to\\meal.jpg")
+            return 0
         print(f"\nThe pipeline stopped: {e.message}")
         return 2
-    except Exception as e:  # log only the type: never details that could contain request data
+    except Exception as e:  # by default show only the type: never details that could contain request data
         print(f"\nUnexpected failure ({type(e).__name__}).")
+        if "--debug" in sys.argv:  # opt-in: the traceback, with the key blanked out
+            import traceback
+
+            print(traceback.format_exc().replace(key, "<KEY>"))
         return 3
 
     print(f"\nThe AI saw: {r['meal_name']}")

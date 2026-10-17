@@ -2,7 +2,7 @@
 // Run: node tools/pipeline_check.mjs
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { buildIndex, search, analyzeMeal, flagsFor, identifyRequest, explainRequest, PipelineError, parseJson } from "../shared/pipeline.mjs";
+import { buildIndex, search, analyzeMeal, flagsFor, identifyRequest, explainRequest, PipelineError, parseJson, replyText } from "../shared/pipeline.mjs";
 
 const kb = JSON.parse(readFileSync(new URL("../app/data/nutrition.json", import.meta.url), "utf8"));
 const index = buildIndex(kb);
@@ -96,6 +96,13 @@ const tests = {
     assert.ok(data.items[0].name.length <= 80 && !data.items[0].name.includes("\n"));
     assert.equal(data.user_context.goal, "maintain"); assert.equal(data.user_context.minor, false);
     assert.ok(body.length < 40000);
+  },
+
+  "replyText skips thinking blocks and joins text blocks (real API behaviour)"() {
+    assert.equal(replyText({ stop_reason: "end_turn", content: [{ type: "thinking", thinking: "hmm" }, { type: "text", text: '{"a":' }, { type: "text", text: "1}" }] }), '{"a":1}');
+    assert.equal(replyText({ content: [] }), "");
+    assert.throws(() => replyText({ stop_reason: "max_tokens", content: [{ type: "thinking" }] }), e => e instanceof PipelineError && /cut off/.test(e.message));
+    assert.ok(identifyRequest("QUJD").max_tokens >= 2000 && explainRequest({ items: [] }).max_tokens >= 3000);
   },
 
   "parseJson tolerates chatter but not garbage"() {

@@ -220,3 +220,56 @@ def test_old_databases_are_upgraded_in_place(tmp_path, monkeypatch):
     assert meals[0]["name"] == "Old toast" and meals[0]["analysis"] is None
     db.add_meal("New", 100, [], "photo", {"x": 1})
     assert db.todays_meals()[1]["analysis"] == {"x": 1}
+
+
+# ---------- replies that begin with a "thinking" block (a real failure seen with the live API) ----------
+
+class _Block:
+    def __init__(self, type_, text=None):
+        self.type = type_
+        if text is not None:
+            self.text = text  # a thinking block has no .text, exactly like the real SDK object
+
+
+class _Msg:
+    def __init__(self, blocks, stop_reason="end_turn"):
+        self.content, self.stop_reason = blocks, stop_reason
+
+
+def test_reply_text_skips_thinking_blocks_and_joins_text():
+    msg = _Msg([_Block("thinking"), _Block("text", '{"a": '), _Block("text", "1}")])
+    assert rag.reply_text(msg) == '{"a": 1}'
+    assert rag.reply_text(_Msg([_Block("text", "hi")])) == "hi"
+    assert rag.reply_text(_Msg([])) == ""
+
+
+def test_cut_off_answer_is_a_clear_error():
+    with pytest.raises(rag.PipelineError, match="cut off"):
+        rag.reply_text(_Msg([_Block("thinking")], stop_reason="max_tokens"))
+
+
+def test_anthropic_functions_handles_thinking_first_replies(monkeypatch):
+    import anthropic
+
+    sent = []
+
+    class FakeMessages:
+        def create(self, **body):
+            sent.append(body)
+            return _Msg([_Block("thinking"), _Block("text", json.dumps(BANANA))])
+
+    class FakeClient:
+        def __init__(self, **kw):
+            self.messages = FakeMessages()
+
+    monkeypatch.setattr(anthropic, "Anthropic", FakeClient)
+    identify, _explain = rag.anthropic_functions(FAKE_KEY)
+    assert json.loads(identify("QUJD")) == BANANA
+    assert sent[0]["max_tokens"] >= 2000  # room for thinking plus the JSON
+
+
+def test_the_guard_blocks_real_clients():
+    import anthropic
+
+    with pytest.raises(AssertionError, match="real Anthropic client"):
+        anthropic.Anthropic(api_key="x")

@@ -212,7 +212,7 @@
           "anthropic-dangerous-direct-browser-access": "true", // required for browser calls; the key is the user's own
         } });
       } catch { throw new HttpError(502, NETWORK_MSG); }
-      return textOf(res, b => b.content?.[0]?.text ?? "");
+      return textOf(res, b => pipeline.replyText(b));
     };
     return { identify: image => call(pipeline.identifyRequest(image)), explain: payload => call(pipeline.explainRequest(payload)) };
   }

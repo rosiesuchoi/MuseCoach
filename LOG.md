@@ -2,6 +2,27 @@
 
 Newest entry on top.
 
+## 2026-10-17: First real run with Rosie's key, and the bug it found
+
+Rosie put her key in `.env` (I only checked its shape: present, 106 characters, starts with `sk-ant-`; I never printed it). `tools/check_key.py` then
+failed with `AttributeError`. Cause: the model sometimes starts its reply with a **thinking block** that has no `.text`, and both the Python and
+browser code read `content[0].text`. Mocked tests could never have caught it. Fix (both editions): join only the `text` blocks (`rag.reply_text`,
+`replyText` in pipeline.mjs), treat `stop_reason: max_tokens` as a clear "answer was cut off" error, and raise `max_tokens` (identify 700 → 2500,
+explain 1400 → 4000) because thinking shares that budget. Regression tests for thinking-first replies in Python and JS; test guard moved to patch
+`anthropic.Anthropic` itself so no test can ever build a real client.
+
+Also: the drawn-apple default in `check_key.py` was sometimes judged "not real food" (it is a cartoon), so the script now reports that case as
+"key works, AI can see images" and suggests a real photo; `--debug` prints a key-redacted traceback.
+
+**Verified with the real API:** a Wikimedia pizza photo and a ramen photo both ran identify → USDA retrieval → explain.
+Ramen: shoyu ramen with chashu, 6 items, 457 cal (likely 343-571), 5 items matched to USDA and 1 labelled "AI estimate", verdict "okay", flags high
+sodium + good protein. Pizza: 8 items, 2,486 cal (whole pizza ~800 g plus a lager and the raw vegetables arranged around it), confidence low.
+**Honest notes on quality:** amounts come from the AI's eye, so a whole-pizza photo reads as a very large meal; props in the shot (raw
+vegetables) get counted as food; the "low" confidence label and the likely-range are there for exactly this. The live server UI with a real key
+has not been clicked through yet (only the script and the mocked endpoint tests), and the Pages edition's direct-key path has not run against the real API.
+
+**Next:** Rosie runs the server and logs a few of her own meals; tell me which ones it gets wrong.
+
 ## 2026-10-17: Dropped Cloudflare; the server runs the AI pipeline with a key from `.env`
 
 **Decision (Rosie):** no Cloudflare, and no key shared with the assistant: she will use her own Anthropic key. (An attempt to deploy the Worker
