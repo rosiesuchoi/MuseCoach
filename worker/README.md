@@ -6,7 +6,18 @@ key in the browser or the repo. Free Cloudflare plan is enough.
 It only makes the two model calls of the meal pipeline (`POST /identify` with a JPEG, `POST /explain` with the retrieved USDA
 candidates). Retrieval from the USDA database and all calorie math run in the browser, which keeps this Worker tiny. One meal analysis = 2 calls.
 
-## One-time setup (about 10 minutes)
+## Easiest: run the setup script
+
+From the repo root in PowerShell (you still sign in to Cloudflare and paste your key yourself; the script never reads it):
+
+```bash
+powershell -ExecutionPolicy Bypass -File workerdeploy.ps1
+```
+
+It logs you in, creates the usage-cap store, stores the key as a secret, deploys, checks the Worker answers, rebuilds the site and asks
+before pushing. The manual steps below do the same thing.
+
+## One-time setup by hand (about 10 minutes)
 
 1. Make an Anthropic API key at https://console.anthropic.com → API keys. Then, in Settings → Limits, set a
    **monthly spend limit** (for example $5). This is the hard backstop if anything goes wrong.
