@@ -9,6 +9,7 @@
 (function (root) {
   // ---------- goals (mirrors app/goals.py) ----------
   const ACTIVITY = { low: 1.375, medium: 1.55, high: 1.725 };
+  const LB_PER_KG = 2.2046226; // API and storage are metric; messages shown to users are in lb
   const MIN_BMI = 18.5, MAX_DEFICIT_FRACTION = 0.25, KCAL_PER_KG = 7700, SURPLUS = 250;
   const FLOOR = { female: 1200, male: 1500 };
   const MACROS = { lean_dancer: [0.28, 0.45, 0.27], sculpted: [0.32, 0.40, 0.28], athletic: [0.28, 0.45, 0.27], strong: [0.30, 0.40, 0.30] };
@@ -21,8 +22,8 @@
   function validate(p) {
     if (!(p.age >= 13 && p.age <= 100)) throw new HttpError(422, "Age must be between 13 and 100.");
     if (!(p.sex in FLOOR)) throw new HttpError(422, "Sex must be 'female' or 'male' (used only for the calorie formula).");
-    if (!(p.height_cm >= 120 && p.height_cm <= 230)) throw new HttpError(422, "Height must be between 120 and 230 cm.");
-    if (!(p.weight_kg >= 30 && p.weight_kg <= 300)) throw new HttpError(422, "Weight must be between 30 and 300 kg.");
+    if (!(p.height_cm >= 120 && p.height_cm <= 230)) throw new HttpError(422, "Height must be between 3 ft 11 in and 7 ft 7 in.");
+    if (!(p.weight_kg >= 30 && p.weight_kg <= 300)) throw new HttpError(422, "Weight must be between 66 and 661 lb.");
     if (!["lose", "maintain", "build"].includes(p.goal)) throw new HttpError(422, "Goal must be lose, maintain or build.");
     if (!(p.activity in ACTIVITY)) throw new HttpError(422, "Activity must be low, medium or high.");
   }
@@ -45,7 +46,7 @@
         notes.push("You're already at the low end of a healthy weight, so we're maintaining.");
       } else if (goalWeight !== null && goalWeight < floorWeight) {
         goalWeight = r1(floorWeight);
-        notes.push(`Goal weight raised to ${goalWeight} kg: the lowest healthy weight for your height.`);
+        notes.push(`Goal weight raised to ${Math.round(goalWeight * LB_PER_KG)} lb: the lowest healthy weight for your height.`);
       }
     }
     let target, weekly;
@@ -90,10 +91,10 @@
     const checkin = (archetype, eaten, target) => {
       const coach = data.coaches[archetype].coach, remaining = target - eaten;
       let body;
-      if (eaten === 0) body = `Nothing logged yet. Snap a photo of your first meal and I'll do the math. Today's target: ${target} kcal.`;
-      else if (remaining > target * 0.15) body = `${eaten} kcal in, ${remaining} to go. You're on pace. Keep protein in every meal.`;
-      else if (remaining >= -target * 0.05) body = `${eaten} kcal in, right on target. That's exactly the plan.`;
-      else body = `${eaten} kcal in, about ${-remaining} over. No stress: one day doesn't undo a week. Tomorrow we reset.`;
+      if (eaten === 0) body = `Nothing logged yet. Snap a photo of your first meal and I'll do the math. Today's target: ${target} calories.`;
+      else if (remaining > target * 0.15) body = `${eaten} calories in, ${remaining} to go. You're on pace. Keep protein in every meal.`;
+      else if (remaining >= -target * 0.05) body = `${eaten} calories in, right on target. That's exactly the plan.`;
+      else body = `${eaten} calories in, about ${-remaining} over. No stress: one day doesn't undo a week. Tomorrow we reset.`;
       return `${coach}: ${OPENERS[archetype] || "Check-in!"} ${body}`;
     };
     const portion = (budget, kcal) => Math.min(2, Math.max(0.5, Math.round(budget / kcal * 4) / 4));

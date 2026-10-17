@@ -2,6 +2,22 @@
 
 Newest entry on top.
 
+## 2026-10-16: US units
+
+**Changed:** the screen now uses feet/inches, pounds and "calories" instead of cm, kg and kcal.
+Height is entered as ft + in, weight and goal weight in lb, and the plan shows lb/week.
+
+**How:** the API and stored data stay metric, so the math, tests and the JS/Python parity check are
+unchanged. Conversion happens only at the edges: the form and display in `app/static/index.html`, and the
+user-facing messages in `goals.py`, `coach.py` and `local-backend.js`. Stored values use 2 decimals so a
+weight like 132 lb survives repeated saves without drifting (an earlier version drifted to 132.1).
+
+**Verified:** 16 pytest tests pass, 576-profile parity check has 0 mismatches, and in the browser the
+form, plan screen, prefill after save, and out-of-range height message all show US units.
+
+**Still open:** Pages isn't serving the site yet (see the previous status); recipe pages still show
+their own calorie figures as printed.
+
 ## 2026-10-16: GitHub Pages edition
 
 **Why:** Rosie wanted it hosted on GitHub Pages. Pages only serves static files, so the Python server

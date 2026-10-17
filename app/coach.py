@@ -43,11 +43,11 @@ def checkin(archetype: str, goal: str, eaten: int, target: int) -> str:
     opener = OPENERS.get(archetype, "Check-in!")
     remaining = target - eaten
     if eaten == 0:
-        body = f"Nothing logged yet. Snap a photo of your first meal and I'll do the math. Today's target: {target} kcal."
+        body = f"Nothing logged yet. Snap a photo of your first meal and I'll do the math. Today's target: {target} calories."
     elif remaining > target * 0.15:
-        body = f"{eaten} kcal in, {remaining} to go. You're on pace. Keep protein in every meal."
+        body = f"{eaten} calories in, {remaining} to go. You're on pace. Keep protein in every meal."
     elif remaining >= -target * 0.05:
-        body = f"{eaten} kcal in, right on target. That's exactly the plan."
+        body = f"{eaten} calories in, right on target. That's exactly the plan."
     else:
-        body = f"{eaten} kcal in, about {-remaining} over. No stress: one day doesn't undo a week. Tomorrow we reset."
+        body = f"{eaten} calories in, about {-remaining} over. No stress: one day doesn't undo a week. Tomorrow we reset."
     return f"{coach}: {opener} {body}"

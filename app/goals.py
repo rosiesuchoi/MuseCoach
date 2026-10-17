@@ -18,6 +18,7 @@ ACTIVITY_FACTORS = {
 MIN_BMI = 18.5  # goal weight is never allowed below this
 MAX_DEFICIT_FRACTION = 0.25  # never cut more than 25% of maintenance
 KCAL_PER_KG = 7700
+LB_PER_KG = 2.2046226  # the API and storage are metric; messages shown to users are in lb
 FLOOR_KCAL = {"female": 1200, "male": 1500}
 SURPLUS_KCAL = 250  # gentle surplus for "build"
 
@@ -52,9 +53,9 @@ def validate(p: Profile) -> None:
     if p.sex not in FLOOR_KCAL:
         raise ProfileError("Sex must be 'female' or 'male' (used only for the calorie formula).")
     if not 120 <= p.height_cm <= 230:
-        raise ProfileError("Height must be between 120 and 230 cm.")
+        raise ProfileError("Height must be between 3 ft 11 in and 7 ft 7 in.")
     if not 30 <= p.weight_kg <= 300:
-        raise ProfileError("Weight must be between 30 and 300 kg.")
+        raise ProfileError("Weight must be between 66 and 661 lb.")
     if p.goal not in ("lose", "maintain", "build"):
         raise ProfileError("Goal must be lose, maintain or build.")
     if p.activity not in ACTIVITY_FACTORS:
@@ -98,7 +99,7 @@ def build_plan(p: Profile, archetype: str) -> dict:
         elif goal_weight is not None and goal_weight < floor_weight:
             goal_weight = round(floor_weight, 1)
             notes.append(
-                f"Goal weight raised to {goal_weight} kg: the lowest healthy weight for your height."
+                f"Goal weight raised to {round(goal_weight * LB_PER_KG)} lb: the lowest healthy weight for your height."
             )
 
     if goal == "lose":
