@@ -42,6 +42,7 @@ class Profile:
     goal_weight_kg: float | None = None
     celebrity: str = ""
     style: str = ""  # coach style chosen for a celebrity that isn't in the built-in list
+    training: str = ""  # chosen training style (see data/workouts.json); empty = the coach's default
 
 
 class ProfileError(ValueError):

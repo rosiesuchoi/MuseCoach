@@ -1,82 +1,50 @@
 {
   "lean_dancer": {
     "coach": "Coach Rhea",
-    "tagline": "Choreo-cardio and long, lean lines",
-    "voice": "bright, rhythmic, counts everything in eights",
-    "style": "Dance cardio, Pilates-style core work, mobility and steady daily movement.",
-    "week": [
-      "Mon: 30 min dance cardio + 10 min core",
-      "Tue: Lower-body strength (squats, lunges, glute bridges)",
-      "Wed: 40 min walk or easy cycling + stretching",
-      "Thu: Dance cardio + upper-body bands",
-      "Fri: Pilates-style full-body, slow tempo",
-      "Sat: Long walk or a dance class",
-      "Sun: Rest and mobility"
-    ],
+    "tagline": "Cardio intervals and long, lean lines",
+    "voice": "bright, rhythmic, counts everything in sets of eight",
+    "style": "Cardio intervals, Pilates-style core work and mobility.",
     "tips": [
       "Protein at every meal keeps you full and protects muscle.",
       "Strength twice a week is what gives a toned shape, not extra cardio.",
       "Sleep 7-9 hours. Tired bodies hold onto everything."
-    ]
+    ],
+    "default_training": "cardio_core"
   },
   "sculpted": {
     "coach": "Coach Dax",
     "tagline": "Hypertrophy with clean, defined lines",
     "voice": "calm, precise, loves a good plan",
     "style": "Push/pull/legs lifting with progressive overload and short finishers.",
-    "week": [
-      "Mon: Push (chest, shoulders, triceps)",
-      "Tue: Pull (back, biceps) + 15 min incline walk",
-      "Wed: Legs (squat pattern, hinge, calves)",
-      "Thu: Rest or 30 min easy cardio",
-      "Fri: Upper body, higher reps",
-      "Sat: Lower body + core",
-      "Sun: Rest"
-    ],
     "tips": [
       "Add a little weight or one rep each week. That is the whole secret.",
       "Aim for about 1.6-2.2 g protein per kg body weight.",
       "Lift with a log. What you measure improves."
-    ]
+    ],
+    "default_training": "split_lifting"
   },
   "athletic": {
     "coach": "Coach Juno",
     "tagline": "Move like an athlete, look like the result",
     "voice": "upbeat, direct, big on consistency",
     "style": "Mixed training: strength, intervals, sport-style conditioning.",
-    "week": [
-      "Mon: Full-body strength (compound lifts)",
-      "Tue: Intervals: 8 x 1 min hard / 1 min easy",
-      "Wed: Mobility + 30 min easy movement",
-      "Thu: Full-body strength + sled/carry work",
-      "Fri: Sport or play: basketball, swim, run, anything fun",
-      "Sat: Long steady session, 45-60 min",
-      "Sun: Rest"
-    ],
     "tips": [
       "Show up on the bad days. Three average weeks beat one perfect one.",
       "Eat carbs around training. They are fuel, not the enemy.",
       "Track how you feel as well as the scale."
-    ]
+    ],
+    "default_training": "athletic_circuit"
   },
   "strong": {
     "coach": "Coach Bram",
     "tagline": "Get strong first, size follows",
     "voice": "gruff but kind, short sentences",
     "style": "Strength-first barbell and dumbbell training with a gentle calorie surplus.",
-    "week": [
-      "Mon: Squat day + accessories",
-      "Tue: Rest or 20 min walk",
-      "Wed: Bench / overhead press day",
-      "Thu: Rest",
-      "Fri: Deadlift day + rows",
-      "Sat: Arms, shoulders, core, easy conditioning",
-      "Sun: Rest"
-    ],
     "tips": [
       "Eat enough. You cannot build on an empty tank.",
       "Rest days are when the work pays off.",
       "Form first, weight second."
-    ]
+    ],
+    "default_training": "strength_first"
   }
 }

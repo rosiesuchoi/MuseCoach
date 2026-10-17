@@ -7,6 +7,18 @@ cooking steps) open inside the app.
 Runs as a Python (FastAPI) server with a phone-sized web app. On iPhone: open it in Safari → Share →
 Add to Home Screen.
 
+## What's in the app
+
+- **Today:** calorie ring, photo logging with AI analysis, manual entries, and today's workout.
+- **Coach:** pick a training style (cardio intervals, bodyweight, boxing, push/pull/legs, athletic circuits or strength first) and get a 7-day week
+  with the exact exercises, sets × reps, rest times and a number to track. Your activity level sets 3, 4 or 5 workout days; the other days are
+  guided recovery. Tick each day when you finish; ticks are saved for the week and reset on Monday.
+- **Meals:** a 7-day plan with full recipes (ingredients, cooking steps) inside the app.
+- **Me:** your numbers, celebrity style inspiration, and your key settings.
+
+The first time you open the app in a visit it plays a short entrance animation (skipped if your device asks for reduced motion). It follows your
+light or dark setting.
+
 ## Setup
 
 ```

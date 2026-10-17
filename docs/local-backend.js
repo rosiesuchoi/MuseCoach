@@ -111,7 +111,31 @@
       }),
       snack_budget: Math.round(target * 0.10),
     }));
-    return { archetypeFor, checkin, buildWeek, buildPlan, getRecipe };
+
+    // ---- training week (mirrors app/training.py) ----
+    const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    const pad = n => String(n).padStart(2, "0");
+    const iso = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+    const addDays = (d, n) => new Date(d.getFullYear(), d.getMonth(), d.getDate() + n);
+    const weekStart = today => addDays(today, -((today.getDay() + 6) % 7)); // Monday
+    const isStyle = key => !!(data.workouts.styles[key]);
+    const styleOptions = () => Object.entries(data.workouts.styles).map(([k, st]) => ({ key: k, name: st.name, tagline: st.tagline, equipment: st.equipment }));
+    const buildTraining = (styleKey, activity, done, today) => {
+      const w = data.workouts, style = w.styles[styleKey], layout = w.layouts[activity] || w.layouts.medium, start = weekStart(today);
+      let recovery = 0;
+      const days = DAYS.map((name, i) => {
+        let code = layout[name], kind = "workout", body;
+        if (code) body = style.days[code];
+        else { kind = "recovery"; code = `R${recovery % 2 + 1}`; body = w.recovery[code]; recovery++; }
+        return { day: name, date: iso(addDays(start, i)), kind, code, title: body.title, focus: body.focus, minutes: body.minutes, warmup: body.warmup,
+          exercises: body.exercises, cooldown: body.cooldown, metric: body.metric, done: done.has(name) };
+      });
+      const workouts = days.filter(d => d.kind === "workout"), doneWorkouts = workouts.filter(d => d.done).length;
+      return { style: styleKey, style_name: style.name, tagline: style.tagline, equipment: style.equipment, equipment_note: style.equipment_note,
+        progression: style.progression, safety: w.safety, styles: styleOptions(), week_start: iso(start), today: DAYS[(today.getDay() + 6) % 7], days,
+        planned: workouts.length, done_workouts: doneWorkouts, all_done: doneWorkouts === workouts.length };
+    };
+    return { archetypeFor, checkin, buildWeek, buildPlan, getRecipe, buildTraining, isStyle, weekStart, iso, DAYS };
   }
 
   // ---------- on-device estimate (no key, no upload) ----------
@@ -255,7 +279,8 @@
   // ---------- storage ----------
   const KEY = "muse.v1", API_KEY = "muse.apikey";
   const today = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; };
-  const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || { profile: null, meals: [], nextId: 1 }; } catch { return { profile: null, meals: [], nextId: 1 }; } };
+  const fresh = () => ({ profile: null, meals: [], nextId: 1, checks: {} });
+  const load = () => { try { return { ...fresh(), ...(JSON.parse(localStorage.getItem(KEY)) || {}) }; } catch { return fresh(); } };
   const save = s => localStorage.setItem(KEY, JSON.stringify(s));
 
   const exported = { makeCore, HttpError, buildPlan, fromPredictions };
@@ -265,10 +290,10 @@
   root.MUSE_STATIC = true;
   let core = null, foodTable = {};
   const getJson = path => fetch(path).then(r => r.json());
-  const dataReady = Promise.all([getJson("data/celebrities.json"), getJson("data/coaches.json"), getJson("data/recipes.json"), getJson("data/food_calories.json")])
-    .then(([celebrities, coaches, recipes, food]) => {
+  const dataReady = Promise.all([getJson("data/celebrities.json"), getJson("data/coaches.json"), getJson("data/recipes.json"), getJson("data/food_calories.json"), getJson("data/workouts.json")])
+    .then(([celebrities, coaches, recipes, food, workouts]) => {
       foodTable = Object.fromEntries(Object.entries(food).filter(([k]) => !k.startsWith("_")));
-      core = makeCore({ celebrities, coaches, recipes: recipes.recipes });
+      core = makeCore({ celebrities, coaches, recipes: recipes.recipes, workouts });
       core.data = { celebrities, coaches };
     });
 
@@ -277,8 +302,11 @@
     const archetype = core.archetypeFor(s.profile.celebrity, s.profile.style), plan = buildPlan(s.profile, archetype);
     const meals = s.meals.filter(m => m.day === today());
     const eaten = meals.reduce((a, m) => a + m.kcal, 0);
+    const now = new Date(), done = new Set(s.checks[core.iso(core.weekStart(now))] || []);
+    const style = core.isStyle(s.profile.training) ? s.profile.training : core.data.coaches[archetype].default_training;
     return { profile: s.profile, archetype, coach: core.data.coaches[archetype], plan, meals, eaten_kcal: eaten,
-      remaining_kcal: plan.target_kcal - eaten, message: core.checkin(archetype, eaten, plan.target_kcal) };
+      remaining_kcal: plan.target_kcal - eaten, message: core.checkin(archetype, eaten, plan.target_kcal),
+      training: core.buildTraining(style, s.profile.activity, done, now) };
   }
   const needProfile = s => { if (!s.profile) throw new HttpError(400, "Set up your profile first."); };
 
@@ -295,7 +323,22 @@
     if (method === "PUT" && path === "/api/profile") {
       const b = JSON.parse(init.body);
       buildPlan(b, core.archetypeFor(b.celebrity, b.style)); // validate before saving
+      if (b.training === undefined || b.training === null) b.training = (s.profile && s.profile.training) || ""; // the form doesn't send it
       s.profile = b; save(s); return stateOf(s);
+    }
+    if (method === "PUT" && path === "/api/training") {
+      needProfile(s);
+      const b = JSON.parse(init.body);
+      if (typeof b.style !== "string" || (b.style && !core.isStyle(b.style))) throw new HttpError(422, "Unknown training style.");
+      s.profile.training = b.style; save(s); return stateOf(s);
+    }
+    if (method === "POST" && path === "/api/workouts/check") {
+      needProfile(s);
+      const b = JSON.parse(init.body);
+      if (!core.DAYS.includes(b.day)) throw new HttpError(422, "Unknown day.");
+      const wk = core.iso(core.weekStart(new Date())), set = new Set(s.checks[wk] || []);
+      b.done ? set.add(b.day) : set.delete(b.day);
+      s.checks[wk] = [...set]; save(s); return stateOf(s);
     }
     if (method === "GET" && path === "/api/mealplan") {
       needProfile(s);

@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import base64
+from datetime import date
 from pathlib import Path
 
 from fastapi import FastAPI, File, HTTPException, UploadFile
@@ -11,7 +12,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 from starlette.concurrency import run_in_threadpool
 
-from . import coach, config, db, goals, mealplan, rag, vision
+from . import coach, config, db, goals, mealplan, rag, training, vision
 
 config.load_env()  # reads ANTHROPIC_API_KEY from the gitignored .env file, if there is one
 app = FastAPI(title="Muse Coach")
@@ -28,6 +29,16 @@ class ProfileIn(BaseModel):
     goal_weight_kg: float | None = None
     celebrity: str = Field(default="", max_length=80)
     style: str = Field(default="", max_length=20)
+    training: str | None = Field(default=None, max_length=30)  # None = keep what's saved
+
+
+class TrainingIn(BaseModel):
+    style: str = Field(max_length=30)  # "" = the coach's default
+
+
+class CheckIn(BaseModel):
+    day: str
+    done: bool
 
 
 class MealIn(BaseModel):
@@ -44,6 +55,9 @@ def _state() -> dict:
     plan = goals.build_plan(profile, archetype)
     meals = db.todays_meals()
     eaten = sum(m["kcal"] for m in meals)
+    today = date.today()
+    style = profile.training if training.is_style(profile.training) else coach.coach_for(archetype)["default_training"]
+    week = training.build_week(style, profile.activity, db.get_checks(training.week_start(today).isoformat()), today)
     return {
         "profile": stored,
         "archetype": archetype,
@@ -53,6 +67,7 @@ def _state() -> dict:
         "eaten_kcal": eaten,
         "remaining_kcal": plan["target_kcal"] - eaten,
         "message": coach.checkin(archetype, plan["goal"], eaten, plan["target_kcal"]),
+        "training": week,
     }
 
 
@@ -69,11 +84,34 @@ def state():
 @app.put("/api/profile")
 def put_profile(body: ProfileIn):
     data = body.model_dump()
+    if data["training"] is None:  # the profile form doesn't send it: keep the user's chosen training style
+        data["training"] = (db.load_profile() or {}).get("training", "")
     try:
         goals.build_plan(goals.Profile(**data), coach.archetype_for(body.celebrity, body.style))  # validate first
     except goals.ProfileError as e:
         raise HTTPException(422, str(e))
     db.save_profile(data)
+    return _state()
+
+
+@app.put("/api/training")
+def put_training(body: TrainingIn):
+    stored = db.load_profile()
+    if stored is None:
+        raise HTTPException(400, "Set up your profile first.")
+    if body.style and not training.is_style(body.style):
+        raise HTTPException(422, "Unknown training style.")
+    db.save_profile({**stored, "training": body.style})
+    return _state()
+
+
+@app.post("/api/workouts/check")
+def workout_check(body: CheckIn):
+    if db.load_profile() is None:
+        raise HTTPException(400, "Set up your profile first.")
+    if body.day not in training.DAYS:
+        raise HTTPException(422, "Unknown day.")
+    db.set_check(training.week_start(date.today()).isoformat(), body.day, body.done)
     return _state()
 
 

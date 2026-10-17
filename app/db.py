@@ -24,6 +24,7 @@ def conn():
         c.executescript(
             """
             CREATE TABLE IF NOT EXISTS profile (id INTEGER PRIMARY KEY CHECK (id = 1), data TEXT NOT NULL);
+            CREATE TABLE IF NOT EXISTS checks (week TEXT NOT NULL, day TEXT NOT NULL, PRIMARY KEY (week, day));
             CREATE TABLE IF NOT EXISTS meals (
               id INTEGER PRIMARY KEY AUTOINCREMENT,
               day TEXT NOT NULL,
@@ -76,6 +77,19 @@ def update_meal(meal_id: int, name: str, kcal: int) -> bool:
     with conn() as c:
         cur = c.execute("UPDATE meals SET name = ?, kcal = ? WHERE id = ?", (name, kcal, meal_id))
         return cur.rowcount > 0
+
+
+def get_checks(week: str) -> set[str]:
+    with conn() as c:
+        return {r["day"] for r in c.execute("SELECT day FROM checks WHERE week = ?", (week,))}
+
+
+def set_check(week: str, day: str, done: bool) -> None:
+    with conn() as c:
+        if done:
+            c.execute("INSERT OR IGNORE INTO checks (week, day) VALUES (?, ?)", (week, day))
+        else:
+            c.execute("DELETE FROM checks WHERE week = ? AND day = ?", (week, day))
 
 
 def delete_meal(meal_id: int) -> None:

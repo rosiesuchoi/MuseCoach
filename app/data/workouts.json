@@ -1,0 +1,1140 @@
+{
+  "_comment": "Training programs. Every exercise has a number (sets x reps, seconds or rounds) so progress is measurable; tests enforce that. RPE = rate of perceived exertion, 1-10: RPE 3 easy, 6 can chat, 8 can say a few words, 9 near max. General fitness guidance, not medical advice.",
+  "safety": "Check with a doctor before starting if you have an injury, a heart or joint condition, or you're pregnant. Warm up first. Choose weights where the last 2 reps are hard but your form stays clean. Stop if you feel sharp pain, dizziness or chest pain.",
+  "layouts": {
+    "low": {
+      "Mon": "A",
+      "Wed": "B",
+      "Fri": "C"
+    },
+    "medium": {
+      "Mon": "A",
+      "Tue": "B",
+      "Thu": "C",
+      "Sat": "D"
+    },
+    "high": {
+      "Mon": "A",
+      "Tue": "B",
+      "Thu": "C",
+      "Fri": "D",
+      "Sat": "E"
+    }
+  },
+  "recovery": {
+    "R1": {
+      "title": "Active recovery: mobility flow",
+      "focus": "Recovery",
+      "minutes": 15,
+      "warmup": "Walk in place for 2 minutes to get warm.",
+      "exercises": [
+        {
+          "n": "Cat-cow",
+          "do": "2 × 10 slow reps",
+          "rest": "15 s",
+          "cue": "Move with your breath; round, then arch the spine."
+        },
+        {
+          "n": "World's greatest stretch",
+          "do": "2 × 5 per side",
+          "rest": "15 s",
+          "cue": "Lunge, rotate the chest toward the front knee and reach up."
+        },
+        {
+          "n": "90/90 hip switch",
+          "do": "2 × 8 per side",
+          "rest": "15 s",
+          "cue": "Sit tall, move slowly between sides."
+        },
+        {
+          "n": "Thread the needle",
+          "do": "2 × 8 per side",
+          "rest": "15 s",
+          "cue": "Reach under and rotate through the upper back."
+        },
+        {
+          "n": "Child's pose",
+          "do": "1 × 60 s",
+          "rest": "none",
+          "cue": "Breathe into the back of your ribs."
+        }
+      ],
+      "cooldown": "Breathe slowly for 1 minute: 4 s in, 6 s out.",
+      "metric": "Rate how stiff you feel before and after, 1 to 10."
+    },
+    "R2": {
+      "title": "Active recovery: stretch + easy walk",
+      "focus": "Recovery",
+      "minutes": 25,
+      "warmup": "Easy walk for 10 minutes at RPE 3 (you could sing).",
+      "exercises": [
+        {
+          "n": "Hamstring stretch",
+          "do": "2 × 45 s per side",
+          "rest": "none",
+          "cue": "Hinge from the hips, back flat."
+        },
+        {
+          "n": "Quad stretch",
+          "do": "2 × 45 s per side",
+          "rest": "none",
+          "cue": "Knees together, tuck the pelvis."
+        },
+        {
+          "n": "Figure-4 glute stretch",
+          "do": "2 × 45 s per side",
+          "rest": "none",
+          "cue": "Ankle on opposite knee, lean forward."
+        },
+        {
+          "n": "Calf stretch against a wall",
+          "do": "2 × 45 s per side",
+          "rest": "none",
+          "cue": "Back heel stays down."
+        },
+        {
+          "n": "Doorway chest stretch",
+          "do": "2 × 30 s",
+          "rest": "none",
+          "cue": "Elbows at shoulder height."
+        }
+      ],
+      "cooldown": "Finish with 5 slow breaths lying on your back.",
+      "metric": "Note any area that felt tight so you can warm it up longer next session."
+    }
+  },
+  "styles": {
+    "cardio_core": {
+      "name": "Cardio Intervals + Core",
+      "tagline": "Burn calories with timed intervals, then build a strong core",
+      "equipment": "none",
+      "equipment_note": "A timer. A jump rope, bike or running route is optional (high knees work too).",
+      "progression": "Every 2 weeks add 1 interval round (up to 12) or cut the easy time by 10 s. For core holds, add 5 seconds each week.",
+      "days": {
+        "A": {
+          "title": "Interval session 1",
+          "focus": "Cardio + core",
+          "minutes": 35,
+          "warmup": "5 min easy jog or march in place, then 10 leg swings per side and 10 arm circles each way.",
+          "exercises": [
+            {
+              "n": "Hard intervals",
+              "do": "8 × 40 s at RPE 8",
+              "rest": "80 s easy at RPE 3",
+              "cue": "Run, bike, jump rope or high knees. RPE 8 means you can say a few words, not a sentence."
+            },
+            {
+              "n": "Plank",
+              "do": "3 × 30 s",
+              "rest": "30 s",
+              "cue": "Ribs down, squeeze your glutes."
+            },
+            {
+              "n": "Dead bug",
+              "do": "3 × 10 per side",
+              "rest": "30 s",
+              "cue": "Lower back stays pressed into the floor."
+            }
+          ],
+          "cooldown": "5 min walk, then hamstring and calf stretch, 30 s per side.",
+          "metric": "Log the rounds you finished and how far or how many jumps you did in the last hard interval."
+        },
+        "B": {
+          "title": "Lower body + core",
+          "focus": "Legs + core",
+          "minutes": 40,
+          "warmup": "5 min brisk walk, then 10 bodyweight squats and 10 glute bridges.",
+          "exercises": [
+            {
+              "n": "Bodyweight squat",
+              "do": "4 × 20",
+              "rest": "45 s",
+              "cue": "Sit back, knees track over toes, heels down."
+            },
+            {
+              "n": "Reverse lunge",
+              "do": "3 × 12 per leg",
+              "rest": "45 s",
+              "cue": "Step back, front shin stays vertical."
+            },
+            {
+              "n": "Glute bridge with 2 s pause at top",
+              "do": "4 × 15",
+              "rest": "45 s",
+              "cue": "Drive through heels, ribs down."
+            },
+            {
+              "n": "Single-leg calf raise",
+              "do": "3 × 15 per leg",
+              "rest": "30 s",
+              "cue": "Full range, 2 s up and 2 s down."
+            },
+            {
+              "n": "Side plank",
+              "do": "3 × 25 s per side",
+              "rest": "30 s",
+              "cue": "Body in one line, hips high."
+            }
+          ],
+          "cooldown": "Hip flexor stretch and quad stretch, 30 s per side.",
+          "metric": "Count total squats completed with good form."
+        },
+        "C": {
+          "title": "Pyramid intervals",
+          "focus": "Cardio + core",
+          "minutes": 35,
+          "warmup": "5 min easy jog or march, then 20 s of high knees.",
+          "exercises": [
+            {
+              "n": "Pyramid intervals",
+              "do": "2 pyramids",
+              "rest": "2 min easy between pyramids",
+              "cue": "Hard at RPE 8 for 30, 45, 60, 45, then 30 s, each followed by an equal-length easy interval. Pace so the 60 s effort is as strong as the 30 s one."
+            },
+            {
+              "n": "Bicycle crunch",
+              "do": "3 × 20",
+              "rest": "30 s",
+              "cue": "Slow; rotate the ribcage, not just the elbows."
+            },
+            {
+              "n": "Hollow hold",
+              "do": "3 × 20 s",
+              "rest": "30 s",
+              "cue": "Lower back flat; bend the knees if it arches."
+            },
+            {
+              "n": "Bird dog",
+              "do": "3 × 10 per side",
+              "rest": "30 s",
+              "cue": "Hold 2 s at full reach, hips level."
+            }
+          ],
+          "cooldown": "5 min easy walk, then a child's pose for 45 s.",
+          "metric": "Note the distance or jumps in your first and last 60 s effort."
+        },
+        "D": {
+          "title": "Pilates-style core + mobility",
+          "focus": "Core + mobility",
+          "minutes": 30,
+          "warmup": "2 min cat-cow and 10 slow bodyweight squats.",
+          "exercises": [
+            {
+              "n": "The Hundred (small arm pumps, legs at tabletop)",
+              "do": "1 × 100 pumps (10 breaths)",
+              "rest": "30 s",
+              "cue": "Inhale for 5 pumps, exhale for 5."
+            },
+            {
+              "n": "Single-leg stretch",
+              "do": "3 × 10 per side",
+              "rest": "30 s",
+              "cue": "Keep the head and shoulders lifted."
+            },
+            {
+              "n": "Roll-up",
+              "do": "3 × 8",
+              "rest": "30 s",
+              "cue": "Peel up one vertebra at a time."
+            },
+            {
+              "n": "Swimming (face down, alternate arm and leg lifts)",
+              "do": "3 × 20 s",
+              "rest": "30 s",
+              "cue": "Long neck, reach long."
+            },
+            {
+              "n": "Side-lying leg lift",
+              "do": "3 × 15 per side",
+              "rest": "30 s",
+              "cue": "Top toe points slightly down, hips stacked."
+            },
+            {
+              "n": "Glute bridge march",
+              "do": "3 × 10 per side",
+              "rest": "30 s",
+              "cue": "Hips stay level as the foot lifts."
+            }
+          ],
+          "cooldown": "Spinal twist, 45 s per side.",
+          "metric": "Rate your control from 1 to 10 after each exercise and aim to beat it next week."
+        },
+        "E": {
+          "title": "Steady-state cardio + legs",
+          "focus": "Endurance",
+          "minutes": 40,
+          "warmup": "5 min easy jog or bike, then 10 bodyweight squats.",
+          "exercises": [
+            {
+              "n": "Steady run, bike or brisk incline walk",
+              "do": "25 min at RPE 6",
+              "rest": "none",
+              "cue": "RPE 6 means you can hold a conversation in short sentences."
+            },
+            {
+              "n": "Step-up (onto a sturdy chair or step)",
+              "do": "3 × 12 per leg",
+              "rest": "45 s",
+              "cue": "Press through the whole foot, no pushing off the back leg."
+            },
+            {
+              "n": "Plank shoulder tap",
+              "do": "3 × 20 total taps",
+              "rest": "30 s",
+              "cue": "Keep hips from swaying."
+            }
+          ],
+          "cooldown": "5 min walk and a calf stretch, 30 s per side.",
+          "metric": "Log the distance covered in the 25 minutes."
+        }
+      }
+    },
+    "bodyweight": {
+      "name": "Bodyweight Strength",
+      "tagline": "Build strength anywhere with no equipment",
+      "equipment": "none",
+      "equipment_note": "Floor space. A sturdy table (for rows), a couch and a chair help.",
+      "progression": "When you hit the top of the rep range on every set, move to a harder variation (push-ups: knees, then floor, then feet raised). Otherwise add 1 to 2 reps per week.",
+      "days": {
+        "A": {
+          "title": "Push",
+          "focus": "Chest, shoulders, triceps",
+          "minutes": 35,
+          "warmup": "2 min arm circles and shoulder rolls, then 10 incline push-ups.",
+          "exercises": [
+            {
+              "n": "Push-up (knees or hands on a counter if you can't do 8 clean reps)",
+              "do": "4 × 8-12",
+              "rest": "60 s",
+              "cue": "Straight line from head to heels; chest to about a fist from the floor."
+            },
+            {
+              "n": "Pike push-up",
+              "do": "3 × 6-10",
+              "rest": "60 s",
+              "cue": "Hips high, head moves toward the floor between the hands."
+            },
+            {
+              "n": "Chair dip",
+              "do": "3 × 10-15",
+              "rest": "60 s",
+              "cue": "Elbows point back, shoulders stay down."
+            },
+            {
+              "n": "Plank",
+              "do": "3 × 40 s",
+              "rest": "30 s",
+              "cue": "Squeeze glutes and quads."
+            }
+          ],
+          "cooldown": "Doorway chest stretch, 30 s per side.",
+          "metric": "Log your total push-up reps across the 4 sets."
+        },
+        "B": {
+          "title": "Legs",
+          "focus": "Quads, glutes, calves",
+          "minutes": 40,
+          "warmup": "3 min march in place, then 10 glute bridges and 10 bodyweight squats.",
+          "exercises": [
+            {
+              "n": "Tempo squat (3 s down, 1 s up)",
+              "do": "4 × 15",
+              "rest": "60 s",
+              "cue": "Chest tall, depth to parallel or lower."
+            },
+            {
+              "n": "Bulgarian split squat (rear foot on a couch)",
+              "do": "3 × 8-10 per leg",
+              "rest": "75 s",
+              "cue": "Front foot far enough forward that the shin stays vertical."
+            },
+            {
+              "n": "Single-leg glute bridge",
+              "do": "3 × 12 per leg",
+              "rest": "45 s",
+              "cue": "Pause 1 s at the top."
+            },
+            {
+              "n": "Wall sit",
+              "do": "3 × 40 s",
+              "rest": "45 s",
+              "cue": "Thighs parallel to the floor."
+            },
+            {
+              "n": "Calf raise",
+              "do": "4 × 20",
+              "rest": "30 s",
+              "cue": "Pause at the top for 1 s."
+            }
+          ],
+          "cooldown": "Quad and hamstring stretch, 30 s per side.",
+          "metric": "Log the reps on your weaker leg in the split squats."
+        },
+        "C": {
+          "title": "Pull + core",
+          "focus": "Back, biceps, core",
+          "minutes": 35,
+          "warmup": "2 min arm circles, then 10 cat-cow and 10 scapular push-ups.",
+          "exercises": [
+            {
+              "n": "Inverted row (under a sturdy table, feet on the floor)",
+              "do": "4 × 8-12",
+              "rest": "75 s",
+              "cue": "Pull the chest to the table edge, body stays straight."
+            },
+            {
+              "n": "Reverse snow angel (face down)",
+              "do": "3 × 12",
+              "rest": "45 s",
+              "cue": "Thumbs up, sweep the arms to the hips."
+            },
+            {
+              "n": "Superman hold",
+              "do": "3 × 20 s",
+              "rest": "30 s",
+              "cue": "Lift chest and thighs, keep the neck long."
+            },
+            {
+              "n": "Hollow hold",
+              "do": "3 × 20-30 s",
+              "rest": "30 s",
+              "cue": "Lower back pressed down."
+            },
+            {
+              "n": "Lying leg raise",
+              "do": "3 × 12",
+              "rest": "30 s",
+              "cue": "Lower slowly; don't let the back arch."
+            }
+          ],
+          "cooldown": "Child's pose, 45 s, then a lat stretch against a wall, 30 s per side.",
+          "metric": "Log your inverted row reps; when you reach 12 on all sets, lower your body angle."
+        },
+        "D": {
+          "title": "Full-body circuit",
+          "focus": "Strength endurance",
+          "minutes": 35,
+          "warmup": "3 min jumping jacks or march, then 10 squats and 5 push-ups.",
+          "exercises": [
+            {
+              "n": "Circuit (in order)",
+              "do": "4 rounds",
+              "rest": "90 s between rounds",
+              "cue": "10 squats, 8 push-ups, 10 reverse lunges per leg, 20 mountain climbers, 30 s plank. Move steadily and keep every rep clean."
+            }
+          ],
+          "cooldown": "Walk for 3 minutes, then stretch your quads, hamstrings and chest, 30 s each.",
+          "metric": "Time each round and try to finish the last round as fast as the first."
+        },
+        "E": {
+          "title": "Conditioning ladder",
+          "focus": "Cardio + strength",
+          "minutes": 30,
+          "warmup": "3 min easy jog or march, then 10 squats.",
+          "exercises": [
+            {
+              "n": "EMOM ladder",
+              "do": "4 rounds (12 minutes)",
+              "rest": "whatever is left of each minute",
+              "cue": "Every minute: minute 1 = 15 squat jumps (or 20 squats), minute 2 = 10 push-ups, minute 3 = 20 mountain climbers. If you can't finish inside the minute, cut the reps by 20%."
+            },
+            {
+              "n": "Plank",
+              "do": "3 × 45 s",
+              "rest": "30 s",
+              "cue": "Stay square to the floor."
+            }
+          ],
+          "cooldown": "Walk for 3 minutes and stretch your calves and hips.",
+          "metric": "Log how many rounds you finished with seconds to spare."
+        }
+      }
+    },
+    "boxing": {
+      "name": "Boxing Conditioning",
+      "tagline": "Punch, move and sweat in timed rounds",
+      "equipment": "none",
+      "equipment_note": "A timer. A jump rope, hand wraps and a heavy bag are optional.",
+      "progression": "Add 1 round every 2 weeks (up to 8), or cut the rest between rounds from 60 s to 45 s.",
+      "days": {
+        "A": {
+          "title": "Shadow boxing basics",
+          "focus": "Technique + cardio",
+          "minutes": 35,
+          "warmup": "3 min jump rope or jog, then arm circles and 10 torso rotations.",
+          "exercises": [
+            {
+              "n": "Shadow boxing: jab and cross only (1-2)",
+              "do": "4 × 2 min",
+              "rest": "60 s",
+              "cue": "Rotate the back foot, return your hands to your chin."
+            },
+            {
+              "n": "Shadow boxing: 1-2-3 (jab, cross, lead hook)",
+              "do": "3 × 2 min",
+              "rest": "60 s",
+              "cue": "Keep knees soft and chin down."
+            },
+            {
+              "n": "Squat + jab-cross",
+              "do": "3 × 12",
+              "rest": "45 s",
+              "cue": "Punch as you stand up."
+            },
+            {
+              "n": "Plank",
+              "do": "3 × 30 s",
+              "rest": "30 s",
+              "cue": "Tight core."
+            }
+          ],
+          "cooldown": "5 min walk, then shoulder and chest stretch, 30 s per side.",
+          "metric": "Count the number of rounds where you kept your hands up the whole time."
+        },
+        "B": {
+          "title": "Footwork + legs",
+          "focus": "Legs + cardio",
+          "minutes": 35,
+          "warmup": "3 min easy rope or jog, then 10 bodyweight squats.",
+          "exercises": [
+            {
+              "n": "Jump rope (or imaginary rope, boxer shuffle)",
+              "do": "5 × 2 min",
+              "rest": "45 s",
+              "cue": "Stay on the balls of your feet; small hops."
+            },
+            {
+              "n": "Lunge with punches (jab-cross as you step)",
+              "do": "3 × 10 per leg",
+              "rest": "45 s",
+              "cue": "Land the punch as the foot lands."
+            },
+            {
+              "n": "Squat jump",
+              "do": "3 × 10",
+              "rest": "45 s",
+              "cue": "Land softly, knees over toes."
+            },
+            {
+              "n": "Single-leg calf raise",
+              "do": "3 × 15 per leg",
+              "rest": "30 s",
+              "cue": "Full range."
+            }
+          ],
+          "cooldown": "Calf, quad and hip flexor stretch, 30 s per side.",
+          "metric": "Log the total rope minutes without a stop."
+        },
+        "C": {
+          "title": "Combination rounds",
+          "focus": "Cardio + power",
+          "minutes": 40,
+          "warmup": "3 min jump rope, then 2 easy rounds of shadow boxing at RPE 4.",
+          "exercises": [
+            {
+              "n": "Combination rounds",
+              "do": "6 × 2 min at RPE 7",
+              "rest": "60 s",
+              "cue": "Combo 1-2-3-2 (jab, cross, hook, cross) with a slip after each combo, on the bag or in the air. Punch with the hips and exhale on every punch."
+            },
+            {
+              "n": "Push-up",
+              "do": "3 × 10",
+              "rest": "45 s",
+              "cue": "Straight body line."
+            },
+            {
+              "n": "Uppercut drill (alternating hands)",
+              "do": "3 × 30 s",
+              "rest": "30 s",
+              "cue": "Bend the knees and drive up through the legs."
+            }
+          ],
+          "cooldown": "5 min walk, shoulder rolls and a triceps stretch, 30 s per side.",
+          "metric": "Log how many rounds you held RPE 7 without slowing down."
+        },
+        "D": {
+          "title": "Core + conditioning",
+          "focus": "Core + endurance",
+          "minutes": 35,
+          "warmup": "3 min jog or rope, then 10 torso rotations.",
+          "exercises": [
+            {
+              "n": "Russian twist",
+              "do": "3 × 20",
+              "rest": "30 s",
+              "cue": "Rotate the ribs; feet down if needed."
+            },
+            {
+              "n": "Bicycle crunch",
+              "do": "3 × 20",
+              "rest": "30 s",
+              "cue": "Slow and controlled."
+            },
+            {
+              "n": "Burpee",
+              "do": "4 × 8",
+              "rest": "60 s",
+              "cue": "Step back instead of jumping if you need to."
+            },
+            {
+              "n": "Shadow boxing at RPE 8",
+              "do": "4 × 90 s",
+              "rest": "45 s",
+              "cue": "Stay light on your feet."
+            }
+          ],
+          "cooldown": "Spinal twist, 45 s per side.",
+          "metric": "Log how many burpees you did in the first and last set."
+        },
+        "E": {
+          "title": "Sparring-style rounds",
+          "focus": "Cardio + movement",
+          "minutes": 40,
+          "warmup": "4 min jump rope, then 2 easy shadow boxing rounds.",
+          "exercises": [
+            {
+              "n": "Moving rounds",
+              "do": "8 × 2 min at RPE 7-8",
+              "rest": "45 s",
+              "cue": "Circle, jab, slip and counter, as if against an opponent. Keep moving even when you're not punching."
+            },
+            {
+              "n": "Jump rope",
+              "do": "3 × 1 min",
+              "rest": "30 s",
+              "cue": "Quick, small hops."
+            }
+          ],
+          "cooldown": "5 min walk and a full-body stretch, 30 s each for shoulders, hips and calves.",
+          "metric": "Log your heart-rate recovery: how long it takes to feel normal after round 8."
+        }
+      }
+    },
+    "split_lifting": {
+      "name": "Push / Pull / Legs Lifting",
+      "tagline": "Classic weight training split for muscle and definition",
+      "equipment": "dumbbells or gym",
+      "equipment_note": "Dumbbells and a bench at home, or a gym. Leave 1-2 reps in reserve on every set.",
+      "progression": "Double progression: when you reach the top of the rep range on every set, add 2.5-5 lb (1-2 kg) next session and start at the bottom of the range again. Write your weights down.",
+      "days": {
+        "A": {
+          "title": "Push",
+          "focus": "Chest, shoulders, triceps",
+          "minutes": 55,
+          "warmup": "5 min easy cardio, then 2 light sets (10 reps at 50%) of the first lift.",
+          "exercises": [
+            {
+              "n": "Dumbbell bench press",
+              "do": "4 × 8-10",
+              "rest": "90 s",
+              "cue": "Shoulder blades pinched, lower for 2 s."
+            },
+            {
+              "n": "Seated dumbbell overhead press",
+              "do": "3 × 8-10",
+              "rest": "90 s",
+              "cue": "Ribs down, don't arch the back."
+            },
+            {
+              "n": "Incline dumbbell press",
+              "do": "3 × 10-12",
+              "rest": "75 s",
+              "cue": "Bench at 30 degrees."
+            },
+            {
+              "n": "Lateral raise",
+              "do": "3 × 12-15",
+              "rest": "45 s",
+              "cue": "Lead with the elbows, stop at shoulder height."
+            },
+            {
+              "n": "Overhead triceps extension",
+              "do": "3 × 10-12",
+              "rest": "60 s",
+              "cue": "Keep elbows pointing forward."
+            }
+          ],
+          "cooldown": "Chest and shoulder stretch, 30 s per side.",
+          "metric": "Write down the weight and reps for every set."
+        },
+        "B": {
+          "title": "Pull",
+          "focus": "Back and biceps",
+          "minutes": 55,
+          "warmup": "5 min easy cardio, then 2 light sets of rows.",
+          "exercises": [
+            {
+              "n": "One-arm dumbbell row",
+              "do": "4 × 8-10 per arm",
+              "rest": "90 s",
+              "cue": "Pull the elbow toward your hip, no twisting."
+            },
+            {
+              "n": "Lat pulldown or assisted pull-up",
+              "do": "3 × 8-10",
+              "rest": "90 s",
+              "cue": "Pull the elbows down, chest up."
+            },
+            {
+              "n": "Chest-supported row",
+              "do": "3 × 10-12",
+              "rest": "75 s",
+              "cue": "Squeeze the shoulder blades together for 1 s."
+            },
+            {
+              "n": "Rear-delt raise or face pull",
+              "do": "3 × 15",
+              "rest": "45 s",
+              "cue": "Light weight, controlled."
+            },
+            {
+              "n": "Dumbbell curl",
+              "do": "3 × 10-12",
+              "rest": "60 s",
+              "cue": "Elbows pinned to your sides."
+            }
+          ],
+          "cooldown": "Lat stretch and biceps stretch, 30 s per side.",
+          "metric": "Write down the weight and reps for every set."
+        },
+        "C": {
+          "title": "Legs",
+          "focus": "Quads, glutes, hamstrings, calves",
+          "minutes": 60,
+          "warmup": "5 min bike or brisk walk, then 10 bodyweight squats and 10 hip hinges.",
+          "exercises": [
+            {
+              "n": "Back squat or goblet squat",
+              "do": "4 × 8-10",
+              "rest": "120 s",
+              "cue": "Brace your core, knees track over toes."
+            },
+            {
+              "n": "Romanian deadlift",
+              "do": "3 × 8-10",
+              "rest": "120 s",
+              "cue": "Hips back, flat back, feel the hamstrings."
+            },
+            {
+              "n": "Walking lunge",
+              "do": "3 × 10 per leg",
+              "rest": "75 s",
+              "cue": "Long steps, torso upright."
+            },
+            {
+              "n": "Leg curl or glute bridge",
+              "do": "3 × 12",
+              "rest": "60 s",
+              "cue": "Squeeze at the top for 1 s."
+            },
+            {
+              "n": "Standing calf raise",
+              "do": "4 × 12-15",
+              "rest": "45 s",
+              "cue": "Full stretch at the bottom."
+            }
+          ],
+          "cooldown": "Quad, hamstring and calf stretch, 30 s per side.",
+          "metric": "Write down the weight and reps for every set."
+        },
+        "D": {
+          "title": "Upper body (higher reps)",
+          "focus": "Chest, back, shoulders, arms",
+          "minutes": 55,
+          "warmup": "5 min easy cardio, then 2 light sets of the first lift.",
+          "exercises": [
+            {
+              "n": "Push-up",
+              "do": "3 × 12-15",
+              "rest": "60 s",
+              "cue": "Full range, body straight."
+            },
+            {
+              "n": "Seated dumbbell shoulder press",
+              "do": "3 × 12",
+              "rest": "75 s",
+              "cue": "Smooth and controlled."
+            },
+            {
+              "n": "Pulldown or chin-up",
+              "do": "3 × 10",
+              "rest": "75 s",
+              "cue": "Full stretch at the top."
+            },
+            {
+              "n": "Close-grip push-up or dip",
+              "do": "3 × 10-12",
+              "rest": "60 s",
+              "cue": "Elbows tucked."
+            },
+            {
+              "n": "Hammer curl",
+              "do": "3 × 12",
+              "rest": "45 s",
+              "cue": "No swinging."
+            }
+          ],
+          "cooldown": "Shoulder and chest stretch, 30 s per side.",
+          "metric": "Count the total reps on your push-ups and beat it next week."
+        },
+        "E": {
+          "title": "Lower body + core",
+          "focus": "Glutes, legs, core",
+          "minutes": 55,
+          "warmup": "5 min easy cardio, then 10 glute bridges and 10 squats.",
+          "exercises": [
+            {
+              "n": "Goblet squat",
+              "do": "3 × 12",
+              "rest": "75 s",
+              "cue": "Elbows inside the knees at the bottom."
+            },
+            {
+              "n": "Hip thrust",
+              "do": "4 × 10",
+              "rest": "90 s",
+              "cue": "Chin tucked, pause 1 s at the top."
+            },
+            {
+              "n": "Step-up",
+              "do": "3 × 10 per leg",
+              "rest": "60 s",
+              "cue": "Drive through the front heel."
+            },
+            {
+              "n": "Lying leg raise",
+              "do": "3 × 12",
+              "rest": "45 s",
+              "cue": "Keep the lower back down."
+            },
+            {
+              "n": "Plank",
+              "do": "3 × 45 s",
+              "rest": "30 s",
+              "cue": "Strong and straight."
+            }
+          ],
+          "cooldown": "Glute and hip flexor stretch, 30 s per side.",
+          "metric": "Write down the hip thrust weight and add 5 lb when you hit 10 reps on all sets."
+        }
+      }
+    },
+    "athletic_circuit": {
+      "name": "Athletic Circuits",
+      "tagline": "Strength, sprints and circuits like an athlete",
+      "equipment": "dumbbells or kettlebell",
+      "equipment_note": "A pair of dumbbells or a kettlebell, and room to run or a bike.",
+      "progression": "Add 1 round every 2 weeks (up to 5), or cut the rest by 15 s. On strength days, add 2.5-5 lb once you hit the top of the rep range.",
+      "days": {
+        "A": {
+          "title": "Full-body strength 1",
+          "focus": "Strength",
+          "minutes": 50,
+          "warmup": "5 min jog or bike, then 10 bodyweight squats and 10 push-ups.",
+          "exercises": [
+            {
+              "n": "Goblet squat",
+              "do": "4 × 8",
+              "rest": "90 s",
+              "cue": "Chest tall, heels down."
+            },
+            {
+              "n": "Dumbbell bench press",
+              "do": "4 × 8",
+              "rest": "90 s",
+              "cue": "Control the lowering for 2 s."
+            },
+            {
+              "n": "One-arm dumbbell row",
+              "do": "4 × 8 per arm",
+              "rest": "75 s",
+              "cue": "Flat back."
+            },
+            {
+              "n": "Romanian deadlift",
+              "do": "3 × 10",
+              "rest": "90 s",
+              "cue": "Hips back, soft knees."
+            },
+            {
+              "n": "Farmer carry",
+              "do": "3 × 40 steps",
+              "rest": "60 s",
+              "cue": "Tall posture, shoulders down."
+            }
+          ],
+          "cooldown": "5 min walk, then a hamstring and chest stretch, 30 s per side.",
+          "metric": "Write down the weight for each lift."
+        },
+        "B": {
+          "title": "Sprint intervals",
+          "focus": "Speed + conditioning",
+          "minutes": 35,
+          "warmup": "8 min easy jog, 3 × 20 m strides (building to 80% speed), 10 leg swings per side.",
+          "exercises": [
+            {
+              "n": "Hard intervals",
+              "do": "10 × 30 s at RPE 8",
+              "rest": "90 s easy walk or spin",
+              "cue": "Run, bike or rower. Start each one fast and hold your form."
+            },
+            {
+              "n": "Glute bridge",
+              "do": "3 × 15",
+              "rest": "30 s",
+              "cue": "Squeeze at the top."
+            }
+          ],
+          "cooldown": "5 min easy jog or walk, then calf and quad stretch, 30 s per side.",
+          "metric": "Log the distance of your first and last interval; they should be within 10%."
+        },
+        "C": {
+          "title": "Conditioning circuit",
+          "focus": "Full-body conditioning",
+          "minutes": 40,
+          "warmup": "4 min jog or jump rope, then 10 squats and 10 arm circles.",
+          "exercises": [
+            {
+              "n": "Circuit stations",
+              "do": "4 rounds",
+              "rest": "90 s between rounds",
+              "cue": "45 s work / 15 s rest at each station: kettlebell or dumbbell swing, push-up, reverse lunge, bent-over row, mountain climber, plank. Count your reps at each station."
+            }
+          ],
+          "cooldown": "5 min walk and a full-body stretch, 30 s each for quads, hamstrings and chest.",
+          "metric": "Log your total reps on the push-up station for each round."
+        },
+        "D": {
+          "title": "Full-body strength 2",
+          "focus": "Strength",
+          "minutes": 50,
+          "warmup": "5 min cardio, then 10 hip hinges and 10 band or arm pulls.",
+          "exercises": [
+            {
+              "n": "Split squat",
+              "do": "3 × 10 per leg",
+              "rest": "75 s",
+              "cue": "Back knee drops straight down."
+            },
+            {
+              "n": "Standing dumbbell overhead press",
+              "do": "4 × 8",
+              "rest": "90 s",
+              "cue": "Squeeze glutes, don't lean back."
+            },
+            {
+              "n": "Pull-up, assisted pull-up or inverted row",
+              "do": "4 × 6-8",
+              "rest": "90 s",
+              "cue": "Chest to the bar or table."
+            },
+            {
+              "n": "Hip thrust",
+              "do": "3 × 10",
+              "rest": "75 s",
+              "cue": "Pause 1 s at the top."
+            },
+            {
+              "n": "Side plank",
+              "do": "3 × 30 s per side",
+              "rest": "30 s",
+              "cue": "Hips high."
+            }
+          ],
+          "cooldown": "5 min walk, then hip flexor and lat stretch, 30 s per side.",
+          "metric": "Write down the weight for each lift."
+        },
+        "E": {
+          "title": "Speed + power",
+          "focus": "Agility + explosiveness",
+          "minutes": 35,
+          "warmup": "5 min jog, 10 leg swings per side, 3 × 20 m strides.",
+          "exercises": [
+            {
+              "n": "Shuttle run (20 m out and back)",
+              "do": "8 × 40 m",
+              "rest": "60 s",
+              "cue": "Plant, push off, accelerate."
+            },
+            {
+              "n": "Jump rope",
+              "do": "5 × 1 min",
+              "rest": "30 s",
+              "cue": "Small hops, quick feet."
+            },
+            {
+              "n": "Squat jump or box jump",
+              "do": "4 × 8",
+              "rest": "60 s",
+              "cue": "Land softly, reset between reps."
+            }
+          ],
+          "cooldown": "5 min walk, then calf and quad stretch, 30 s per side.",
+          "metric": "Time your first and last shuttle run; they should be within 1 second."
+        }
+      }
+    },
+    "strength_first": {
+      "name": "Strength First",
+      "tagline": "Heavy, simple lifts and steady progress",
+      "equipment": "barbell or dumbbells",
+      "equipment_note": "A barbell, rack and bench, or heavy dumbbells (use 5 × 8 instead of 5 × 5 if your weights are light).",
+      "progression": "Linear progression: if you finish every rep, add 5 lb (2.5 kg) to squat and deadlift and 2.5 lb (1 kg) to presses next session. Miss reps twice at one weight? Drop 10% and build again.",
+      "days": {
+        "A": {
+          "title": "Squat + bench + row",
+          "focus": "Strength",
+          "minutes": 55,
+          "warmup": "5 min easy cardio, then ramp-up sets: 2 × 5 at 50% and 1 × 3 at 75% of today's working weight.",
+          "exercises": [
+            {
+              "n": "Back squat",
+              "do": "5 × 5",
+              "rest": "2-3 min",
+              "cue": "Brace your core, hips and chest rise together."
+            },
+            {
+              "n": "Bench press",
+              "do": "5 × 5",
+              "rest": "2-3 min",
+              "cue": "Shoulder blades back, feet planted."
+            },
+            {
+              "n": "Barbell or dumbbell row",
+              "do": "5 × 5",
+              "rest": "2 min",
+              "cue": "Flat back, pull to the lower ribs."
+            }
+          ],
+          "cooldown": "5 min walk, then hip and chest stretch, 30 s per side.",
+          "metric": "Write down the weight for each lift and whether you finished all 25 reps."
+        },
+        "B": {
+          "title": "Squat + press + deadlift",
+          "focus": "Strength",
+          "minutes": 55,
+          "warmup": "5 min easy cardio, then ramp-up sets of the first lift.",
+          "exercises": [
+            {
+              "n": "Back squat",
+              "do": "5 × 5",
+              "rest": "2-3 min",
+              "cue": "Same depth every rep."
+            },
+            {
+              "n": "Standing overhead press",
+              "do": "5 × 5",
+              "rest": "2-3 min",
+              "cue": "Squeeze glutes, bar over mid-foot."
+            },
+            {
+              "n": "Deadlift",
+              "do": "1 × 5",
+              "rest": "3 min",
+              "cue": "Flat back, push the floor away."
+            }
+          ],
+          "cooldown": "5 min walk, then hamstring and hip stretch, 30 s per side.",
+          "metric": "Write down the weight for each lift."
+        },
+        "C": {
+          "title": "Light squat + bench + row",
+          "focus": "Strength + recovery",
+          "minutes": 45,
+          "warmup": "5 min easy cardio, then ramp-up sets.",
+          "exercises": [
+            {
+              "n": "Back squat at 80% of Monday's weight",
+              "do": "3 × 5",
+              "rest": "2 min",
+              "cue": "Move fast and crisp."
+            },
+            {
+              "n": "Bench press",
+              "do": "5 × 5",
+              "rest": "2-3 min",
+              "cue": "Add 2.5 lb when you finish all reps."
+            },
+            {
+              "n": "Barbell or dumbbell row",
+              "do": "4 × 6",
+              "rest": "2 min",
+              "cue": "Controlled."
+            }
+          ],
+          "cooldown": "5 min walk, then a quad and chest stretch, 30 s per side.",
+          "metric": "Write down the weights and rate each set's difficulty from 1 to 10."
+        },
+        "D": {
+          "title": "Deadlift + press + pull-ups",
+          "focus": "Strength",
+          "minutes": 55,
+          "warmup": "5 min easy cardio, then ramp-up sets.",
+          "exercises": [
+            {
+              "n": "Deadlift",
+              "do": "3 × 5",
+              "rest": "3 min",
+              "cue": "Reset between reps."
+            },
+            {
+              "n": "Standing overhead press",
+              "do": "4 × 5",
+              "rest": "2-3 min",
+              "cue": "Don't lean back."
+            },
+            {
+              "n": "Pull-up or assisted pull-up",
+              "do": "4 × 6-8",
+              "rest": "2 min",
+              "cue": "Full range, chin over the bar."
+            },
+            {
+              "n": "Plank",
+              "do": "3 × 45 s",
+              "rest": "45 s",
+              "cue": "Tight and level."
+            }
+          ],
+          "cooldown": "5 min walk, then lat and hamstring stretch, 30 s per side.",
+          "metric": "Write down the deadlift weight and your pull-up reps."
+        },
+        "E": {
+          "title": "Accessories + conditioning",
+          "focus": "Muscle + work capacity",
+          "minutes": 45,
+          "warmup": "5 min easy cardio, then 10 hip hinges and 10 push-ups.",
+          "exercises": [
+            {
+              "n": "Dumbbell lunge",
+              "do": "3 × 8 per leg",
+              "rest": "75 s",
+              "cue": "Control down, strong up."
+            },
+            {
+              "n": "Dip or close-grip push-up",
+              "do": "3 × 8-10",
+              "rest": "75 s",
+              "cue": "Elbows tucked."
+            },
+            {
+              "n": "Farmer carry",
+              "do": "4 × 30 m",
+              "rest": "60 s",
+              "cue": "Heavy, tall and tight."
+            },
+            {
+              "n": "Hanging or lying leg raise",
+              "do": "3 × 12",
+              "rest": "45 s",
+              "cue": "No swinging."
+            }
+          ],
+          "cooldown": "5 min walk, then a full-body stretch, 30 s each.",
+          "metric": "Write down the farmer carry weight and add 5 lb when it feels easy."
+        }
+      }
+    }
+  }
+}

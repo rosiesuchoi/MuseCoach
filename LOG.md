@@ -2,6 +2,33 @@
 
 Newest entry on top.
 
+## 2026-10-17: Coach tab rebuilt, workout check-offs, visual refresh, entrance animation
+
+**Asked for:** no dancing; other equal-effort workouts that are specific and measurable (exact exercises, reps); the user can choose the training style;
+a checkmark per day; a visual upgrade and an entrance animation.
+
+**Workouts.** New `app/data/workouts.json`: 6 training styles (Cardio Intervals + Core, Bodyweight Strength, Boxing Conditioning, Push/Pull/Legs Lifting,
+Athletic Circuits, Strength First), each with 5 workout days and a progression rule, plus 2 shared recovery routines (mobility flow; stretch + easy walk with RPE and
+timings) and safety text. 123 exercises, every one with a number, rest and a coaching cue. Dance is replaced by timed cardio intervals (RPE-based, with a jump rope, run,
+bike or high-knees option) and Pilates-style core work; the old vague weekly text ("long walk", "dance class") is gone, and a test blocks it coming back.
+The coach persona (set by the celebrity) now only supplies voice, tips and a default style; the user can switch styles on the Coach tab at any time.
+Activity level sets 3, 4 or 5 workout days (Mon/Wed/Fri, Mon/Tue/Thu/Sat, Mon/Tue/Thu/Fri/Sat); other days get a specific recovery routine.
+
+**Check-offs.** Per calendar week (Monday start), saved server-side in SQLite (`checks` table) or in the browser's storage on the Pages edition. Progress counts workout days
+only; recovery days are optional. Finishing every workout triggers a small confetti burst. Saving the profile form no longer wipes the chosen training style.
+
+**API:** `state.training`, `PUT /api/training`, `POST /api/workouts/check` (same in both editions; `app/training.py` and `local-backend.js`).
+
+**UI.** Rewrote the stylesheet and Coach tab: design tokens, light and dark themes, glass bottom nav with icons, an animated calorie ring on Today, rounded cards, a
+Today's-workout shortcut, expandable day cards (warm-up, exercises with big sets × reps, rest, cues, cool-down, what to track). Entrance animation: a splash with a
+popping heart and "Train. Eat. Glow." that fades into staggered card entrances; it plays once per visit, can be tapped away, and is skipped for `prefers-reduced-motion`.
+
+**Verified:** 57 pytest tests (data lint, plan logic per activity, API, persistence, weekly reset); `node tools/training_parity.mjs` (216 weeks, 0 mismatches vs Python);
+in a phone-sized browser: splash and cascade, Coach tab, check-off with progress and persistence, style switch rebuilding the week, confetti on the final workout, dark mode,
+and the same flows against the Python server (state persisted in its database across a reload).
+**Not verified:** on a real iPhone (safe-area padding, the translucent nav blur and touch feel), and I have not had a trainer review the programs: they are standard,
+conservative templates, not individualized or medical advice.
+
 ## 2026-10-17: First real run with Rosie's key, and the bug it found
 
 Rosie put her key in `.env` (I only checked its shape: present, 106 characters, starts with `sk-ant-`; I never printed it). `tools/check_key.py` then
