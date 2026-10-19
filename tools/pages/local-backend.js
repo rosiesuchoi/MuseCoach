@@ -99,18 +99,126 @@
       else body = `${eaten} calories in, about ${-remaining} over. No stress: one day doesn't undo a week. Tomorrow we reset.`;
       return `${coach}: ${OPENERS[archetype] || "Check-in!"} ${body}`;
     };
-    const portion = (budget, kcal) => Math.min(2, Math.max(0.5, Math.round(budget / kcal * 4) / 4));
-    const SHARES = [["breakfast", 0.25], ["lunch", 0.35], ["dinner", 0.30]];
-    const bySlot = slot => data.recipes.filter(r => r.slot === slot);
+    // ---- diet, varied weekly plan, prices and grocery list (mirrors app/diet.py; tools/diet_parity.mjs checks both agree) ----
+    const jsRound = x => Math.floor(x + 0.5);
+    const ALLERGENS = ["milk", "egg", "peanut", "tree_nut", "wheat", "soy", "fish", "shellfish", "sesame"];
+    const PATTERNS = ["none", "pescatarian", "vegetarian", "vegan"];
+    const PATTERN_EXCLUDES = { none: [], pescatarian: ["meat", "poultry"], vegetarian: ["meat", "poultry", "fish", "shellfish"], vegan: ["meat", "poultry", "fish", "shellfish", "milk", "egg", "honey"] };
+    const SLOTS = [["breakfast", 0.25], ["lunch", 0.35], ["dinner", 0.30]]; // the last 10% is for snacks
+    const AISLES = ["Produce", "Meat & seafood", "Dairy & eggs", "Grains & bakery", "Canned & dry goods", "Frozen", "Pantry staples", "Spices"];
+    const LB_G = 453.6, catalog = data.catalog || {};
     const getRecipe = id => data.recipes.find(r => r.id === id) || null;
-    const buildWeek = target => ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day, i) => ({
-      day,
-      meals: SHARES.map(([slot, share]) => {
-        const opts = bySlot(slot), r = opts[(i + slot.length) % opts.length], serv = portion(target * share, r.nutrition.kcal);
-        return { slot, recipe_id: r.id, name: r.name, servings: serv, kcal: Math.round(r.nutrition.kcal * serv) };
-      }),
-      snack_budget: Math.round(target * 0.10),
-    }));
+
+    const normalizeDiet = raw => {
+      raw = raw && typeof raw === "object" ? raw : {};
+      const allergens = ALLERGENS.filter(x => (raw.allergens || []).includes(x));
+      const pattern = PATTERNS.includes(raw.pattern) ? raw.pattern : "none";
+      const avoid = [], seen = new Set();
+      for (let w of raw.avoid || []) {
+        w = String(w).toLowerCase().split(/\s+/).filter(Boolean).join(" ").slice(0, 40);
+        if (w && !seen.has(w)) { seen.add(w); avoid.push(w); }
+      }
+      return { allergens, pattern, gluten_free: raw.gluten_free === true, avoid: avoid.slice(0, 20) };
+    };
+    const signature = d => { const n = normalizeDiet(d); return JSON.stringify({ allergens: n.allergens, avoid: n.avoid, gluten_free: n.gluten_free, pattern: n.pattern }); };
+    const excludedTags = d => { const n = normalizeDiet(d); return new Set([...n.allergens, ...PATTERN_EXCLUDES[n.pattern], ...(n.gluten_free ? ["gluten"] : [])]); };
+    const recipeText = r => [r.name, ...r.ingredients.flatMap(g => g.items)].join(" ").toLowerCase();
+    const eligible = (r, d) => {
+      const ex = excludedTags(d);
+      if ([...r.allergens, ...r.contains].some(t => ex.has(t))) return false;
+      const text = recipeText(r);
+      return !normalizeDiet(d).avoid.some(w => text.includes(w));
+    };
+    const summary = d => {
+      const n = normalizeDiet(d), out = [];
+      if (n.pattern !== "none") out.push(n.pattern[0].toUpperCase() + n.pattern.slice(1));
+      if (n.gluten_free) out.push("Gluten-free");
+      return [...out, ...n.allergens.map(x => "No " + x.replace("_", " ")), ...n.avoid.map(w => "No " + w)];
+    };
+
+    const mulberry32 = seed => {
+      let a = seed >>> 0;
+      return () => {
+        a = (a + 0x6D2B79F5) | 0;
+        let t = Math.imul(a ^ (a >>> 15), 1 | a);
+        t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+      };
+    };
+    const shuffled = (items, rng) => {
+      const out = [...items];
+      for (let i = out.length - 1; i > 0; i--) { const j = Math.floor(rng() * (i + 1)); [out[i], out[j]] = [out[j], out[i]]; }
+      return out;
+    };
+    const seedFor = (week, shuffle) => (Number(week.replace(/-/g, "")) * 31 + shuffle) >>> 0;
+    const portion = (budget, kcal) => Math.min(2, Math.max(0.5, jsRound(budget / kcal * 4) / 4));
+    const byId = (x, y) => (x.id < y.id ? -1 : x.id > y.id ? 1 : 0);
+
+    // 7 days x 3 meals. A flexible diet gets different meals all week; a strict diet that leaves fewer than 7 options for a meal repeats them as far apart as possible, and says so.
+    const buildWeekDiet = (recipes, target, seed, dietProfile) => {
+      const notes = [], counts = {}, picks = {};
+      SLOTS.forEach(([slot, share], si) => {
+        const pool = recipes.filter(r => r.slot === slot && eligible(r, dietProfile)).sort(byId);
+        counts[slot] = pool.length;
+        if (!pool.length) {
+          picks[slot] = Array(7).fill(null);
+          notes.push(`No ${slot} recipes fit your diet and allergies, so ${slot} is left out. Loosen a restriction to see options.`);
+          return;
+        }
+        const budget = target * share;
+        const feasible = pool.filter(r => { const x = budget / r.nutrition.kcal; return x >= 0.5 && x <= 2.0; });
+        const need = Math.min(pool.length, 7), inFeasible = new Set(feasible);
+        let chosen = feasible;
+        if (feasible.length < need) {
+          const rest = pool.filter(r => !inFeasible.has(r)).sort((x, y) => (Math.abs(Math.log(budget / x.nutrition.kcal)) - Math.abs(Math.log(budget / y.nutrition.kcal))) || byId(x, y));
+          chosen = feasible.concat(rest.slice(0, need - feasible.length));
+        }
+        const order = shuffled(chosen, mulberry32(seed + si * 7919));
+        picks[slot] = Array.from({ length: 7 }, (_, i) => order[i % order.length]);
+        if (pool.length < 7) notes.push(`Only ${pool.length} ${slot} recipe${pool.length !== 1 ? "s" : ""} fit your diet and allergies, so some repeat during the week.`);
+      });
+      const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day, i) => ({
+        day,
+        meals: SLOTS.flatMap(([slot, share]) => {
+          const r = picks[slot][i];
+          if (!r) return [];
+          const serv = portion(target * share, r.nutrition.kcal);
+          return [{ slot, recipe_id: r.id, name: r.name, servings: serv, kcal: jsRound(r.nutrition.kcal * serv) }];
+        }),
+        snack_budget: jsRound(target * 0.10),
+      }));
+      return { days, notes, counts };
+    };
+
+    const packCents = (id, it, overrides) => jsRound((id in overrides ? overrides[id] : it.pack.price) * 100);
+    const priceSrc = (id, it, overrides) => (id in overrides ? "you" : it.pack.src);
+    const recipeCostCents = (r, overrides) => r.lines.reduce((t, ln) => { const it = catalog[ln.item]; return t + jsRound(packCents(ln.item, it, overrides) * ln.g / it.pack.g); }, 0) / r.servings;
+    const amountText = (g, each) => {
+      if (each) {
+        const n = jsRound(g / each.g * 2) / 2;
+        if (n >= 1) return `${n} ${n === 1 ? each.name : (each.plural || each.name + "s")}`;
+      }
+      if (g >= 227) return `${(jsRound(g / LB_G * 10) / 10).toFixed(1)} lb`;
+      if (g >= 28.35) return `${jsRound(g / 28.35)} oz`;
+      return `${jsRound(g)} g`;
+    };
+    const grocery = (meals, overrides) => {
+      const need = {}, uses = {};
+      for (const m of meals) {
+        const r = getRecipe(m.recipe_id);
+        for (const ln of r.lines) { need[ln.item] = (need[ln.item] || 0) + ln.g / r.servings * m.servings; (uses[ln.item] = uses[ln.item] || new Set()).add(r.name); }
+      }
+      const lines = Object.entries(need).map(([id, g]) => {
+        const it = catalog[id], pc = packCents(id, it, overrides), packs = Math.max(1, Math.ceil(g / it.pack.g - 1e-9)), src = priceSrc(id, it, overrides);
+        return { item: id, name: it.name, aisle: it.aisle, need_g: jsRound(g * 10) / 10, need_text: amountText(g, it.each), packs, pack_label: it.pack.label, pack_cents: pc,
+          line_cents: pc * packs, used_cents: jsRound(pc * g / it.pack.g), src, official: src === "bls" || src === "bls-derived", staple: !!it.staple, uses: [...uses[id]].sort().slice(0, 4) };
+      });
+      const rank = a => (AISLES.includes(a) ? AISLES.indexOf(a) : AISLES.length);
+      lines.sort((x, y) => (rank(x.aisle) - rank(y.aisle)) || (x.name < y.name ? -1 : x.name > y.name ? 1 : 0));
+      const sum = (arr, k) => arr.reduce((t, l) => t + l[k], 0), toBuy = sum(lines, "line_cents"), staples = sum(lines.filter(l => l.staple), "line_cents");
+      return { lines, totals: { to_buy_cents: toBuy, used_cents: sum(lines, "used_cents"), staples_cents: staples, without_staples_cents: toBuy - staples, items: lines.length,
+        official_items: lines.filter(l => l.official).length, estimated_items: lines.filter(l => l.src === "estimate").length, your_items: lines.filter(l => l.src === "you").length } };
+    };
 
     // ---- training week (mirrors app/training.py) ----
     const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
@@ -135,7 +243,8 @@
         progression: style.progression, safety: w.safety, styles: styleOptions(), week_start: iso(start), today: DAYS[(today.getDay() + 6) % 7], days,
         planned: workouts.length, done_workouts: doneWorkouts, all_done: doneWorkouts === workouts.length };
     };
-    return { archetypeFor, checkin, buildWeek, buildPlan, getRecipe, buildTraining, isStyle, weekStart, iso, DAYS };
+    return { archetypeFor, checkin, buildWeekDiet, buildPlan, getRecipe, buildTraining, isStyle, weekStart, iso, DAYS,
+      diet: { normalizeDiet, signature, eligible, summary, mulberry32, shuffled, seedFor, recipeCostCents, amountText, grocery, jsRound, SLOTS, catalog } };
   }
 
   // ---------- on-device estimate (no key, no upload) ----------
@@ -279,7 +388,7 @@
   // ---------- storage ----------
   const KEY = "muse.v1", API_KEY = "muse.apikey";
   const today = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; };
-  const fresh = () => ({ profile: null, meals: [], nextId: 1, checks: {} });
+  const fresh = () => ({ profile: null, meals: [], nextId: 1, checks: {}, diet: null, prices: {}, plans: {} });
   const load = () => { try { return { ...fresh(), ...(JSON.parse(localStorage.getItem(KEY)) || {}) }; } catch { return fresh(); } };
   const save = s => localStorage.setItem(KEY, JSON.stringify(s));
 
@@ -290,11 +399,12 @@
   root.MUSE_STATIC = true;
   let core = null, foodTable = {};
   const getJson = path => fetch(path).then(r => r.json());
-  const dataReady = Promise.all([getJson("data/celebrities.json"), getJson("data/coaches.json"), getJson("data/recipes.json"), getJson("data/food_calories.json"), getJson("data/workouts.json")])
-    .then(([celebrities, coaches, recipes, food, workouts]) => {
+  const dataReady = Promise.all([getJson("data/celebrities.json"), getJson("data/coaches.json"), getJson("data/recipes.json"), getJson("data/food_calories.json"), getJson("data/workouts.json"), getJson("data/ingredients.json")])
+    .then(([celebrities, coaches, recipes, food, workouts, ingredients]) => {
       foodTable = Object.fromEntries(Object.entries(food).filter(([k]) => !k.startsWith("_")));
-      core = makeCore({ celebrities, coaches, recipes: recipes.recipes, workouts });
+      core = makeCore({ celebrities, coaches, recipes: recipes.recipes, workouts, catalog: ingredients.items });
       core.data = { celebrities, coaches };
+      core.recipes = recipes.recipes;
     });
 
   function stateOf(s) {
@@ -306,7 +416,30 @@
     const style = core.isStyle(s.profile.training) ? s.profile.training : core.data.coaches[archetype].default_training;
     return { profile: s.profile, archetype, coach: core.data.coaches[archetype], plan, meals, eaten_kcal: eaten,
       remaining_kcal: plan.target_kcal - eaten, message: core.checkin(archetype, eaten, plan.target_kcal),
-      training: core.buildTraining(style, s.profile.activity, done, now) };
+      training: core.buildTraining(style, s.profile.activity, done, now),
+      diet: { profile: core.diet.normalizeDiet(s.diet), summary: core.diet.summary(s.diet || {}) } };
+  }
+  // The plan is saved for the calendar week (so it doesn't change between visits), rebuilt when the diet or calorie target changes, and re-rolled by "shuffle".
+  function planFor(s, reshuffle) {
+    needProfile(s);
+    const target = stateOf(s).plan.target_kcal, week = core.iso(core.weekStart(new Date())), dietProfile = s.diet || {};
+    const sig = core.diet.signature(dietProfile) + "|" + target, saved = s.plans[week];
+    const shuffle = (saved ? saved.shuffle : 0) + (reshuffle ? 1 : 0);
+    let plan = saved;
+    if (!saved || saved.sig !== sig || reshuffle) {
+      const built = core.buildWeekDiet(core.recipes, target, core.diet.seedFor(week, shuffle), dietProfile);
+      plan = s.plans[week] = { shuffle, sig, target, notes: built.notes, days: built.days, created: new Date().toISOString().slice(0, 19) };
+      save(s);
+    }
+    const overrides = s.prices || {}, days = JSON.parse(JSON.stringify(plan.days));
+    for (const d of days) for (const m of d.meals) m.cost_cents = core.diet.jsRound(core.diet.recipeCostCents(core.getRecipe(m.recipe_id), overrides) * m.servings);
+    const eligible = Object.fromEntries(core.diet.SLOTS.map(([slot]) => [slot, core.recipes.filter(r => r.slot === slot && core.diet.eligible(r, dietProfile)).length]));
+    return { week_start: week, shuffle: plan.shuffle, target_kcal: target, notes: plan.notes, week: days, eligible, diet: { profile: core.diet.normalizeDiet(dietProfile), summary: core.diet.summary(dietProfile) } };
+  }
+  function groceryFor(s, plan) {
+    const meals = plan.week.flatMap(d => d.meals.map(m => ({ recipe_id: m.recipe_id, servings: m.servings })));
+    return { ...core.diet.grocery(meals, s.prices || {}), week_start: plan.week_start, meals: meals.length,
+      prices: { as_of: "2026-09", source: "US Bureau of Labor Statistics average retail prices (Sep 2026) where marked; other prices are typical-store estimates. Edit any price to match your store." } };
   }
   const needProfile = s => { if (!s.profile) throw new HttpError(400, "Set up your profile first."); };
 
@@ -340,16 +473,29 @@
       b.done ? set.add(b.day) : set.delete(b.day);
       s.checks[wk] = [...set]; save(s); return stateOf(s);
     }
-    if (method === "GET" && path === "/api/mealplan") {
+    if (method === "PUT" && path === "/api/diet") {
       needProfile(s);
-      const t = stateOf(s).plan.target_kcal;
-      return { target_kcal: t, week: core.buildWeek(t) };
+      s.diet = core.diet.normalizeDiet(JSON.parse(init.body)); save(s); return stateOf(s);
+    }
+    if (method === "GET" && path === "/api/mealplan") return planFor(s, false);
+    if (method === "POST" && path === "/api/mealplan/shuffle") return planFor(s, true);
+    if (method === "GET" && path === "/api/plans") {
+      return { plans: Object.entries(s.plans).sort((x, y) => (x[0] < y[0] ? 1 : -1)).slice(0, 12).map(([week, p]) => ({ week, shuffle: p.shuffle, created: p.created, target: p.target, meals: p.days.reduce((n, d) => n + d.meals.length, 0) })) };
+    }
+    if (method === "GET" && path === "/api/grocery") return groceryFor(s, planFor(s, false));
+    if (method === "PUT" && path === "/api/prices") {
+      const b = JSON.parse(init.body);
+      if (!(b.item in core.diet.catalog)) throw new HttpError(404, "Unknown grocery item.");
+      if (b.price === null || b.price === undefined) delete s.prices[b.item];
+      else if (typeof b.price === "number" && b.price > 0 && b.price <= 500) s.prices[b.item] = b.price;
+      else throw new HttpError(422, "Enter a price between $0.01 and $500.");
+      save(s); return groceryFor(s, planFor(s, false));
     }
     const rec = path.match(/^\/api\/recipes\/([\w-]+)$/);
     if (method === "GET" && rec) {
       const r = core.getRecipe(rec[1]);
       if (!r) throw new HttpError(404, "Recipe not found.");
-      return r;
+      return { ...r, cost_cents_per_serving: core.diet.jsRound(core.diet.recipeCostCents(r, s.prices || {})) };
     }
     if (method === "POST" && path === "/api/meals/photo") {
       needProfile(s);

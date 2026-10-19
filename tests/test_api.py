@@ -76,7 +76,10 @@ def test_mealplan_has_seven_days_with_links(client):
     for rid in ids:  # every planned meal opens a full in-app recipe, no external link needed
         r = client.get(f"/api/recipes/{rid}").json()
         assert r["ingredients"] and r["steps"] and r["nutrition"]["kcal"] > 0
-        assert r["source"]["license"] == "CC BY-SA 4.0" and r["source"]["url"].startswith("https://en.wikibooks.org/")
+        if r["source"]["license"] == "CC BY-SA 4.0":  # Wikibooks recipes keep their attribution; the rest are original to this app
+            assert r["source"]["url"].startswith("https://en.wikibooks.org/")
+        else:
+            assert r["source"]["license"] == "original"
     assert client.get("/api/recipes/nope").status_code == 404
 
 

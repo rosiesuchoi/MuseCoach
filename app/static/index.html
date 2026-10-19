@@ -224,6 +224,23 @@
     .cc:hover, .dtoggle:hover, .chk:hover, .chip:hover { filter:none; } .cc:hover .ph { transform:scale(1.07); }
     .dtoggle:hover .dtitle { color:var(--pink); } .chk:hover { border-color:var(--pink2); } .chip:hover { border-color:var(--pink2); }
   }
+
+  /* diet, grocery list */
+  .btnrow { display:flex; flex-wrap:wrap; gap:8px; margin:6px 0 14px; } .btnrow button { width:auto; flex:1 1 auto; }
+  .btnrow button.small { flex:0 0 auto; }
+  .allergen-grid { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:2px 12px; }
+  .pick { display:flex; align-items:center; gap:10px; color:var(--ink); font-size:15px; font-weight:400; margin:6px 0; cursor:pointer; }
+  .pick input { width:auto; accent-color:var(--pink); width:20px; height:20px; flex:none; }
+  .total-card { background:var(--card); border:1px solid var(--line); border-radius:16px; padding:14px; margin:10px 0; }
+  .gl-line { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; padding:10px 0; border-top:1px solid var(--line); }
+  .gl-check { display:flex; gap:10px; align-items:flex-start; margin:0; font-size:15px; color:var(--ink); font-weight:400; cursor:pointer; }
+  .gl-check input { width:20px; height:20px; accent-color:var(--pink); flex:none; margin-top:2px; }
+  .gl-check input:checked + span { text-decoration:line-through; opacity:.55; }
+  .gl-price { text-align:right; flex:none; display:flex; flex-direction:column; align-items:flex-end; gap:2px; }
+  .pricebtn { background:none; color:var(--mute); box-shadow:none; padding:2px 0; width:auto; font-size:12px; font-weight:600; border-radius:6px; }
+  .priceinput { width:96px; padding:6px 8px; font-size:15px; border-radius:8px; text-align:right; }
+  .src { font-size:10.5px; font-weight:700; border-radius:6px; padding:1px 6px; background:var(--warn); } .s-bls { background:var(--good); } .s-you { background:var(--info); }
+  @media (min-width:700px) { #app[data-tab=plan] > .full { grid-column:1 / -1; } }
 </style>
 </head>
 <body>
@@ -463,18 +480,125 @@ function burst() {
   }
 }
 
+const usd = c => "$" + (c / 100).toFixed(2);
+const ALLERGEN_LABELS = { milk: "Milk", egg: "Eggs", peanut: "Peanuts", tree_nut: "Tree nuts", wheat: "Wheat", soy: "Soy", fish: "Fish", shellfish: "Shellfish", sesame: "Sesame" };
+const PATTERN_LABELS = { none: "No restriction", pescatarian: "Pescatarian (fish, no meat)", vegetarian: "Vegetarian", vegan: "Vegan" };
+const TAG_LABELS = { ...ALLERGEN_LABELS, gluten: "Gluten", meat: "Meat", poultry: "Poultry", honey: "Honey" };
+const SRC_LABELS = { bls: "gov avg", "bls-derived": "gov avg", estimate: "est.", you: "yours" };
+
 async function renderPlan() {
-  app.innerHTML = "<h1>Meals</h1><p class='mute'>Loading…</p>";
-  const { week, target_kcal } = await api("/api/mealplan");
-  app.innerHTML = `<h1 class="rise">Meals</h1><p class="mute rise">Recipes with portions scaled to your ${target_kcal} calories. Tap one for the ingredients and cooking steps.</p>` +
-    week.map(d => `<div class="card rise"><div class="day">${d.day}</div>${d.meals.map(m => `
+  app.innerHTML = "<h1>Meals</h1><p class='mute'>Building your week…</p>";
+  let plan, gro;
+  try { plan = await api("/api/mealplan"); gro = await api("/api/grocery"); }
+  catch (err) { app.innerHTML = `<h1>Meals</h1><div class="err">${esc(err.message)}</div>`; finishRender(); return; }
+  const chips = plan.diet.summary.length ? plan.diet.summary.map(x => `<span class="chip2">${esc(x)}</span>`).join("") : '<span class="chip2">No restrictions</span>';
+  const varied = Object.values(plan.eligible).every(n => n >= 7);
+  app.innerHTML = `<h1 class="rise full">Meals</h1>
+    <p class="mute rise full">A different recipe for every meal, with portions scaled to your ${plan.target_kcal} calories. Tap one for the ingredients and cooking steps.</p>
+    <div class="chips rise full">${chips}</div>
+    <div class="btnrow rise full">
+      <button type="button" id="gl-open">🛒 Grocery list · about ${usd(gro.totals.to_buy_cents)}</button>
+      <button type="button" class="ghost" id="shuffle">Shuffle my week</button>
+      <button type="button" class="ghost" id="diet-open">Diet &amp; allergies</button>
+    </div>
+    ${plan.notes.map(n => `<div class="note rise full">${esc(n)}</div>`).join("")}
+    ${!plan.notes.length && varied ? '<div class="mute rise full" style="margin-bottom:10px">Every meal this week is a different recipe. Shuffle for a fresh set.</div>' : ""}
+    ${plan.week.map(d => `<div class="card rise"><div class="day">${d.day}</div>${d.meals.map(m => `
       <button type="button" class="meal rowbtn" data-recipe="${esc(m.recipe_id)}" data-serv="${m.servings}"><div><span class="mute">${m.slot}</span><br><b>${esc(m.name)}</b>
-      <div class="mute">${m.servings}× serving</div></div><div>${m.kcal} <span class="mute">›</span></div></button>`).join("")}
-      <div class="mute" style="margin-top:6px">Snacks: ~${d.snack_budget} calories</div></div>`).join("");
-  document.querySelectorAll("[data-recipe]").forEach(b => b.onclick = async () => {
-    try { openRecipe(await api("/api/recipes/" + b.dataset.recipe), +b.dataset.serv); } catch (err) { openModal(`<h2>Couldn't open recipe</h2><p>${esc(err.message)}</p>`); }
+      <div class="mute">${m.servings}× serving · about ${usd(m.cost_cents)}</div></div><div>${m.kcal} <span class="mute">›</span></div></button>`).join("")}
+      <div class="mute" style="margin-top:6px">Snacks: ~${d.snack_budget} calories</div></div>`).join("")}`;
+  document.querySelectorAll("[data-recipe]").forEach(btn => btn.onclick = async () => {
+    try { openRecipe(await api("/api/recipes/" + btn.dataset.recipe), +btn.dataset.serv); } catch (err) { openModal(`<h2>Couldn't open recipe</h2><p>${esc(err.message)}</p>`); }
   });
+  $("#gl-open").onclick = () => openGrocery(gro, g => { $("#gl-open").textContent = `🛒 Grocery list · about ${usd(g.totals.to_buy_cents)}`; });
+  $("#diet-open").onclick = openDietForm;
+  $("#shuffle").onclick = async e => {
+    e.target.disabled = true; e.target.textContent = "Shuffling…";
+    try { await api("/api/mealplan/shuffle", { method: "POST" }); await renderPlan(); } catch (err) { e.target.disabled = false; e.target.textContent = "Shuffle my week"; alert(err.message); }
+  };
   finishRender();
+}
+
+// ---- grocery list: grouped by aisle, itemized, every price editable ----
+function groceryHtml(g) {
+  const t = g.totals, byAisle = {};
+  g.lines.forEach(l => (byAisle[l.aisle] = byAisle[l.aisle] || []).push(l));
+  const line = l => `<div class="gl-line"><label class="gl-check"><input type="checkbox"><span><b>${esc(l.name)}</b>${l.staple ? '<span class="opt">pantry</span>' : ""}<br>
+      <span class="mute">need ${esc(l.need_text)} · buy ${l.packs} × ${esc(l.pack_label)}</span></span></label>
+      <span class="gl-price"><b>${usd(l.line_cents)}</b><button type="button" class="pricebtn" data-price="${esc(l.item)}" data-cents="${l.pack_cents}" title="Edit the price of one pack">${usd(l.pack_cents)}/pack ✎</button>
+      <span class="src s-${l.src.replace("bls-derived", "bls")}">${SRC_LABELS[l.src]}</span></span></div>`;
+  return `<div class="total-card">
+      <div class="big">${usd(t.to_buy_cents)}</div>
+      <div class="mute">estimated to buy for ${g.meals} meals · about ${usd(t.used_cents)} of it is food you'll actually eat this week (you buy whole packs)</div>
+      ${t.staples_cents ? `<div class="mute" style="margin-top:6px">Includes ${usd(t.staples_cents)} of pantry staples (oils, spices, sauces). Skip what you already own: <b>${usd(t.without_staples_cents)}</b> without them.</div>` : ""}
+      <div class="mute" style="margin-top:6px">${t.official_items} of ${t.items} items use US government average prices${t.your_items ? `, ${t.your_items} use prices you entered` : ""}; the rest are estimates.</div>
+    </div>
+    <div class="btnrow"><button type="button" class="small" id="gl-copy">Copy list</button>${navigator.share ? '<button type="button" class="small ghost" id="gl-share">Share</button>' : ""}</div>
+    ${Object.entries(byAisle).map(([aisle, ls]) => `<h3>${esc(aisle)}</h3>${ls.map(line).join("")}`).join("")}
+    <p class="mute small-print">${esc(g.prices.source)} Amounts are rounded up to whole packs. These are averages and estimates, not a quote from any store, so your total will differ. Tap a price to enter what your store charges.</p>`;
+}
+function groceryText(g) {
+  const out = [`Grocery list, week of ${g.week_start}`];
+  let aisle = "";
+  for (const l of g.lines) { if (l.aisle !== aisle) { aisle = l.aisle; out.push("", aisle.toUpperCase()); } out.push(`- ${l.name}: ${l.need_text} (buy ${l.packs} × ${l.pack_label}) ${usd(l.line_cents)}`); }
+  out.push("", `Estimated total ${usd(g.totals.to_buy_cents)}`);
+  return out.join("\n");
+}
+function openGrocery(g0, onChange) {
+  let g = g0;
+  const m = openModal('<h2>Grocery list</h2><div id="gl-body"></div>');
+  const body = m.querySelector("#gl-body");
+  const draw = () => {
+    body.innerHTML = groceryHtml(g);
+    body.querySelector("#gl-copy").onclick = async e => {
+      try { await navigator.clipboard.writeText(groceryText(g)); e.target.textContent = "Copied ✓"; } catch { e.target.textContent = "Couldn't copy"; }
+      setTimeout(() => { const b = body.querySelector("#gl-copy"); if (b) b.textContent = "Copy list"; }, 1800);
+    };
+    const share = body.querySelector("#gl-share"); if (share) share.onclick = () => navigator.share({ title: "Grocery list", text: groceryText(g) }).catch(() => {});
+    body.querySelectorAll("[data-price]").forEach(btn => btn.onclick = () => {
+      const item = btn.dataset.price, input = document.createElement("input");
+      input.type = "number"; input.step = "0.01"; input.min = "0.01"; input.inputMode = "decimal"; input.value = (btn.dataset.cents / 100).toFixed(2);
+      input.className = "priceinput"; input.setAttribute("aria-label", "Price of one pack in dollars (empty to reset)");
+      btn.replaceWith(input); input.focus(); input.select();
+      let done = false;
+      const save = async () => {
+        if (done) return; done = true;
+        const raw = input.value.trim(), price = raw === "" ? null : Math.round(parseFloat(raw) * 100) / 100;
+        try { g = await api("/api/prices", json("PUT", { item, price })); if (onChange) onChange(g); } catch (err) { alert(err.message); }
+        draw();
+      };
+      input.onkeydown = e => { if (e.key === "Enter") save(); if (e.key === "Escape") { done = true; draw(); } };
+      input.onblur = save;
+    });
+  };
+  draw();
+}
+
+// ---- diet & allergies ----
+function openDietForm() {
+  const d = state.diet.profile;
+  const m = openModal(`<h2>Diet &amp; allergies</h2>
+    <p class="mute">Your meal plan and grocery list only use recipes that fit. Change it any time.</p>
+    <label for="d-pattern">Eating style</label>
+    <select id="d-pattern">${Object.entries(PATTERN_LABELS).map(([k, v]) => `<option value="${k}" ${d.pattern === k ? "selected" : ""}>${v}</option>`).join("")}</select>
+    <label>Allergies (these are left out completely)</label>
+    <div class="allergen-grid">${Object.entries(ALLERGEN_LABELS).map(([k, v]) => `<label class="pick"><input type="checkbox" name="allergen" value="${k}" ${d.allergens.includes(k) ? "checked" : ""}> ${v}</label>`).join("")}</div>
+    <label class="pick" style="margin-top:12px"><input type="checkbox" id="d-gf" ${d.gluten_free ? "checked" : ""}> Gluten-free (also skips oats, which are often cross-contaminated)</label>
+    <label for="d-avoid">Foods you'd rather avoid (comma-separated)</label>
+    <input id="d-avoid" value="${esc(d.avoid.join(", "))}" placeholder="e.g. mushrooms, cilantro">
+    <div class="note">Recipes are tagged from their listed ingredients. That can't catch brand ingredients, "may contain" warnings or cross-contact, so always read labels. If you have a serious allergy, check with your doctor. This isn't medical advice.</div>
+    <div id="d-err"></div>
+    <button type="button" id="d-save" style="margin-top:12px">Save and rebuild my plan</button>`);
+  m.querySelector("#d-save").onclick = async e => {
+    const body = {
+      pattern: m.querySelector("#d-pattern").value, gluten_free: m.querySelector("#d-gf").checked,
+      allergens: [...m.querySelectorAll('input[name="allergen"]:checked')].map(c => c.value),
+      avoid: m.querySelector("#d-avoid").value.split(",").map(x => x.trim()).filter(Boolean),
+    };
+    e.target.disabled = true; e.target.textContent = "Saving…";
+    try { state = await api("/api/diet", json("PUT", body)); closeModal(); render(); }
+    catch (err) { e.target.disabled = false; e.target.textContent = "Save and rebuild my plan"; m.querySelector("#d-err").innerHTML = `<div class="err">${esc(err.message)}</div>`; }
+  };
 }
 
 // ---- modals (stackable: the cooking steps open in their own modal on top of the ingredients) ----
@@ -498,18 +622,22 @@ const li = items => `<ul>${items.map(t => `<li>${esc(t)}</li>`).join("")}</ul>`;
 const g1 = n => (n == null ? "–" : Math.round(n * 10) / 10);
 
 function openRecipe(r, serv) {
-  const n = r.nutrition, a = r.source;
-  const attribution = `<p class="mute small-print">Recipe text adapted from <a href="${esc(a.url)}" target="_blank" rel="noopener">${esc(a.title)}</a>
+  const n = r.nutrition, a = r.source, hasSource = !!a.url;
+  const attribution = hasSource
+    ? `<p class="mute small-print">Recipe text adapted from <a href="${esc(a.url)}" target="_blank" rel="noopener">${esc(a.title)}</a>
     (<a href="${esc(a.history)}" target="_blank" rel="noopener">authors</a>), licensed <a href="${esc(a.license_url)}" target="_blank" rel="noopener">${esc(a.license)}</a>.
-    Nutrition is calculated from USDA FoodData Central.</p>`;
+    Nutrition is calculated from USDA FoodData Central.</p>`
+    : '<p class="mute small-print">An original Muse Coach recipe. Nutrition is calculated from USDA FoodData Central. Cost uses average US prices and varies by store.</p>';
   const stepsHtml = `<h2>Cooking steps</h2><div class="mute">${esc(r.name)}</div>
-    <ol class="steps">${r.steps.map(s => `<li>${esc(s)}</li>`).join("")}</ol>
+    <ol class="steps">${r.steps.map(x => `<li>${esc(x)}</li>`).join("")}</ol>
     ${r.notes.length ? `<h3>Tips and variations</h3>${li(r.notes)}` : ""}${attribution}`;
+  const tags = [...r.allergens, ...r.contains].map(t => TAG_LABELS[t] || t);
   const html = `<h2>${esc(r.name)}</h2>
-    <div class="mute">Makes ${esc(r.servings_note)}${serv && serv !== 1 ? ` · your plan uses ${serv}× a serving` : ""}</div>
+    <div class="mute">${esc(r.cuisine)} · ${r.minutes} min · Makes ${esc(r.servings_note)}${serv && serv !== 1 ? ` · your plan uses ${serv}× a serving` : ""}</div>
     <div class="chips"><span class="chip2"><b>${n.kcal}</b> cal</span><span class="chip2"><b>${g1(n.protein)}</b> g protein</span><span class="chip2"><b>${g1(n.carb)}</b> g carbs</span>
-      <span class="chip2"><b>${g1(n.fat)}</b> g fat</span><span class="chip2"><b>${g1(n.sodium)}</b> mg sodium</span></div>
+      <span class="chip2"><b>${g1(n.fat)}</b> g fat</span><span class="chip2"><b>${g1(n.sodium)}</b> mg sodium</span><span class="chip2"><b>${usd(r.cost_cents_per_serving)}</b> per serving</span></div>
     <div class="mute">per serving</div>
+    ${tags.length ? `<div class="mute" style="margin-top:8px"><b>Contains:</b> ${tags.map(esc).join(", ")}. Always check labels.</div>` : ""}
     <h3>Ingredients</h3>
     ${r.ingredients.map(g => `${g.heading ? `<div class="grp">${esc(g.heading)}</div>` : ""}${li(g.items)}`).join("")}
     ${r.assumptions ? `<div class="note">${esc(r.assumptions)}</div>` : ""}
@@ -640,6 +768,9 @@ function setupHtml(p = {}) {
     <label>Goal</label><select id="goal">${sel("goal", [["lose", "Lose fat"], ["maintain", "Maintain"], ["build", "Build muscle"]])}</select>
     <label>Goal weight (lb, optional)</label><input id="gw" type="number" inputmode="decimal" value="${p.goal_weight_kg ? kgToLb(p.goal_weight_kg) : ""}">
     <label>Activity (sets how many workout days you get)</label><select id="act">${sel("activity", [["low", "Low (3 workouts a week)"], ["medium", "Medium (4 workouts a week)"], ["high", "High (5 workouts a week)"]])}</select></div>
+    ${p.age ? `<div class="card rise formcol"><b>Diet &amp; allergies</b>
+      <div class="chips">${state.diet.summary.length ? state.diet.summary.map(x => `<span class="chip2">${esc(x)}</span>`).join("") : '<span class="chip2">No restrictions</span>'}</div>
+      <button type="button" class="ghost" id="diet-open2" style="margin-top:6px">Change diet &amp; allergies</button></div>` : ""}
     <div class="rise formcol">${window.museExtraHtml ? window.museExtraHtml() : ""}
     <div id="err"></div><button id="save" style="margin-top:14px">Save and meet my coach</button></div>`;
 }
@@ -648,6 +779,7 @@ function wireSetup() {
   renderCarousel();
   wikiThumbs([...extraCelebs, ...celebs].map(c => c.wiki)).then(renderCarousel);
   $("#cfind").onclick = findCelebrity;
+  if ($("#diet-open2")) $("#diet-open2").onclick = openDietForm;
   $("#csearch").onkeydown = e => { if (e.key === "Enter") { e.preventDefault(); findCelebrity(); } };
   $("#save").onclick = async () => {
     const num = id => { const v = $(id).value; return v === "" ? null : parseFloat(v); };

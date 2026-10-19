@@ -13,7 +13,12 @@ Add to Home Screen.
 - **Coach:** pick a training style (cardio intervals, bodyweight, boxing, push/pull/legs, athletic circuits or strength first) and get a 7-day week
   with the exact exercises, sets × reps, rest times and a number to track. Your activity level sets 3, 4 or 5 workout days; the other days are
   guided recovery. Tick each day when you finish; ticks are saved for the week and reset on Monday.
-- **Meals:** a 7-day plan with full recipes (ingredients, cooking steps) inside the app.
+- **Meals:** a 7-day plan that fits your diet and allergies, with full recipes (ingredients, cooking steps, cost per serving) inside the app.
+  A flexible diet gets a different recipe for every meal all week (62 recipes, "Shuffle my week" for a new set). A strict diet repeats recipes
+  only when it has to, and the app says so. The **Grocery list** groups everything you need by aisle, rounds up to whole packs and shows a price
+  for every item and a total. Tap any price to enter what your store charges.
+- **Diet & allergies:** pick an eating style (pescatarian, vegetarian, vegan), allergies (the 9 major ones), gluten-free and foods you'd rather
+  avoid. Saved with your profile; the plan and grocery list rebuild when you change it.
 - **Me:** your numbers, celebrity style inspiration, and your key settings.
 
 **Works on any screen.** On a phone it is a single column with a bottom tab bar. On a tablet the content flows into two columns. On a desktop
@@ -88,9 +93,19 @@ about 60 MB, downloaded once and cached) runs inside the browser and photos neve
 assumes one typical serving from `app/data/food_calories.json`, so it is approximate; every logged meal can be edited with ✎. It refuses to
 guess when it isn't sure, is weaker on mixed plates, and can't see portion size.
 
-**Recipes** are scraped from Wikibooks Cookbook (`tools/build_recipes.py`), shown fully in the app (ingredients, then cooking steps in a
-second modal), with each recipe's source page, authors link and CC BY-SA 4.0 license. Nutrition is calculated from the USDA data with weights I
-curated in `tools/recipes_src.json`; where a page was vague the app shows my assumption.
+**Recipes** (`tools/build_recipes.py`): 9 are scraped from Wikibooks Cookbook, shown with their source page, authors link and CC BY-SA 4.0
+license; 53 are original Muse Coach recipes (`tools/recipes_original.json`). Both are shown fully in the app (ingredients, then cooking steps in a
+second modal). Nutrition is calculated from the USDA data using a gram weight for every ingredient; where a Wikibooks page was vague the app
+shows my assumption.
+
+**Database.** The server edition keeps recipes, the 100-item ingredient catalog, your diet and allergies, your price edits and each week's saved
+plan in SQLite (`app/db.py`, so the plan doesn't change every time you open the app, and past weeks stay as history). The web edition has no server,
+so it stores the same things in your browser's storage.
+
+**About the prices.** The catalog (`app/data/ingredients.json`) has a typical pack size and price for each ingredient. 17 of the 100 come from the US
+Bureau of Labor Statistics average retail prices (US city average, September 2026) and are tagged "gov avg"; the other 83 are my estimates of typical
+store prices and are tagged "est.". Your own edits are tagged "yours". Real prices vary by store and region, so the list is a good guide, not a quote.
+Allergen tags come from each recipe's listed ingredients; they can't know about brands, "may contain" warnings or cross-contact, so read labels.
 
 **Celebrity photos** are fetched live from Wikipedia/Wikimedia Commons, so no images live in this repo.
 

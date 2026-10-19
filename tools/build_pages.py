@@ -34,7 +34,7 @@ def main() -> None:
     # pipeline.mjs is the AI analysis pipeline (also ported to Python for the server edition: app/rag.py).
     shutil.copy(ROOT / "shared/pipeline.mjs", DOCS / "pipeline.mjs")
     shutil.copy(ROOT / "shared/prompts.mjs", DOCS / "prompts.mjs")  # pipeline.mjs imports it
-    for name in ("celebrities", "coaches", "recipes", "food_calories", "nutrition", "workouts"):
+    for name in ("celebrities", "coaches", "recipes", "food_calories", "nutrition", "workouts", "ingredients"):
         shutil.copy(ROOT / f"app/data/{name}.json", DOCS / "data" / f"{name}.json")
     (DOCS / ".nojekyll").write_text("", encoding="utf-8")
     print(f"[build_pages] wrote {sum(1 for _ in DOCS.rglob('*') if _.is_file())} files to {DOCS}")

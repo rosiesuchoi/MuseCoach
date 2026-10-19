@@ -12,7 +12,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 from starlette.concurrency import run_in_threadpool
 
-from . import coach, config, db, goals, mealplan, rag, training, vision
+from . import coach, config, db, diet, goals, mealplan, rag, training, vision
 
 config.load_env()  # reads ANTHROPIC_API_KEY from the gitignored .env file, if there is one
 app = FastAPI(title="Muse Coach")
@@ -30,6 +30,18 @@ class ProfileIn(BaseModel):
     celebrity: str = Field(default="", max_length=80)
     style: str = Field(default="", max_length=20)
     training: str | None = Field(default=None, max_length=30)  # None = keep what's saved
+
+
+class DietIn(BaseModel):
+    allergens: list[str] = Field(default_factory=list, max_length=20)
+    pattern: str = Field(default="none", max_length=20)
+    gluten_free: bool = False
+    avoid: list[str] = Field(default_factory=list, max_length=20)
+
+
+class PriceIn(BaseModel):
+    item: str = Field(max_length=40)
+    price: float | None = Field(default=None, gt=0, le=500)  # None = go back to the default price
 
 
 class TrainingIn(BaseModel):
@@ -68,6 +80,7 @@ def _state() -> dict:
         "remaining_kcal": plan["target_kcal"] - eaten,
         "message": coach.checkin(archetype, plan["goal"], eaten, plan["target_kcal"]),
         "training": week,
+        "diet": {"profile": diet.normalize(db.get_diet()), "summary": diet.summary(db.get_diet() or {})},
     }
 
 
@@ -170,17 +183,53 @@ def meal_delete(meal_id: int):
     return _state()
 
 
-@app.get("/api/mealplan")
-def meal_plan():
+def _plan(reshuffle: bool = False) -> dict:
     s = _state()
     if s["profile"] is None:
         raise HTTPException(400, "Set up your profile first.")
-    return {"target_kcal": s["plan"]["target_kcal"], "week": mealplan.build_week(s["plan"]["target_kcal"])}
+    return mealplan.get_plan(s["plan"]["target_kcal"], db.get_diet() or {}, date.today(), reshuffle)
+
+
+@app.get("/api/mealplan")
+def meal_plan():
+    return _plan()
+
+
+@app.post("/api/mealplan/shuffle")
+def meal_plan_shuffle():
+    """Same diet, different recipes."""
+    return _plan(reshuffle=True)
+
+
+@app.get("/api/plans")
+def plan_history():
+    return {"plans": db.list_plans()}
+
+
+@app.put("/api/diet")
+def put_diet(body: DietIn):
+    if db.load_profile() is None:
+        raise HTTPException(400, "Set up your profile first.")
+    db.set_diet(diet.normalize(body.model_dump()))
+    return _state()
+
+
+@app.get("/api/grocery")
+def grocery_list():
+    return mealplan.grocery_for(_plan())
+
+
+@app.put("/api/prices")
+def put_price(body: PriceIn):
+    if body.item not in db.get_catalog():
+        raise HTTPException(404, "Unknown grocery item.")
+    db.set_override(body.item, body.price)
+    return mealplan.grocery_for(_plan())
 
 
 @app.get("/api/recipes/{recipe_id}")
 def recipe(recipe_id: str):
-    r = mealplan.get_recipe(recipe_id)
+    r = mealplan.recipe_with_cost(recipe_id)
     if r is None:
         raise HTTPException(404, "Recipe not found.")
     return r

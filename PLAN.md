@@ -34,8 +34,13 @@ Due Sun Oct 18, 2026, 11:59 PM. Scope: one week, small, runs, and Rosie will kee
 - [ ] Rosie: add to Home Screen, use it for a few days
 - [ ] Portfolio card: title, repo link, short reflection
 
+- [x] Database for recipes, ingredients, diet/allergies, price edits and saved weekly plans
+- [x] Diet and allergies form; varied plan from 62 recipes (strict diets repeat only when forced, with a note)
+- [x] Grocery list by aisle with whole-pack amounts, itemized editable prices and a total (17 of 100 prices are official BLS averages, rest estimated)
+- [ ] Rosie: look over the estimated prices (`app/data/ingredients.json`, `src: "estimate"`) and correct any that are off for her store
+
 ### Later (Week 5+)
-- [ ] More recipes (snacks, vegetarian) from Wikibooks via `tools/recipes_src.json`
+- [ ] Replace more estimated prices with official or store data; snack recipes
 - [ ] Weight check-ins and a weekly chart
 - [ ] Editing a photo estimate (rename / change kcal)
 - [ ] HEIC upload support, HTTPS for off-network use

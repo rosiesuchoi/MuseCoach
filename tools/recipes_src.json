@@ -34,7 +34,9 @@
           "g": 0.3,
           "what": "1/8 tsp pepper"
         }
-      ]
+      ],
+      "cuisine": "American",
+      "minutes": 10
     },
     {
       "id": "banana-pancakes",
@@ -84,7 +86,9 @@
           "g": 41,
           "what": "3 tbsp brown sugar"
         }
-      ]
+      ],
+      "cuisine": "American",
+      "minutes": 25
     },
     {
       "id": "granola",
@@ -100,7 +104,7 @@
           "what": "1/2 cup chopped walnuts"
         },
         {
-          "fdc": 170186,
+          "fdc": 170187,
           "g": 62.5,
           "what": "1/2 cup chopped black walnuts"
         },
@@ -149,7 +153,9 @@
           "g": 74,
           "what": "1/2 cup blueberries"
         }
-      ]
+      ],
+      "cuisine": "American",
+      "minutes": 75
     },
     {
       "id": "red-lentil-soup",
@@ -184,7 +190,9 @@
           "g": 227,
           "what": "1/2 lb dry red lentils"
         }
-      ]
+      ],
+      "cuisine": "Middle Eastern",
+      "minutes": 35
     },
     {
       "id": "tuna-salad",
@@ -237,7 +245,9 @@
           "g": 5.3,
           "what": "1 tsp soy sauce"
         }
-      ]
+      ],
+      "cuisine": "American",
+      "minutes": 10
     },
     {
       "id": "black-bean-soup",
@@ -302,7 +312,9 @@
           "g": 230,
           "what": "1 cup sour cream (garnish)"
         }
-      ]
+      ],
+      "cuisine": "Tex-Mex",
+      "minutes": 150
     },
     {
       "id": "baked-chicken-breasts",
@@ -328,7 +340,7 @@
           "what": "1 tsp salt"
         },
         {
-          "fdc": 167749,
+          "fdc": 167747,
           "g": 2,
           "what": "1 tsp lemon zest"
         },
@@ -337,7 +349,9 @@
           "g": 0.6,
           "what": "1/4 tsp pepper"
         }
-      ]
+      ],
+      "cuisine": "American",
+      "minutes": 35
     },
     {
       "id": "grilled-salmon-steaks",
@@ -367,7 +381,9 @@
           "g": 4.6,
           "what": "2 tsp black pepper"
         }
-      ]
+      ],
+      "cuisine": "American",
+      "minutes": 25
     },
     {
       "id": "chicken-fajitas",
@@ -412,7 +428,9 @@
           "g": 5.3,
           "what": "1 tbsp crushed red pepper"
         }
-      ]
+      ],
+      "cuisine": "Tex-Mex",
+      "minutes": 30
     }
   ]
 }

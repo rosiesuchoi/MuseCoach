@@ -2,6 +2,39 @@
 
 Newest entry on top.
 
+## 2026-10-18: Diet and allergies, a database, varied recipes, priced grocery list
+
+**Asked for:** a backend database for the recipes and foods; the user's dietary needs and allergies; less boring and repetitive food (when the diet isn't
+too strict); a grocery list for the recipes with itemized, accurate pricing.
+
+**Built.**
+- *Data:* `app/data/ingredients.json` (100 grocery items: USDA id, allergens, meat/poultry/honey flags, aisle, pack size and price). Recipes grew from 9 to 62 (9 Wikibooks +
+  53 original in `tools/recipes_original.json`, including enough vegetarian, vegan and gluten-free ones that strict diets still get choices). Each recipe now lists grams per
+  ingredient; allergens, nutrition and cost are computed from that, not typed by hand.
+- *Database (`app/db.py`):* tables for ingredients, recipes, recipe lines, the user's diet, price edits, and saved weekly plans with their meals. The plan is saved per
+  Monday-start week so it stays put, is rebuilt when the diet or calorie target changes, and "Shuffle my week" makes a new one. Old weeks stay as history.
+- *Variety (`app/diet.py`):* a seeded planner picks 7 different recipes per meal slot when the diet allows 7 or more, and otherwise repeats them as far apart as possible and
+  shows a note. If nothing fits a slot the slot is left out with a note. Portions are chosen so a serving of 0.5x to 2x can reach the calorie target.
+- *Grocery list:* amounts summed across the week, converted to household units, rounded up to whole packs, grouped by aisle, integer-cent totals, a "without pantry staples" figure,
+  and per-item prices the user can edit (`PUT /api/prices`).
+- *UI:* diet and allergies form (Meals and Me tabs), diet chips, shuffle, cost per meal and per serving, allergen "Contains" line, grocery modal with copy and share.
+- *Both editions:* the server uses SQLite; the GitHub Pages edition has the same logic in `local-backend.js` using browser storage.
+
+**Honest limits.**
+- Only **17 of 100 prices are official** (BLS average retail prices, US city average, Sep 2026; BLS's data files returned 403 so I read its published HTML table). The other **83 are my
+  estimates**, tagged "est." in the app. Totals are good guides, not store quotes. They run high for one person (about $130 to $240 a week) because 21 different recipes mean many whole packs; the
+  "you'll actually eat" figure shows the value of the food used.
+- Allergen tags come from listed ingredients. They do not know brands, "may contain" labels or cross-contact. The app says to read labels and that this is not medical advice.
+- The database only exists in the server edition; Pages keeps data in the browser.
+- Coverage is thinner for stacked restrictions (e.g. vegan + gluten-free + no soy has about 4 to 6 options per slot, so recipes repeat; the app says so).
+
+**Checks.** 84 pytest tests (data lint, allergen-word lint, diet patterns, variety, determinism, calorie sizing, packs and price overrides, DB persistence, API); `node tools/diet_parity.mjs` confirms JS and Python
+give identical plans for 13 diets x 3 calorie targets x 3 seeds, identical grocery lists and costs; the older parity and pipeline checks still pass. In a browser at 1440 and 375 px: Meals, grocery list, price edit
+(total changed by the expected amount), and a vegan + gluten-free + no-soy plan with notes all worked with no console errors and no horizontal overflow. **Not verified:** a real phone, a screen reader, the Python server in a
+browser (covered by API tests instead).
+
+**Next:** Rosie to check the estimated prices; push when ready.
+
 ## 2026-10-17: Desktop layout (the app was a phone column stretched on desktop)
 
 **Problem:** on a desktop browser the app was a 560px column in the middle of a wide empty page with a phone-style bottom bar.

@@ -14,7 +14,8 @@ Home Screen). Python (FastAPI) back end, one static HTML page for the UI.
 - The **Coach tab** gives a 7-day training week built from a **training style the user chooses** (6 styles in `app/data/workouts.json`: cardio intervals,
   bodyweight, boxing, push/pull/legs, athletic circuits, strength first). Activity level sets 3, 4 or 5 workout days; other days get a specific recovery routine.
   Every exercise is measurable (sets × reps, seconds or rounds), and each day has a check-off saved per calendar week.
-- A 7-day meal plan of **Wikibooks recipes shown inside the app** (ingredients + cooking steps modal), portions scaled to the calorie target.
+- A 7-day meal plan from **62 recipes shown inside the app** (9 Wikibooks, 53 original), filtered by the user's **diet and allergies**, varied (no repeats when the
+  diet allows 7+ options per slot), portions scaled to the calorie target, saved per week in the database, with a **priced grocery list**.
 
 ## Hard rules
 
@@ -29,9 +30,13 @@ Home Screen). Python (FastAPI) back end, one static HTML page for the UI.
    Design phone-first, then check all three widths for horizontal overflow before committing. Keep controls as real buttons/labelled inputs (keyboard + screen reader access).
 5. **Workouts stay specific and measurable.** Every exercise needs a number (sets × reps, seconds, rounds) plus rest and a cue. No filler like "long walk" or
    "dance class" (a test enforces it). Keep the safety text and warm-ups; never prescribe training through pain or promise body changes.
-6. **Recipes: only openly licensed text.** `app/data/recipes.json` comes from Wikibooks Cookbook (CC BY-SA 4.0) via `tools/build_recipes.py`.
-   Never paste in text scraped from commercial recipe sites. Keep each recipe's source, history link and license visible in the app.
-   Nutrition is computed from USDA data, never scraped.
+6. **Recipes: only openly licensed or original text.** `app/data/recipes.json` is built by `tools/build_recipes.py` from Wikibooks Cookbook (CC BY-SA 4.0,
+   `tools/recipes_src.json`) plus original recipes (`tools/recipes_original.json`). Never paste in text scraped from commercial recipe sites. Keep each
+   Wikibooks recipe's source, history link and license visible in the app. Nutrition is computed from USDA data, never scraped.
+9. **Diet safety and price honesty.** Allergen/diet tags are computed from `app/data/ingredients.json`, never typed by hand per recipe; a test lints recipe text
+   for allergen words the tags miss. The app must keep telling users to read labels (tags can't see brands or cross-contact) and never claims to be medical advice.
+   Every price carries its source: `bls` / `bls-derived` (official BLS average, Sep 2026), `estimate` (mine, not official) or the user's own edit. Never label an
+   estimate as official. Diet/plan/price logic exists in Python (`app/diet.py`) and JS (`local-backend.js`) and must match: `node tools/diet_parity.mjs`.
 7. **No secrets in git, in chat, or in the public site.** The server edition reads `ANTHROPIC_API_KEY` from the gitignored `.env`
    file (or the environment) via `app/config.py`, and only ever sends it to api.anthropic.com. Never print, log, store or echo it, never
    put it in `docs/` or client code, and never ask the user to paste it into chat (if they do, tell them to revoke it). Without a key,
@@ -65,7 +70,9 @@ Home Screen). Python (FastAPI) back end, one static HTML page for the UI.
 | `app/config.py`, `.env.example` | `.env` loading and the key placeholder |
 | `tools/check_key.py` | self-test the user runs to confirm their key and image analysis work |
 | `app/data/nutrition.json` | USDA SR Legacy knowledge base (built by `tools/build_nutrition_kb.py`; public domain) |
-| `app/data/recipes.json` | scraped recipes + computed nutrition (built by `tools/build_recipes.py` from `tools/recipes_src.json`) |
+| `app/data/recipes.json` | 62 recipes + computed nutrition, allergens, per-item gram `lines` (built by `tools/build_recipes.py` from `tools/recipes_src.json` and `tools/recipes_original.json`) |
+| `app/data/ingredients.json` | 100-item grocery catalog: USDA id, allergens, aisle, pack size and price with its `src` |
+| `app/diet.py` | pure functions: diet profile, recipe eligibility, seeded varied weekly plan, recipe cost, grocery list. Tables for diet, plans and price edits are in `app/db.py` |
 | `app/data/food_calories.json` | typical-serving calories for the 101 classes the on-device model knows (approximate; keys must match the model's labels, checked by `node tools/ondevice_check.mjs --live`) |
 
 After changing `app/static/`, `app/data/` or `local-backend.js`, run `tools/build_pages.py` and commit `docs/`.

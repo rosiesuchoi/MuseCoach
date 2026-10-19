@@ -1,0 +1,1495 @@
+{
+ "_comment": "Grocery catalog. 'fdc' = USDA FoodData Central SR Legacy id (nutrition comes from there). 'allergens' use the 9 major US allergens (milk, egg, peanut, tree_nut, wheat, soy, fish, shellfish, sesame) plus 'gluten' (for gluten-free diets; oats are tagged because of cross-contact). 'contains' flags meat/poultry/honey for diets. 'pack' = how it is sold: label, grams of FOOD per pack (edible weight), price in USD, and src. src 'bls' = US government average retail price per lb/dozen/gallon (Sep 2026) used directly; 'bls-derived' = that official per-unit price scaled to this pack size; 'estimate' = a typical US supermarket price I estimated (NOT an official figure). 'staple' = pantry item you may already own. 'each' = grams in one countable piece.",
+ "prices": {
+  "as_of": "2026-09",
+  "source": "U.S. Bureau of Labor Statistics, Average Retail Food and Energy Prices, U.S. city average, September 2026 (https://www.bls.gov/regions/mid-atlantic/data/AverageRetailFoodAndEnergyPrices_USandMidwest_Table.htm). Items marked 'estimate' are typical US supermarket prices, not official figures. Real store prices vary by city and brand."
+ },
+ "items": {
+  "chicken_breast": {
+   "name": "Chicken breast, boneless skinless",
+   "fdc": 171077,
+   "allergens": [],
+   "contains": [
+    "poultry"
+   ],
+   "aisle": "Meat & seafood",
+   "pack": {
+    "label": "1 lb",
+    "g": 453.6,
+    "price": 4.2,
+    "src": "bls"
+   }
+  },
+  "ground_turkey": {
+   "name": "Ground turkey (93% lean)",
+   "fdc": 172850,
+   "allergens": [],
+   "contains": [
+    "poultry"
+   ],
+   "aisle": "Meat & seafood",
+   "pack": {
+    "label": "1 lb",
+    "g": 453.6,
+    "price": 5.49,
+    "src": "estimate"
+   }
+  },
+  "ground_beef": {
+   "name": "Ground beef (85% lean)",
+   "fdc": 171796,
+   "allergens": [],
+   "contains": [
+    "meat"
+   ],
+   "aisle": "Meat & seafood",
+   "pack": {
+    "label": "1 lb",
+    "g": 453.6,
+    "price": 6.79,
+    "src": "bls"
+   }
+  },
+  "sirloin_steak": {
+   "name": "Beef top sirloin steak",
+   "fdc": 168728,
+   "allergens": [],
+   "contains": [
+    "meat"
+   ],
+   "aisle": "Meat & seafood",
+   "pack": {
+    "label": "1 lb",
+    "g": 453.6,
+    "price": 14.11,
+    "src": "bls"
+   }
+  },
+  "pork_chop": {
+   "name": "Pork loin chops, boneless",
+   "fdc": 167839,
+   "allergens": [],
+   "contains": [
+    "meat"
+   ],
+   "aisle": "Meat & seafood",
+   "pack": {
+    "label": "1 lb",
+    "g": 453.6,
+    "price": 4.55,
+    "src": "bls"
+   }
+  },
+  "turkey_deli": {
+   "name": "Sliced turkey breast (deli)",
+   "fdc": 172941,
+   "allergens": [],
+   "contains": [
+    "poultry"
+   ],
+   "aisle": "Meat & seafood",
+   "pack": {
+    "label": "8 oz pack",
+    "g": 226.8,
+    "price": 4.99,
+    "src": "estimate"
+   }
+  },
+  "salmon_fillet": {
+   "name": "Salmon fillet",
+   "fdc": 175167,
+   "allergens": [
+    "fish"
+   ],
+   "contains": [],
+   "aisle": "Meat & seafood",
+   "pack": {
+    "label": "1 lb",
+    "g": 453.6,
+    "price": 11.99,
+    "src": "estimate"
+   }
+  },
+  "cod_fillet": {
+   "name": "Cod fillets",
+   "fdc": 171955,
+   "allergens": [
+    "fish"
+   ],
+   "contains": [],
+   "aisle": "Meat & seafood",
+   "pack": {
+    "label": "1 lb (frozen)",
+    "g": 453.6,
+    "price": 9.49,
+    "src": "estimate"
+   }
+  },
+  "shrimp": {
+   "name": "Shrimp, raw peeled",
+   "fdc": 175179,
+   "allergens": [
+    "shellfish"
+   ],
+   "contains": [],
+   "aisle": "Meat & seafood",
+   "pack": {
+    "label": "1 lb bag (frozen)",
+    "g": 453.6,
+    "price": 9.99,
+    "src": "estimate"
+   }
+  },
+  "tuna_canned": {
+   "name": "Canned light tuna in water",
+   "fdc": 173709,
+   "allergens": [
+    "fish"
+   ],
+   "contains": [],
+   "aisle": "Canned & dry goods",
+   "pack": {
+    "label": "5 oz can",
+    "g": 112,
+    "price": 1.39,
+    "src": "estimate"
+   }
+  },
+  "egg": {
+   "name": "Eggs, large",
+   "fdc": 171287,
+   "allergens": [
+    "egg"
+   ],
+   "contains": [],
+   "aisle": "Dairy & eggs",
+   "pack": {
+    "label": "1 dozen",
+    "g": 600,
+    "price": 2.27,
+    "src": "bls"
+   },
+   "each": {
+    "name": "egg",
+    "g": 50
+   }
+  },
+  "tofu_firm": {
+   "name": "Firm tofu",
+   "fdc": 172475,
+   "allergens": [
+    "soy"
+   ],
+   "contains": [],
+   "aisle": "Dairy & eggs",
+   "pack": {
+    "label": "14 oz block",
+    "g": 397,
+    "price": 2.49,
+    "src": "estimate"
+   }
+  },
+  "black_beans_canned": {
+   "name": "Black beans, canned",
+   "fdc": 175238,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Canned & dry goods",
+   "pack": {
+    "label": "15 oz can",
+    "g": 425,
+    "price": 1.19,
+    "src": "estimate"
+   }
+  },
+  "kidney_beans_canned": {
+   "name": "Kidney beans, canned",
+   "fdc": 174285,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Canned & dry goods",
+   "pack": {
+    "label": "15 oz can (drained)",
+    "g": 255,
+    "price": 1.19,
+    "src": "estimate"
+   }
+  },
+  "chickpeas_canned": {
+   "name": "Chickpeas, canned",
+   "fdc": 173800,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Canned & dry goods",
+   "pack": {
+    "label": "15 oz can (drained)",
+    "g": 240,
+    "price": 1.19,
+    "src": "estimate"
+   }
+  },
+  "white_beans_canned": {
+   "name": "White beans, canned",
+   "fdc": 175204,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Canned & dry goods",
+   "pack": {
+    "label": "15 oz can",
+    "g": 425,
+    "price": 1.19,
+    "src": "estimate"
+   }
+  },
+  "lentils_brown": {
+   "name": "Brown lentils, dry",
+   "fdc": 172420,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Canned & dry goods",
+   "pack": {
+    "label": "1 lb bag",
+    "g": 453.6,
+    "price": 1.99,
+    "src": "estimate"
+   }
+  },
+  "red_lentils": {
+   "name": "Red lentils, dry",
+   "fdc": 174284,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Canned & dry goods",
+   "pack": {
+    "label": "1 lb bag",
+    "g": 453.6,
+    "price": 2.29,
+    "src": "estimate"
+   }
+  },
+  "black_beans_dry": {
+   "name": "Black beans, dry",
+   "fdc": 173734,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Canned & dry goods",
+   "pack": {
+    "label": "1 lb bag",
+    "g": 453.6,
+    "price": 1.67,
+    "src": "bls"
+   }
+  },
+  "milk_whole": {
+   "name": "Whole milk",
+   "fdc": 171265,
+   "allergens": [
+    "milk"
+   ],
+   "contains": [],
+   "aisle": "Dairy & eggs",
+   "pack": {
+    "label": "1 gallon",
+    "g": 3900,
+    "price": 4.11,
+    "src": "bls"
+   }
+  },
+  "yogurt_greek": {
+   "name": "Plain nonfat Greek yogurt",
+   "fdc": 170894,
+   "allergens": [
+    "milk"
+   ],
+   "contains": [],
+   "aisle": "Dairy & eggs",
+   "pack": {
+    "label": "32 oz tub",
+    "g": 907,
+    "price": 5.49,
+    "src": "estimate"
+   }
+  },
+  "cottage_cheese": {
+   "name": "Low-fat cottage cheese",
+   "fdc": 173417,
+   "allergens": [
+    "milk"
+   ],
+   "contains": [],
+   "aisle": "Dairy & eggs",
+   "pack": {
+    "label": "16 oz tub",
+    "g": 454,
+    "price": 3.79,
+    "src": "estimate"
+   }
+  },
+  "cheddar": {
+   "name": "Cheddar cheese",
+   "fdc": 173414,
+   "allergens": [
+    "milk"
+   ],
+   "contains": [],
+   "aisle": "Dairy & eggs",
+   "pack": {
+    "label": "8 oz block",
+    "g": 226.8,
+    "price": 3.07,
+    "src": "bls-derived"
+   }
+  },
+  "mozzarella": {
+   "name": "Mozzarella cheese",
+   "fdc": 170847,
+   "allergens": [
+    "milk"
+   ],
+   "contains": [],
+   "aisle": "Dairy & eggs",
+   "pack": {
+    "label": "8 oz",
+    "g": 226.8,
+    "price": 3.99,
+    "src": "estimate"
+   }
+  },
+  "parmesan": {
+   "name": "Parmesan cheese, grated",
+   "fdc": 171247,
+   "allergens": [
+    "milk"
+   ],
+   "contains": [],
+   "aisle": "Dairy & eggs",
+   "pack": {
+    "label": "5 oz wedge",
+    "g": 142,
+    "price": 4.99,
+    "src": "estimate"
+   }
+  },
+  "feta": {
+   "name": "Feta cheese",
+   "fdc": 173420,
+   "allergens": [
+    "milk"
+   ],
+   "contains": [],
+   "aisle": "Dairy & eggs",
+   "pack": {
+    "label": "6 oz",
+    "g": 170,
+    "price": 4.49,
+    "src": "estimate"
+   }
+  },
+  "cream_cheese": {
+   "name": "Cream cheese",
+   "fdc": 173418,
+   "allergens": [
+    "milk"
+   ],
+   "contains": [],
+   "aisle": "Dairy & eggs",
+   "pack": {
+    "label": "8 oz",
+    "g": 226.8,
+    "price": 2.89,
+    "src": "estimate"
+   }
+  },
+  "butter": {
+   "name": "Butter",
+   "fdc": 173430,
+   "allergens": [
+    "milk"
+   ],
+   "contains": [],
+   "aisle": "Dairy & eggs",
+   "pack": {
+    "label": "1 lb",
+    "g": 453.6,
+    "price": 5.29,
+    "src": "estimate"
+   }
+  },
+  "sour_cream": {
+   "name": "Sour cream",
+   "fdc": 171257,
+   "allergens": [
+    "milk"
+   ],
+   "contains": [],
+   "aisle": "Dairy & eggs",
+   "pack": {
+    "label": "16 oz tub",
+    "g": 454,
+    "price": 2.49,
+    "src": "estimate"
+   }
+  },
+  "almond_milk": {
+   "name": "Unsweetened almond milk",
+   "fdc": 174832,
+   "allergens": [
+    "tree_nut"
+   ],
+   "contains": [],
+   "aisle": "Dairy & eggs",
+   "pack": {
+    "label": "64 oz carton",
+    "g": 1893,
+    "price": 3.49,
+    "src": "estimate"
+   }
+  },
+  "peanut_butter": {
+   "name": "Peanut butter",
+   "fdc": 174294,
+   "allergens": [
+    "peanut"
+   ],
+   "contains": [],
+   "aisle": "Canned & dry goods",
+   "pack": {
+    "label": "16 oz jar",
+    "g": 454,
+    "price": 3.29,
+    "src": "estimate"
+   }
+  },
+  "oats_rolled": {
+   "name": "Rolled oats",
+   "fdc": 173904,
+   "allergens": [
+    "gluten"
+   ],
+   "contains": [],
+   "aisle": "Grains & bakery",
+   "pack": {
+    "label": "18 oz canister",
+    "g": 510,
+    "price": 3.99,
+    "src": "estimate"
+   }
+  },
+  "rice_white": {
+   "name": "White rice, long grain",
+   "fdc": 168877,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Grains & bakery",
+   "pack": {
+    "label": "2 lb bag",
+    "g": 907,
+    "price": 2.24,
+    "src": "bls-derived"
+   }
+  },
+  "quinoa": {
+   "name": "Quinoa",
+   "fdc": 168874,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Grains & bakery",
+   "pack": {
+    "label": "12 oz bag",
+    "g": 340,
+    "price": 4.49,
+    "src": "estimate"
+   }
+  },
+  "pasta_spaghetti": {
+   "name": "Spaghetti, dry",
+   "fdc": 169736,
+   "allergens": [
+    "wheat",
+    "gluten"
+   ],
+   "contains": [],
+   "aisle": "Grains & bakery",
+   "pack": {
+    "label": "1 lb box",
+    "g": 453.6,
+    "price": 1.38,
+    "src": "bls"
+   }
+  },
+  "bread_whole_wheat": {
+   "name": "Whole-wheat bread",
+   "fdc": 172688,
+   "allergens": [
+    "wheat",
+    "gluten"
+   ],
+   "contains": [],
+   "aisle": "Grains & bakery",
+   "pack": {
+    "label": "20 oz loaf",
+    "g": 567,
+    "price": 3.49,
+    "src": "estimate"
+   },
+   "each": {
+    "name": "slice",
+    "g": 28
+   }
+  },
+  "bread_white": {
+   "name": "White sandwich bread",
+   "fdc": 174924,
+   "allergens": [
+    "wheat",
+    "gluten"
+   ],
+   "contains": [],
+   "aisle": "Grains & bakery",
+   "pack": {
+    "label": "1 lb loaf",
+    "g": 454,
+    "price": 1.83,
+    "src": "bls"
+   },
+   "each": {
+    "name": "slice",
+    "g": 25
+   }
+  },
+  "tortilla_flour": {
+   "name": "Flour tortillas (8 in)",
+   "fdc": 175037,
+   "allergens": [
+    "wheat",
+    "gluten"
+   ],
+   "contains": [],
+   "aisle": "Grains & bakery",
+   "pack": {
+    "label": "10-count pack",
+    "g": 450,
+    "price": 3.29,
+    "src": "estimate"
+   },
+   "each": {
+    "name": "tortilla",
+    "g": 45
+   }
+  },
+  "tortilla_corn": {
+   "name": "Corn tortillas",
+   "fdc": 175036,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Grains & bakery",
+   "pack": {
+    "label": "30-count pack",
+    "g": 720,
+    "price": 2.99,
+    "src": "estimate"
+   },
+   "each": {
+    "name": "tortilla",
+    "g": 24
+   }
+  },
+  "flour_self_rising": {
+   "name": "Self-rising flour",
+   "fdc": 168895,
+   "allergens": [
+    "wheat",
+    "gluten"
+   ],
+   "contains": [],
+   "aisle": "Grains & bakery",
+   "pack": {
+    "label": "5 lb bag",
+    "g": 2268,
+    "price": 3.99,
+    "src": "estimate"
+   },
+   "staple": true
+  },
+  "wheat_germ": {
+   "name": "Wheat germ",
+   "fdc": 168892,
+   "allergens": [
+    "wheat",
+    "gluten"
+   ],
+   "contains": [],
+   "aisle": "Grains & bakery",
+   "pack": {
+    "label": "12 oz jar",
+    "g": 340,
+    "price": 4.49,
+    "src": "estimate"
+   }
+  },
+  "banana": {
+   "name": "Bananas",
+   "fdc": 173944,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Produce",
+   "pack": {
+    "label": "1 lb (about 3)",
+    "g": 354,
+    "price": 0.66,
+    "src": "bls"
+   },
+   "each": {
+    "name": "banana",
+    "g": 118
+   }
+  },
+  "strawberries": {
+   "name": "Strawberries",
+   "fdc": 167762,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Produce",
+   "pack": {
+    "label": "12 oz pack",
+    "g": 320,
+    "price": 2.84,
+    "src": "bls"
+   }
+  },
+  "blueberries": {
+   "name": "Blueberries",
+   "fdc": 171711,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Produce",
+   "pack": {
+    "label": "6 oz pint",
+    "g": 170,
+    "price": 3.99,
+    "src": "estimate"
+   }
+  },
+  "apple": {
+   "name": "Apples",
+   "fdc": 171688,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Produce",
+   "pack": {
+    "label": "1 lb (about 3)",
+    "g": 410,
+    "price": 1.79,
+    "src": "estimate"
+   },
+   "each": {
+    "name": "apple",
+    "g": 180
+   }
+  },
+  "pineapple": {
+   "name": "Pineapple chunks",
+   "fdc": 169124,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Produce",
+   "pack": {
+    "label": "20 oz container",
+    "g": 480,
+    "price": 3.99,
+    "src": "estimate"
+   }
+  },
+  "lemon": {
+   "name": "Lemons",
+   "fdc": 167747,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Produce",
+   "pack": {
+    "label": "1 lemon",
+    "g": 45,
+    "price": 0.53,
+    "src": "bls-derived"
+   },
+   "each": {
+    "name": "lemon",
+    "g": 45
+   }
+  },
+  "lime": {
+   "name": "Limes",
+   "fdc": 168156,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Produce",
+   "pack": {
+    "label": "1 lime",
+    "g": 30,
+    "price": 0.35,
+    "src": "estimate"
+   },
+   "each": {
+    "name": "lime",
+    "g": 30
+   }
+  },
+  "avocado": {
+   "name": "Avocados",
+   "fdc": 171705,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Produce",
+   "pack": {
+    "label": "1 avocado",
+    "g": 150,
+    "price": 1.49,
+    "src": "estimate"
+   },
+   "each": {
+    "name": "avocado",
+    "g": 150
+   }
+  },
+  "tomato": {
+   "name": "Tomatoes",
+   "fdc": 170457,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Produce",
+   "pack": {
+    "label": "1 lb",
+    "g": 440,
+    "price": 1.99,
+    "src": "bls"
+   },
+   "each": {
+    "name": "tomato",
+    "g": 150,
+    "plural": "tomatoes"
+   }
+  },
+  "onion": {
+   "name": "Yellow onions",
+   "fdc": 170000,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Produce",
+   "pack": {
+    "label": "3 lb bag",
+    "g": 1200,
+    "price": 3.49,
+    "src": "estimate"
+   },
+   "each": {
+    "name": "onion",
+    "g": 150
+   }
+  },
+  "garlic": {
+   "name": "Garlic",
+   "fdc": 169230,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Produce",
+   "pack": {
+    "label": "1 head (about 10 cloves)",
+    "g": 30,
+    "price": 0.79,
+    "src": "estimate"
+   },
+   "each": {
+    "name": "clove",
+    "g": 3
+   }
+  },
+  "bell_pepper_red": {
+   "name": "Red bell peppers",
+   "fdc": 170108,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Produce",
+   "pack": {
+    "label": "1 pepper",
+    "g": 150,
+    "price": 1.49,
+    "src": "estimate"
+   },
+   "each": {
+    "name": "pepper",
+    "g": 150
+   }
+  },
+  "bell_pepper_green": {
+   "name": "Green bell peppers",
+   "fdc": 170427,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Produce",
+   "pack": {
+    "label": "1 pepper",
+    "g": 150,
+    "price": 0.99,
+    "src": "estimate"
+   },
+   "each": {
+    "name": "pepper",
+    "g": 150
+   }
+  },
+  "carrot": {
+   "name": "Carrots",
+   "fdc": 170393,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Produce",
+   "pack": {
+    "label": "2 lb bag",
+    "g": 850,
+    "price": 2.29,
+    "src": "estimate"
+   },
+   "each": {
+    "name": "carrot",
+    "g": 61
+   }
+  },
+  "celery": {
+   "name": "Celery",
+   "fdc": 169988,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Produce",
+   "pack": {
+    "label": "1 bunch",
+    "g": 400,
+    "price": 2.49,
+    "src": "estimate"
+   }
+  },
+  "broccoli": {
+   "name": "Broccoli",
+   "fdc": 170379,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Produce",
+   "pack": {
+    "label": "1 lb crowns",
+    "g": 454,
+    "price": 2.49,
+    "src": "estimate"
+   }
+  },
+  "spinach": {
+   "name": "Baby spinach",
+   "fdc": 168462,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Produce",
+   "pack": {
+    "label": "10 oz bag",
+    "g": 283,
+    "price": 3.49,
+    "src": "estimate"
+   }
+  },
+  "mushrooms": {
+   "name": "White mushrooms",
+   "fdc": 169251,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Produce",
+   "pack": {
+    "label": "8 oz pack",
+    "g": 227,
+    "price": 2.99,
+    "src": "estimate"
+   }
+  },
+  "sweet_potato": {
+   "name": "Sweet potatoes",
+   "fdc": 168482,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Produce",
+   "pack": {
+    "label": "1 lb",
+    "g": 420,
+    "price": 1.49,
+    "src": "estimate"
+   },
+   "each": {
+    "name": "sweet potato",
+    "g": 130,
+    "plural": "sweet potatoes"
+   }
+  },
+  "potato": {
+   "name": "White potatoes",
+   "fdc": 170026,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Produce",
+   "pack": {
+    "label": "5 lb bag",
+    "g": 2041,
+    "price": 4.95,
+    "src": "bls-derived"
+   },
+   "each": {
+    "name": "potato",
+    "g": 170,
+    "plural": "potatoes"
+   }
+  },
+  "cucumber": {
+   "name": "Cucumbers",
+   "fdc": 168409,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Produce",
+   "pack": {
+    "label": "1 cucumber",
+    "g": 300,
+    "price": 0.99,
+    "src": "estimate"
+   },
+   "each": {
+    "name": "cucumber",
+    "g": 300
+   }
+  },
+  "romaine": {
+   "name": "Romaine lettuce",
+   "fdc": 169247,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Produce",
+   "pack": {
+    "label": "1 head",
+    "g": 340,
+    "price": 2.48,
+    "src": "bls-derived"
+   }
+  },
+  "green_beans": {
+   "name": "Green beans",
+   "fdc": 169961,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Produce",
+   "pack": {
+    "label": "12 oz bag",
+    "g": 340,
+    "price": 2.49,
+    "src": "estimate"
+   }
+  },
+  "corn_frozen": {
+   "name": "Frozen corn",
+   "fdc": 168398,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Frozen",
+   "pack": {
+    "label": "12 oz bag",
+    "g": 340,
+    "price": 1.99,
+    "src": "estimate"
+   }
+  },
+  "peas_frozen": {
+   "name": "Frozen peas",
+   "fdc": 170016,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Frozen",
+   "pack": {
+    "label": "12 oz bag",
+    "g": 340,
+    "price": 1.89,
+    "src": "estimate"
+   }
+  },
+  "cabbage": {
+   "name": "Green cabbage",
+   "fdc": 169975,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Produce",
+   "pack": {
+    "label": "1 small head",
+    "g": 700,
+    "price": 2.49,
+    "src": "estimate"
+   }
+  },
+  "jalapeno": {
+   "name": "Jalapeño peppers",
+   "fdc": 168576,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Produce",
+   "pack": {
+    "label": "1 pepper",
+    "g": 14,
+    "price": 0.25,
+    "src": "estimate"
+   },
+   "each": {
+    "name": "jalapeño",
+    "g": 14
+   }
+  },
+  "cilantro": {
+   "name": "Fresh cilantro",
+   "fdc": 169997,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Produce",
+   "pack": {
+    "label": "1 bunch",
+    "g": 50,
+    "price": 0.99,
+    "src": "estimate"
+   }
+  },
+  "basil": {
+   "name": "Fresh basil",
+   "fdc": 172232,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Produce",
+   "pack": {
+    "label": "0.75 oz pack",
+    "g": 21,
+    "price": 2.99,
+    "src": "estimate"
+   }
+  },
+  "ginger": {
+   "name": "Fresh ginger",
+   "fdc": 169231,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Produce",
+   "pack": {
+    "label": "2 oz piece",
+    "g": 56,
+    "price": 0.79,
+    "src": "estimate"
+   }
+  },
+  "raisins": {
+   "name": "Raisins",
+   "fdc": 168165,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Canned & dry goods",
+   "pack": {
+    "label": "12 oz box",
+    "g": 340,
+    "price": 3.49,
+    "src": "estimate"
+   }
+  },
+  "walnuts": {
+   "name": "Walnuts",
+   "fdc": 170187,
+   "allergens": [
+    "tree_nut"
+   ],
+   "contains": [],
+   "aisle": "Canned & dry goods",
+   "pack": {
+    "label": "8 oz bag",
+    "g": 227,
+    "price": 5.99,
+    "src": "estimate"
+   }
+  },
+  "almonds": {
+   "name": "Almonds",
+   "fdc": 170567,
+   "allergens": [
+    "tree_nut"
+   ],
+   "contains": [],
+   "aisle": "Canned & dry goods",
+   "pack": {
+    "label": "8 oz bag",
+    "g": 227,
+    "price": 5.49,
+    "src": "estimate"
+   }
+  },
+  "chia_seeds": {
+   "name": "Chia seeds",
+   "fdc": 170554,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Canned & dry goods",
+   "pack": {
+    "label": "12 oz bag",
+    "g": 340,
+    "price": 5.49,
+    "src": "estimate"
+   }
+  },
+  "sunflower_seeds": {
+   "name": "Sunflower seeds",
+   "fdc": 170562,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Canned & dry goods",
+   "pack": {
+    "label": "6 oz bag",
+    "g": 170,
+    "price": 2.99,
+    "src": "estimate"
+   }
+  },
+  "water_chestnuts": {
+   "name": "Water chestnuts, canned",
+   "fdc": 170067,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Canned & dry goods",
+   "pack": {
+    "label": "8 oz can (drained)",
+    "g": 140,
+    "price": 1.69,
+    "src": "estimate"
+   }
+  },
+  "tomatoes_canned": {
+   "name": "Diced tomatoes, canned",
+   "fdc": 170051,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Canned & dry goods",
+   "pack": {
+    "label": "14.5 oz can",
+    "g": 411,
+    "price": 1.39,
+    "src": "estimate"
+   }
+  },
+  "salsa": {
+   "name": "Salsa",
+   "fdc": 174524,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Canned & dry goods",
+   "pack": {
+    "label": "16 oz jar",
+    "g": 454,
+    "price": 3.29,
+    "src": "estimate"
+   }
+  },
+  "hummus": {
+   "name": "Hummus",
+   "fdc": 174289,
+   "allergens": [
+    "sesame"
+   ],
+   "contains": [],
+   "aisle": "Dairy & eggs",
+   "pack": {
+    "label": "10 oz tub",
+    "g": 283,
+    "price": 3.99,
+    "src": "estimate"
+   }
+  },
+  "olive_oil": {
+   "name": "Olive oil",
+   "fdc": 171413,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Pantry staples",
+   "pack": {
+    "label": "17 oz bottle",
+    "g": 459,
+    "price": 8.99,
+    "src": "estimate"
+   },
+   "staple": true
+  },
+  "canola_oil": {
+   "name": "Canola oil",
+   "fdc": 172336,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Pantry staples",
+   "pack": {
+    "label": "48 oz bottle",
+    "g": 1310,
+    "price": 4.49,
+    "src": "estimate"
+   },
+   "staple": true
+  },
+  "mayonnaise": {
+   "name": "Mayonnaise",
+   "fdc": 171009,
+   "allergens": [
+    "egg"
+   ],
+   "contains": [],
+   "aisle": "Pantry staples",
+   "pack": {
+    "label": "15 oz jar",
+    "g": 425,
+    "price": 3.99,
+    "src": "estimate"
+   },
+   "staple": true
+  },
+  "mustard": {
+   "name": "Mustard",
+   "fdc": 172234,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Pantry staples",
+   "pack": {
+    "label": "8 oz bottle",
+    "g": 227,
+    "price": 1.29,
+    "src": "estimate"
+   },
+   "staple": true
+  },
+  "soy_sauce": {
+   "name": "Soy sauce",
+   "fdc": 174277,
+   "allergens": [
+    "soy",
+    "wheat",
+    "gluten"
+   ],
+   "contains": [],
+   "aisle": "Pantry staples",
+   "pack": {
+    "label": "10 oz bottle",
+    "g": 330,
+    "price": 2.49,
+    "src": "estimate"
+   },
+   "staple": true
+  },
+  "vinegar_cider": {
+   "name": "Apple cider vinegar",
+   "fdc": 173469,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Pantry staples",
+   "pack": {
+    "label": "16 oz bottle",
+    "g": 480,
+    "price": 2.49,
+    "src": "estimate"
+   },
+   "staple": true
+  },
+  "vinegar_red_wine": {
+   "name": "Red wine vinegar",
+   "fdc": 172240,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Pantry staples",
+   "pack": {
+    "label": "12 oz bottle",
+    "g": 360,
+    "price": 2.99,
+    "src": "estimate"
+   },
+   "staple": true
+  },
+  "sugar_brown": {
+   "name": "Brown sugar",
+   "fdc": 168833,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Pantry staples",
+   "pack": {
+    "label": "2 lb bag",
+    "g": 907,
+    "price": 3.29,
+    "src": "estimate"
+   },
+   "staple": true
+  },
+  "honey": {
+   "name": "Honey",
+   "fdc": 169640,
+   "allergens": [],
+   "contains": [
+    "honey"
+   ],
+   "aisle": "Pantry staples",
+   "pack": {
+    "label": "12 oz bottle",
+    "g": 340,
+    "price": 4.99,
+    "src": "estimate"
+   },
+   "staple": true
+  },
+  "baking_powder": {
+   "name": "Baking powder",
+   "fdc": 172803,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Pantry staples",
+   "pack": {
+    "label": "8 oz can",
+    "g": 230,
+    "price": 3.29,
+    "src": "estimate"
+   },
+   "staple": true
+  },
+  "salt": {
+   "name": "Salt",
+   "fdc": 173468,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Spices",
+   "pack": {
+    "label": "26 oz canister",
+    "g": 737,
+    "price": 1.19,
+    "src": "estimate"
+   },
+   "staple": true
+  },
+  "black_pepper": {
+   "name": "Black pepper",
+   "fdc": 170931,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Spices",
+   "pack": {
+    "label": "2 oz jar",
+    "g": 57,
+    "price": 3.49,
+    "src": "estimate"
+   },
+   "staple": true
+  },
+  "cinnamon": {
+   "name": "Ground cinnamon",
+   "fdc": 171320,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Spices",
+   "pack": {
+    "label": "2.4 oz jar",
+    "g": 68,
+    "price": 3.29,
+    "src": "estimate"
+   },
+   "staple": true
+  },
+  "cumin": {
+   "name": "Ground cumin",
+   "fdc": 170923,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Spices",
+   "pack": {
+    "label": "1.5 oz jar",
+    "g": 42,
+    "price": 3.29,
+    "src": "estimate"
+   },
+   "staple": true
+  },
+  "chili_powder": {
+   "name": "Chili powder",
+   "fdc": 171319,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Spices",
+   "pack": {
+    "label": "2.5 oz jar",
+    "g": 71,
+    "price": 2.99,
+    "src": "estimate"
+   },
+   "staple": true
+  },
+  "red_pepper": {
+   "name": "Crushed red pepper",
+   "fdc": 170932,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Spices",
+   "pack": {
+    "label": "1.5 oz jar",
+    "g": 42,
+    "price": 2.99,
+    "src": "estimate"
+   },
+   "staple": true
+  },
+  "turmeric": {
+   "name": "Ground turmeric",
+   "fdc": 172231,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Spices",
+   "pack": {
+    "label": "2 oz jar",
+    "g": 57,
+    "price": 3.29,
+    "src": "estimate"
+   },
+   "staple": true
+  },
+  "curry_powder": {
+   "name": "Curry powder",
+   "fdc": 170924,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Spices",
+   "pack": {
+    "label": "2 oz jar",
+    "g": 57,
+    "price": 3.29,
+    "src": "estimate"
+   },
+   "staple": true
+  },
+  "paprika": {
+   "name": "Paprika",
+   "fdc": 171329,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Spices",
+   "pack": {
+    "label": "2 oz jar",
+    "g": 57,
+    "price": 2.99,
+    "src": "estimate"
+   },
+   "staple": true
+  },
+  "oregano": {
+   "name": "Dried oregano",
+   "fdc": 171328,
+   "allergens": [],
+   "contains": [],
+   "aisle": "Spices",
+   "pack": {
+    "label": "0.75 oz jar",
+    "g": 21,
+    "price": 2.99,
+    "src": "estimate"
+   },
+   "staple": true
+  }
+ }
+}

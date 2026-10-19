@@ -1,52 +1,54 @@
-"""Builds a 7-day meal plan from the recipes in data/recipes.json.
+"""The weekly meal plan service: builds a varied plan that respects the user's diet and allergies, saves it in the database, and prices it.
 
-Recipes have fixed calories per serving, so instead of inventing numbers we scale the portion
-(0.5x-2x) to hit each meal's share of the daily target.
+A plan is saved per calendar week, so it doesn't change every time the app is opened. It is rebuilt when the diet or calorie target changes,
+and the user can ask for a different one ("shuffle"). Older weeks stay in the database as history.
 """
 
 from __future__ import annotations
 
-import json
-from pathlib import Path
+from datetime import date
 
-DATA = Path(__file__).parent / "data"
-SHARES = {"breakfast": 0.25, "lunch": 0.35, "dinner": 0.30}  # the last 10% is for snacks
-DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+from . import db, diet, training
 
 
-def load_all() -> list[dict]:
-    with open(DATA / "recipes.json", encoding="utf-8") as f:
-        return json.load(f)["recipes"]
+def _slot_counts(recipes: list[dict], diet_profile: dict) -> dict:
+    return {slot: sum(1 for r in recipes if r["slot"] == slot and diet.eligible(r, diet_profile)) for slot, _ in diet.SLOTS}
 
 
-def get_recipe(recipe_id: str) -> dict | None:
-    return next((r for r in load_all() if r["id"] == recipe_id), None)
+def get_plan(target_kcal: int, diet_profile: dict, today: date, reshuffle: bool = False) -> dict:
+    week = training.week_start(today).isoformat()
+    sig = f"{diet.signature(diet_profile)}|{target_kcal}"
+    recipes = db.get_recipes()
+    saved = db.get_plan(week)
+    shuffle = (saved["shuffle"] if saved else 0) + (1 if reshuffle else 0)
+    if saved is None or saved["sig"] != sig or reshuffle:
+        built = diet.build_week(recipes, target_kcal, diet.seed_for(week, shuffle), diet_profile)
+        db.save_plan(week, shuffle, sig, target_kcal, built)
+        saved = db.get_plan(week)
+    catalog, overrides = db.get_catalog(), db.get_overrides()
+    by_id = {r["id"]: r for r in recipes}
+    for d in saved["days"]:
+        for m in d["meals"]:
+            m["cost_cents"] = diet.js_round(diet.recipe_cost_cents(by_id[m["recipe_id"]], catalog, overrides) * m["servings"])
+    return {
+        "week_start": week, "shuffle": saved["shuffle"], "target_kcal": target_kcal, "notes": saved["notes"], "week": saved["days"],
+        "eligible": _slot_counts(recipes, diet_profile), "diet": {"profile": diet.normalize(diet_profile), "summary": diet.summary(diet_profile)},
+    }
 
 
-def portion(budget_kcal: float, recipe_kcal: int) -> float:
-    scaled = round(budget_kcal / recipe_kcal * 4) / 4  # nearest quarter serving
-    return min(2.0, max(0.5, scaled))
+def grocery_for(plan: dict) -> dict:
+    recipes = {r["id"]: r for r in db.get_recipes()}
+    meals = [{"recipe_id": m["recipe_id"], "servings": m["servings"]} for d in plan["week"] for m in d["meals"]]
+    result = diet.grocery(meals, recipes, db.get_catalog(), db.get_overrides())
+    result["week_start"] = plan["week_start"]
+    result["meals"] = len(meals)
+    result["prices"] = {"as_of": "2026-09", "source": "US Bureau of Labor Statistics average retail prices (Sep 2026) where marked; other prices are typical-store estimates. Edit any price to match your store."}
+    return result
 
 
-def build_week(target_kcal: int) -> list[dict]:
-    by_slot: dict[str, list[dict]] = {s: [] for s in SHARES}
-    for r in load_all():
-        by_slot[r["slot"]].append(r)
-    week = []
-    for i, day in enumerate(DAYS):
-        meals = []
-        for slot, share in SHARES.items():
-            options = by_slot[slot]
-            r = options[(i + len(slot)) % len(options)]  # rotate so days differ
-            serv = portion(target_kcal * share, r["nutrition"]["kcal"])
-            meals.append(
-                {
-                    "slot": slot,
-                    "recipe_id": r["id"],
-                    "name": r["name"],
-                    "servings": serv,
-                    "kcal": round(r["nutrition"]["kcal"] * serv),
-                }
-            )
-        week.append({"day": day, "meals": meals, "snack_budget": round(target_kcal * 0.10)})
-    return week
+def recipe_with_cost(recipe_id: str) -> dict | None:
+    r = db.get_recipe(recipe_id)
+    if r is None:
+        return None
+    r["cost_cents_per_serving"] = diet.js_round(diet.recipe_cost_cents(r, db.get_catalog(), db.get_overrides()))
+    return r

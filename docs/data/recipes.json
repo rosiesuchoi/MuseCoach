@@ -1,10 +1,12 @@
 {
- "_license": "Ingredient lists and instructions are from Wikibooks Cookbook contributors, licensed CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/), reformatted for this app. Each recipe links its page and edit history for attribution. Nutrition is computed by this project from USDA FoodData Central (public domain). This file is therefore also available under CC BY-SA 4.0.",
+ "_license": "Wikibooks-sourced recipes (those whose source.license is CC BY-SA 4.0): ingredient lists and instructions are from Wikibooks Cookbook contributors, licensed CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/), reformatted for this app, with page and edit-history links for attribution. The other recipes are original to this project. Nutrition is computed from USDA FoodData Central (public domain). This file is therefore available under CC BY-SA 4.0.",
  "recipes": [
   {
    "id": "scrambled-eggs",
    "slot": "breakfast",
    "name": "Basic Scrambled Eggs",
+   "cuisine": "American",
+   "minutes": 10,
    "servings": 1,
    "servings_note": "1 serving (3 eggs)",
    "ingredients": [
@@ -36,6 +38,42 @@
     "Sour cream may be used in place of milk for a creamier and richer version.",
     "Cook ⅓ cup (25 g / 0.88 oz) of crumbled cooked meats (like bacon or sausage) or chopped vegetables (like mushrooms or bell pepper) for a couple of minutes before adding the egg mixture. See also Southwestern Scramble."
    ],
+   "assumptions": "Includes the optional milk (2.5 tbsp). Excludes toast and toppings.",
+   "source": {
+    "title": "Basic Scrambled Eggs (Wikibooks Cookbook)",
+    "url": "https://en.wikibooks.org/wiki/Cookbook%3ABasic_Scrambled_Eggs",
+    "history": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ABasic_Scrambled_Eggs&action=history",
+    "revision": 4523414,
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/"
+   },
+   "allergens": [
+    "egg",
+    "milk"
+   ],
+   "contains": [],
+   "lines": [
+    {
+     "item": "egg",
+     "g": 150
+    },
+    {
+     "item": "milk_whole",
+     "g": 37
+    },
+    {
+     "item": "butter",
+     "g": 28.4
+    },
+    {
+     "item": "salt",
+     "g": 1.5
+    },
+    {
+     "item": "black_pepper",
+     "g": 0.3
+    }
+   ],
    "nutrition": {
     "kcal": 442,
     "protein": 20.3,
@@ -50,21 +88,14 @@
     "calcium": 134.3,
     "iron": 2.7,
     "vitc": 0.0
-   },
-   "assumptions": "Includes the optional milk (2.5 tbsp). Excludes toast and toppings.",
-   "source": {
-    "title": "Basic Scrambled Eggs (Wikibooks Cookbook)",
-    "url": "https://en.wikibooks.org/wiki/Cookbook%3ABasic_Scrambled_Eggs",
-    "history": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ABasic_Scrambled_Eggs&action=history",
-    "revision": 4523414,
-    "license": "CC BY-SA 4.0",
-    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/"
    }
   },
   {
    "id": "banana-pancakes",
    "slot": "breakfast",
    "name": "Banana Pancakes",
+   "cuisine": "American",
+   "minutes": 25,
    "servings": 5,
    "servings_note": "5 servings (the page says 4-6)",
    "ingredients": [
@@ -103,6 +134,56 @@
    "notes": [
     "If using salted butter, omit the extra salt in the ingredients."
    ],
+   "assumptions": "Uses 5 servings. Excludes syrup and any oil or butter used to grease the pan.",
+   "source": {
+    "title": "Banana Pancakes (Wikibooks Cookbook)",
+    "url": "https://en.wikibooks.org/wiki/Cookbook%3ABanana_Pancakes",
+    "history": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ABanana_Pancakes&action=history",
+    "revision": 4523328,
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/"
+   },
+   "allergens": [
+    "egg",
+    "gluten",
+    "milk",
+    "wheat"
+   ],
+   "contains": [],
+   "lines": [
+    {
+     "item": "butter",
+     "g": 40
+    },
+    {
+     "item": "banana",
+     "g": 354
+    },
+    {
+     "item": "egg",
+     "g": 150
+    },
+    {
+     "item": "milk_whole",
+     "g": 387
+    },
+    {
+     "item": "flour_self_rising",
+     "g": 300
+    },
+    {
+     "item": "cinnamon",
+     "g": 2.6
+    },
+    {
+     "item": "salt",
+     "g": 0.4
+    },
+    {
+     "item": "sugar_brown",
+     "g": 41
+    }
+   ],
    "nutrition": {
     "kcal": 455,
     "protein": 13.0,
@@ -117,21 +198,14 @@
     "calcium": 324.6,
     "iron": 3.6,
     "vitc": 6.2
-   },
-   "assumptions": "Uses 5 servings. Excludes syrup and any oil or butter used to grease the pan.",
-   "source": {
-    "title": "Banana Pancakes (Wikibooks Cookbook)",
-    "url": "https://en.wikibooks.org/wiki/Cookbook%3ABanana_Pancakes",
-    "history": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ABanana_Pancakes&action=history",
-    "revision": 4523328,
-    "license": "CC BY-SA 4.0",
-    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/"
    }
   },
   {
    "id": "granola",
    "slot": "breakfast",
    "name": "Granola",
+   "cuisine": "American",
+   "minutes": 75,
    "servings": 16,
    "servings_note": "about 16 servings (roughly 2/3 cup each)",
    "ingredients": [
@@ -158,21 +232,6 @@
     "Let cool, then mix in the raisins and blueberries."
    ],
    "notes": [],
-   "nutrition": {
-    "kcal": 392,
-    "protein": 6.2,
-    "fat": 18.7,
-    "satfat": 2.2,
-    "carb": 54.6,
-    "fiber": 4.0,
-    "sugar": 36.7,
-    "sodium": 152,
-    "chol": 0.0,
-    "potassium": 237.1,
-    "calcium": 40.6,
-    "iron": 1.8,
-    "vitc": 0.8
-   },
    "assumptions": "The page gives no yield. This assumes 16 servings of about 2/3 cup. It is calorie-dense, so a smaller bowl is normal.",
    "source": {
     "title": "Granola (Wikibooks Cookbook)",
@@ -181,12 +240,79 @@
     "revision": 4513189,
     "license": "CC BY-SA 4.0",
     "license_url": "https://creativecommons.org/licenses/by-sa/4.0/"
+   },
+   "allergens": [
+    "gluten",
+    "tree_nut",
+    "wheat"
+   ],
+   "contains": [
+    "honey"
+   ],
+   "lines": [
+    {
+     "item": "walnuts",
+     "g": 121.0
+    },
+    {
+     "item": "almonds",
+     "g": 70
+    },
+    {
+     "item": "sugar_brown",
+     "g": 110
+    },
+    {
+     "item": "wheat_germ",
+     "g": 57.5
+    },
+    {
+     "item": "olive_oil",
+     "g": 162
+    },
+    {
+     "item": "honey",
+     "g": 508.5
+    },
+    {
+     "item": "salt",
+     "g": 6
+    },
+    {
+     "item": "oats_rolled",
+     "g": 324
+    },
+    {
+     "item": "raisins",
+     "g": 72.5
+    },
+    {
+     "item": "blueberries",
+     "g": 74
+    }
+   ],
+   "nutrition": {
+    "kcal": 393,
+    "protein": 5.9,
+    "fat": 18.9,
+    "satfat": 2.3,
+    "carb": 54.7,
+    "fiber": 4.0,
+    "sugar": 36.8,
+    "sodium": 152,
+    "chol": 0.0,
+    "potassium": 233.9,
+    "calcium": 42.0,
+    "iron": 1.8,
+    "vitc": 0.8
    }
   },
   {
    "id": "red-lentil-soup",
    "slot": "lunch",
    "name": "Red Lentil Soup",
+   "cuisine": "Middle Eastern",
+   "minutes": 35,
    "servings": 4,
    "servings_note": "4 servings",
    "ingredients": [
@@ -213,6 +339,39 @@
     "Herbs and/or spices can be added to the sautéing vegetables, such as cumin, thyme, oregano, and/or red pepper flakes.",
     "Hot sauce can be added to taste. Freshly-squeezed lemon juice is a nice addition, preferably immediately before serving."
    ],
+   "assumptions": "Made with water (not stock) and 1.5 tbsp olive oil (the page says 1-2).",
+   "source": {
+    "title": "Red Lentil Soup (Wikibooks Cookbook)",
+    "url": "https://en.wikibooks.org/wiki/Cookbook%3ARed_Lentil_Soup",
+    "history": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ARed_Lentil_Soup&action=history",
+    "revision": 4518501,
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/"
+   },
+   "allergens": [],
+   "contains": [],
+   "lines": [
+    {
+     "item": "olive_oil",
+     "g": 20
+    },
+    {
+     "item": "onion",
+     "g": 110
+    },
+    {
+     "item": "carrot",
+     "g": 122
+    },
+    {
+     "item": "garlic",
+     "g": 6
+    },
+    {
+     "item": "red_lentils",
+     "g": 227
+    }
+   ],
    "nutrition": {
     "kcal": 273,
     "protein": 14.3,
@@ -227,21 +386,14 @@
     "calcium": 46.4,
     "iron": 4.4,
     "vitc": 5.3
-   },
-   "assumptions": "Made with water (not stock) and 1.5 tbsp olive oil (the page says 1-2).",
-   "source": {
-    "title": "Red Lentil Soup (Wikibooks Cookbook)",
-    "url": "https://en.wikibooks.org/wiki/Cookbook%3ARed_Lentil_Soup",
-    "history": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ARed_Lentil_Soup&action=history",
-    "revision": 4518501,
-    "license": "CC BY-SA 4.0",
-    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/"
    }
   },
   {
    "id": "tuna-salad",
    "slot": "lunch",
    "name": "Tuna Salad",
+   "cuisine": "American",
+   "minutes": 10,
    "servings": 3,
    "servings_note": "3 servings (the page says 2-4)",
    "ingredients": [
@@ -267,6 +419,57 @@
     "Serve on toast."
    ],
    "notes": [],
+   "assumptions": "Variation I only. Assumes the tuna and water chestnuts are drained. Excludes the toast it is served on.",
+   "source": {
+    "title": "Tuna Salad (Wikibooks Cookbook)",
+    "url": "https://en.wikibooks.org/wiki/Cookbook%3ATuna_Salad",
+    "history": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ATuna_Salad&action=history",
+    "revision": 4613413,
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/"
+   },
+   "allergens": [
+    "egg",
+    "fish",
+    "gluten",
+    "soy",
+    "wheat"
+   ],
+   "contains": [],
+   "lines": [
+    {
+     "item": "tuna_canned",
+     "g": 255
+    },
+    {
+     "item": "water_chestnuts",
+     "g": 140
+    },
+    {
+     "item": "onion",
+     "g": 35
+    },
+    {
+     "item": "celery",
+     "g": 80
+    },
+    {
+     "item": "carrot",
+     "g": 55
+    },
+    {
+     "item": "mayonnaise",
+     "g": 110
+    },
+    {
+     "item": "mustard",
+     "g": 15
+    },
+    {
+     "item": "soy_sauce",
+     "g": 5.3
+    }
+   ],
    "nutrition": {
     "kcal": 366,
     "protein": 18.1,
@@ -281,21 +484,14 @@
     "calcium": 42.4,
     "iron": 2.1,
     "vitc": 3.4
-   },
-   "assumptions": "Variation I only. Assumes the tuna and water chestnuts are drained. Excludes the toast it is served on.",
-   "source": {
-    "title": "Tuna Salad (Wikibooks Cookbook)",
-    "url": "https://en.wikibooks.org/wiki/Cookbook%3ATuna_Salad",
-    "history": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ATuna_Salad&action=history",
-    "revision": 4613413,
-    "license": "CC BY-SA 4.0",
-    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/"
    }
   },
   {
    "id": "black-bean-soup",
    "slot": "lunch",
    "name": "Black Bean Soup",
+   "cuisine": "Tex-Mex",
+   "minutes": 150,
    "servings": 12,
    "servings_note": "12 servings of about 2 cups",
    "ingredients": [
@@ -332,6 +528,65 @@
     "Serve."
    ],
    "notes": [],
+   "assumptions": "Uses 1.5 jalapeños and counts the optional sour cream garnish in full. Salt and pepper 'to taste' are not counted, so sodium may be higher. Needs overnight soaking and about 2 hours of cooking.",
+   "source": {
+    "title": "Black Bean Soup (Wikibooks Cookbook)",
+    "url": "https://en.wikibooks.org/wiki/Cookbook%3ABlack_Bean_Soup",
+    "history": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ABlack_Bean_Soup&action=history",
+    "revision": 4524842,
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/"
+   },
+   "allergens": [
+    "milk"
+   ],
+   "contains": [],
+   "lines": [
+    {
+     "item": "black_beans_dry",
+     "g": 1164
+    },
+    {
+     "item": "bell_pepper_red",
+     "g": 150
+    },
+    {
+     "item": "bell_pepper_green",
+     "g": 150
+    },
+    {
+     "item": "chili_powder",
+     "g": 2.7
+    },
+    {
+     "item": "cumin",
+     "g": 2.1
+    },
+    {
+     "item": "garlic",
+     "g": 21
+    },
+    {
+     "item": "jalapeno",
+     "g": 20
+    },
+    {
+     "item": "onion",
+     "g": 225
+    },
+    {
+     "item": "vinegar_red_wine",
+     "g": 14.9
+    },
+    {
+     "item": "cilantro",
+     "g": 8
+    },
+    {
+     "item": "sour_cream",
+     "g": 230
+    }
+   ],
    "nutrition": {
     "kcal": 387,
     "protein": 22.1,
@@ -346,21 +601,14 @@
     "calcium": 151.4,
     "iron": 5.2,
     "vitc": 30.3
-   },
-   "assumptions": "Uses 1.5 jalapeños and counts the optional sour cream garnish in full. Salt and pepper 'to taste' are not counted, so sodium may be higher. Needs overnight soaking and about 2 hours of cooking.",
-   "source": {
-    "title": "Black Bean Soup (Wikibooks Cookbook)",
-    "url": "https://en.wikibooks.org/wiki/Cookbook%3ABlack_Bean_Soup",
-    "history": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ABlack_Bean_Soup&action=history",
-    "revision": 4524842,
-    "license": "CC BY-SA 4.0",
-    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/"
    }
   },
   {
    "id": "baked-chicken-breasts",
    "slot": "dinner",
    "name": "Baked Chicken Breasts",
+   "cuisine": "American",
+   "minutes": 35,
    "servings": 4,
    "servings_note": "4 servings (1 breast each)",
    "ingredients": [
@@ -381,21 +629,6 @@
     "Remove to a plate and let rest 5 minutes. Serve warm."
    ],
    "notes": [],
-   "nutrition": {
-    "kcal": 234,
-    "protein": 38.3,
-    "fat": 7.8,
-    "satfat": 1.4,
-    "carb": 0.2,
-    "fiber": 0.1,
-    "sugar": 0.0,
-    "sodium": 658,
-    "chol": 124.1,
-    "potassium": 570.7,
-    "calcium": 10.2,
-    "iron": 0.7,
-    "vitc": 0.6
-   },
    "assumptions": "The page gives no amounts for oil, salt or zest. Assumes 1 tbsp olive oil, 1 tsp salt, 1 tsp zest and 170 g raw per breast.",
    "source": {
     "title": "Baked Chicken Breasts (Wikibooks Cookbook)",
@@ -404,12 +637,55 @@
     "revision": 4509908,
     "license": "CC BY-SA 4.0",
     "license_url": "https://creativecommons.org/licenses/by-sa/4.0/"
+   },
+   "allergens": [],
+   "contains": [
+    "poultry"
+   ],
+   "lines": [
+    {
+     "item": "chicken_breast",
+     "g": 680
+    },
+    {
+     "item": "olive_oil",
+     "g": 13.5
+    },
+    {
+     "item": "salt",
+     "g": 6
+    },
+    {
+     "item": "lemon",
+     "g": 2
+    },
+    {
+     "item": "black_pepper",
+     "g": 0.6
+    }
+   ],
+   "nutrition": {
+    "kcal": 234,
+    "protein": 38.3,
+    "fat": 7.8,
+    "satfat": 1.4,
+    "carb": 0.1,
+    "fiber": 0.0,
+    "sugar": 0.0,
+    "sodium": 658,
+    "chol": 124.1,
+    "potassium": 570.5,
+    "calcium": 9.6,
+    "iron": 0.7,
+    "vitc": 0.2
    }
   },
   {
    "id": "grilled-salmon-steaks",
    "slot": "dinner",
    "name": "Rosemary Grilled Salmon Steaks",
+   "cuisine": "American",
+   "minutes": 25,
    "servings": 5,
    "servings_note": "5 servings (1 steak each)",
    "ingredients": [
@@ -431,6 +707,37 @@
    "notes": [
     "Use cedar/alder planks or charcoal for added flavor."
    ],
+   "assumptions": "Uses farmed Atlantic salmon and counts all of the marinade, although some drips off, so real figures are slightly lower.",
+   "source": {
+    "title": "Rosemary Grilled Salmon Steaks (Wikibooks Cookbook)",
+    "url": "https://en.wikibooks.org/wiki/Cookbook%3ARosemary_Grilled_Salmon_Steaks",
+    "history": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ARosemary_Grilled_Salmon_Steaks&action=history",
+    "revision": 4508858,
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/"
+   },
+   "allergens": [
+    "fish"
+   ],
+   "contains": [],
+   "lines": [
+    {
+     "item": "salmon_fillet",
+     "g": 425
+    },
+    {
+     "item": "canola_oil",
+     "g": 14
+    },
+    {
+     "item": "vinegar_cider",
+     "g": 14.9
+    },
+    {
+     "item": "black_pepper",
+     "g": 4.6
+    }
+   ],
    "nutrition": {
     "kcal": 204,
     "protein": 17.5,
@@ -445,21 +752,14 @@
     "calcium": 11.9,
     "iron": 0.4,
     "vitc": 3.3
-   },
-   "assumptions": "Uses farmed Atlantic salmon and counts all of the marinade, although some drips off, so real figures are slightly lower.",
-   "source": {
-    "title": "Rosemary Grilled Salmon Steaks (Wikibooks Cookbook)",
-    "url": "https://en.wikibooks.org/wiki/Cookbook%3ARosemary_Grilled_Salmon_Steaks",
-    "history": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ARosemary_Grilled_Salmon_Steaks&action=history",
-    "revision": 4508858,
-    "license": "CC BY-SA 4.0",
-    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/"
    }
   },
   {
    "id": "chicken-fajitas",
    "slot": "dinner",
    "name": "Chicken Fajitas",
+   "cuisine": "Tex-Mex",
+   "minutes": 30,
    "servings": 4,
    "servings_note": "4 servings (filling only)",
    "ingredients": [
@@ -486,6 +786,49 @@
     "Serve with tortilla shells and toppings such as cheese, sour cream, lettuce, tomato, onions, and/or guacamole."
    ],
    "notes": [],
+   "assumptions": "Assumes 1.5 lb of chicken and 4 servings. Calories are for the filling only: tortillas and toppings are not included.",
+   "source": {
+    "title": "Chicken Fajitas (Wikibooks Cookbook)",
+    "url": "https://en.wikibooks.org/wiki/Cookbook%3AChicken_Fajitas",
+    "history": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AChicken_Fajitas&action=history",
+    "revision": 4513985,
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/"
+   },
+   "allergens": [],
+   "contains": [
+    "poultry"
+   ],
+   "lines": [
+    {
+     "item": "chicken_breast",
+     "g": 680
+    },
+    {
+     "item": "olive_oil",
+     "g": 13.5
+    },
+    {
+     "item": "bell_pepper_red",
+     "g": 150
+    },
+    {
+     "item": "bell_pepper_green",
+     "g": 150
+    },
+    {
+     "item": "onion",
+     "g": 55
+    },
+    {
+     "item": "cumin",
+     "g": 2.1
+    },
+    {
+     "item": "red_pepper",
+     "g": 5.3
+    }
+   ],
    "nutrition": {
     "kcal": 263,
     "protein": 39.3,
@@ -500,15 +843,5014 @@
     "calcium": 24.9,
     "iron": 1.4,
     "vitc": 80.1
-   },
-   "assumptions": "Assumes 1.5 lb of chicken and 4 servings. Calories are for the filling only: tortillas and toppings are not included.",
+   }
+  },
+  {
+   "id": "yogurt-berry-parfait",
+   "slot": "breakfast",
+   "name": "Greek Yogurt Berry Parfait",
+   "cuisine": "American",
+   "minutes": 10,
+   "servings": 2,
+   "servings_note": "2 servings",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "1 1/2 cups plain nonfat Greek yogurt",
+      "1 cup sliced strawberries",
+      "1/2 cup blueberries",
+      "1/2 cup rolled oats",
+      "1 tbsp honey",
+      "1/2 tsp ground cinnamon"
+     ]
+    }
+   ],
+   "steps": [
+    "Toast the oats in a dry skillet over medium heat for 3 minutes, stirring, until they smell nutty. Stir in the cinnamon and let cool.",
+    "Slice the strawberries.",
+    "Layer the yogurt, berries and toasted oats into two glasses or bowls.",
+    "Drizzle the honey on top and serve right away."
+   ],
+   "notes": [],
+   "assumptions": "",
    "source": {
-    "title": "Chicken Fajitas (Wikibooks Cookbook)",
-    "url": "https://en.wikibooks.org/wiki/Cookbook%3AChicken_Fajitas",
-    "history": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AChicken_Fajitas&action=history",
-    "revision": 4513985,
-    "license": "CC BY-SA 4.0",
-    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [
+    "gluten",
+    "milk"
+   ],
+   "contains": [
+    "honey"
+   ],
+   "lines": [
+    {
+     "item": "yogurt_greek",
+     "g": 340
+    },
+    {
+     "item": "strawberries",
+     "g": 160
+    },
+    {
+     "item": "blueberries",
+     "g": 85
+    },
+    {
+     "item": "oats_rolled",
+     "g": 40
+    },
+    {
+     "item": "honey",
+     "g": 21
+    },
+    {
+     "item": "cinnamon",
+     "g": 1
+    }
+   ],
+   "nutrition": {
+    "kcal": 259,
+    "protein": 20.9,
+    "fat": 2.4,
+    "satfat": 0.4,
+    "carb": 41.0,
+    "fiber": 4.9,
+    "sugar": 22.5,
+    "sodium": 64,
+    "chol": 8.5,
+    "potassium": 474.8,
+    "calcium": 218.4,
+    "iron": 1.5,
+    "vitc": 51.2
+   }
+  },
+  {
+   "id": "veggie-egg-muffins",
+   "slot": "breakfast",
+   "name": "Veggie Egg Muffins",
+   "cuisine": "American",
+   "minutes": 30,
+   "servings": 4,
+   "servings_note": "4 servings (3 muffins each)",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "8 large eggs",
+      "2 cups baby spinach, chopped",
+      "1/2 red bell pepper, diced",
+      "1/4 cup diced onion",
+      "1/2 cup shredded cheddar",
+      "1 tsp olive oil for the pan",
+      "1/3 tsp salt",
+      "1/4 tsp black pepper"
+     ]
+    }
+   ],
+   "steps": [
+    "Heat the oven to 375°F and lightly oil a 12-cup muffin tin.",
+    "Whisk the eggs with the salt and pepper.",
+    "Divide the spinach, pepper, onion and cheese among the 12 cups, then pour in the eggs.",
+    "Bake 18 to 22 minutes, until the centers are set and the eggs reach 160°F.",
+    "Cool 5 minutes, then loosen with a knife. They keep 4 days in the fridge."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [
+    "egg",
+    "milk"
+   ],
+   "contains": [],
+   "lines": [
+    {
+     "item": "egg",
+     "g": 400
+    },
+    {
+     "item": "spinach",
+     "g": 60
+    },
+    {
+     "item": "bell_pepper_red",
+     "g": 75
+    },
+    {
+     "item": "onion",
+     "g": 40
+    },
+    {
+     "item": "cheddar",
+     "g": 60
+    },
+    {
+     "item": "olive_oil",
+     "g": 4
+    },
+    {
+     "item": "salt",
+     "g": 2
+    },
+    {
+     "item": "black_pepper",
+     "g": 1
+    }
+   ],
+   "nutrition": {
+    "kcal": 225,
+    "protein": 16.7,
+    "fat": 15.6,
+    "satfat": 6.1,
+    "carb": 4.0,
+    "fiber": 1.0,
+    "sugar": 1.7,
+    "sodium": 447,
+    "chol": 386.9,
+    "potassium": 290.6,
+    "calcium": 182.2,
+    "iron": 2.3,
+    "vitc": 28.9
+   }
+  },
+  {
+   "id": "avocado-egg-toast",
+   "slot": "breakfast",
+   "name": "Avocado Egg Toast",
+   "cuisine": "American",
+   "minutes": 15,
+   "servings": 2,
+   "servings_note": "2 servings (2 slices each)",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "4 slices whole-wheat bread",
+      "1 ripe avocado",
+      "2 large eggs",
+      "1 tbsp lemon juice",
+      "1 tsp olive oil",
+      "pinch of crushed red pepper",
+      "pinch of salt",
+      "pinch of black pepper"
+     ]
+    }
+   ],
+   "steps": [
+    "Toast the bread.",
+    "Mash the avocado with the lemon juice and salt.",
+    "Fry the eggs in the olive oil over medium heat until the whites are set, about 3 minutes.",
+    "Spread the avocado on the toast, top with the eggs, and finish with black pepper and crushed red pepper."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [
+    "egg",
+    "gluten",
+    "wheat"
+   ],
+   "contains": [],
+   "lines": [
+    {
+     "item": "bread_whole_wheat",
+     "g": 112
+    },
+    {
+     "item": "avocado",
+     "g": 150
+    },
+    {
+     "item": "egg",
+     "g": 100
+    },
+    {
+     "item": "lemon",
+     "g": 11
+    },
+    {
+     "item": "olive_oil",
+     "g": 5
+    },
+    {
+     "item": "red_pepper",
+     "g": 0.5
+    },
+    {
+     "item": "salt",
+     "g": 1
+    },
+    {
+     "item": "black_pepper",
+     "g": 0.5
+    }
+   ],
+   "nutrition": {
+    "kcal": 357,
+    "protein": 14.8,
+    "fat": 20.3,
+    "satfat": 3.9,
+    "carb": 31.4,
+    "fiber": 8.5,
+    "sugar": 3.3,
+    "sodium": 525,
+    "chol": 186.0,
+    "potassium": 589.1,
+    "calcium": 129.1,
+    "iron": 2.7,
+    "vitc": 9.8
+   }
+  },
+  {
+   "id": "pb-banana-overnight-oats",
+   "slot": "breakfast",
+   "name": "Peanut Butter Banana Overnight Oats",
+   "cuisine": "American",
+   "minutes": 5,
+   "servings": 2,
+   "servings_note": "2 servings (make the night before)",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "1 cup rolled oats",
+      "1 cup whole milk",
+      "2 tbsp peanut butter",
+      "1 banana, sliced",
+      "1 tbsp chia seeds",
+      "1/2 tsp cinnamon"
+     ]
+    }
+   ],
+   "steps": [
+    "Whisk the milk, peanut butter, chia and cinnamon together in a bowl until smooth.",
+    "Stir in the oats and divide between two jars.",
+    "Cover and chill at least 4 hours or overnight.",
+    "Top with the sliced banana before eating, cold or warmed."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [
+    "gluten",
+    "milk",
+    "peanut"
+   ],
+   "contains": [],
+   "lines": [
+    {
+     "item": "oats_rolled",
+     "g": 80
+    },
+    {
+     "item": "milk_whole",
+     "g": 240
+    },
+    {
+     "item": "peanut_butter",
+     "g": 32
+    },
+    {
+     "item": "banana",
+     "g": 118
+    },
+    {
+     "item": "chia_seeds",
+     "g": 12
+    },
+    {
+     "item": "cinnamon",
+     "g": 1
+    }
+   ],
+   "nutrition": {
+    "kcal": 402,
+    "protein": 14.2,
+    "fat": 16.5,
+    "satfat": 4.5,
+    "carb": 53.1,
+    "fiber": 8.8,
+    "sugar": 14.7,
+    "sodium": 132,
+    "chol": 12.0,
+    "potassium": 635.7,
+    "calcium": 210.9,
+    "iron": 2.7,
+    "vitc": 5.2
+   }
+  },
+  {
+   "id": "tofu-scramble",
+   "slot": "breakfast",
+   "name": "Turmeric Tofu Scramble",
+   "cuisine": "American",
+   "minutes": 15,
+   "servings": 2,
+   "servings_note": "2 servings",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "1 block (14 oz) firm tofu",
+      "2 cups baby spinach",
+      "1/2 red bell pepper, diced",
+      "1/4 cup diced onion",
+      "1 clove garlic, minced",
+      "2 tsp olive oil",
+      "1/2 tsp ground turmeric",
+      "1/3 tsp salt",
+      "pinch of black pepper"
+     ]
+    }
+   ],
+   "steps": [
+    "Press the tofu between towels for 5 minutes, then crumble it with your hands into small pieces.",
+    "Heat the oil in a nonstick skillet over medium heat. Cook the onion and pepper for 3 minutes, add the garlic for 30 seconds.",
+    "Add the tofu, turmeric, salt and pepper. Cook 5 minutes, stirring, until the tofu is hot and golden.",
+    "Fold in the spinach until wilted, about 1 minute, and serve."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [
+    "soy"
+   ],
+   "contains": [],
+   "lines": [
+    {
+     "item": "tofu_firm",
+     "g": 397
+    },
+    {
+     "item": "spinach",
+     "g": 60
+    },
+    {
+     "item": "bell_pepper_red",
+     "g": 75
+    },
+    {
+     "item": "onion",
+     "g": 40
+    },
+    {
+     "item": "garlic",
+     "g": 3
+    },
+    {
+     "item": "olive_oil",
+     "g": 9
+    },
+    {
+     "item": "turmeric",
+     "g": 1.5
+    },
+    {
+     "item": "salt",
+     "g": 2
+    },
+    {
+     "item": "black_pepper",
+     "g": 0.5
+    }
+   ],
+   "nutrition": {
+    "kcal": 356,
+    "protein": 35.9,
+    "fat": 22.1,
+    "satfat": 3.2,
+    "carb": 11.9,
+    "fiber": 6.6,
+    "sugar": 2.6,
+    "sodium": 442,
+    "chol": 0.0,
+    "potassium": 771.2,
+    "calcium": 1398.0,
+    "iron": 6.8,
+    "vitc": 58.7
+   }
+  },
+  {
+   "id": "pb-banana-smoothie",
+   "slot": "breakfast",
+   "name": "Peanut Butter Banana Smoothie",
+   "cuisine": "American",
+   "minutes": 5,
+   "servings": 2,
+   "servings_note": "2 servings (about 12 oz each)",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "2 cups whole milk",
+      "2 bananas",
+      "2 tbsp peanut butter",
+      "1/2 cup rolled oats",
+      "2 tsp honey"
+     ]
+    }
+   ],
+   "steps": [
+    "Add the milk, bananas, peanut butter, oats and honey to a blender.",
+    "Blend on high for 1 minute until completely smooth.",
+    "Pour into two glasses and drink right away."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [
+    "gluten",
+    "milk",
+    "peanut"
+   ],
+   "contains": [
+    "honey"
+   ],
+   "lines": [
+    {
+     "item": "milk_whole",
+     "g": 480
+    },
+    {
+     "item": "banana",
+     "g": 236
+    },
+    {
+     "item": "peanut_butter",
+     "g": 32
+    },
+    {
+     "item": "oats_rolled",
+     "g": 40
+    },
+    {
+     "item": "honey",
+     "g": 10
+    }
+   ],
+   "nutrition": {
+    "kcal": 436,
+    "protein": 15.0,
+    "fat": 17.4,
+    "satfat": 6.3,
+    "carb": 60.0,
+    "fiber": 6.0,
+    "sugar": 31.9,
+    "sodium": 182,
+    "chol": 24.0,
+    "potassium": 909.0,
+    "calcium": 296.4,
+    "iron": 1.6,
+    "vitc": 10.3
+   }
+  },
+  {
+   "id": "sweet-potato-hash",
+   "slot": "breakfast",
+   "name": "Sweet Potato Hash with Eggs",
+   "cuisine": "American",
+   "minutes": 30,
+   "servings": 2,
+   "servings_note": "2 servings",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "2 small sweet potatoes, diced small",
+      "1/2 onion, diced",
+      "1/2 green bell pepper, diced",
+      "2 large eggs",
+      "1 tbsp olive oil",
+      "1 tsp paprika",
+      "1/3 tsp salt",
+      "1/4 tsp black pepper"
+     ]
+    }
+   ],
+   "steps": [
+    "Heat the oil in a large skillet over medium heat. Add the sweet potato, cover, and cook 8 minutes, stirring once.",
+    "Add the onion, pepper, paprika, salt and pepper. Cook uncovered 6 to 8 minutes until the potatoes are tender and browned.",
+    "Make two wells in the hash and crack in the eggs. Cover and cook 3 to 4 minutes until the whites are set.",
+    "Serve straight from the pan."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [
+    "egg"
+   ],
+   "contains": [],
+   "lines": [
+    {
+     "item": "sweet_potato",
+     "g": 260
+    },
+    {
+     "item": "onion",
+     "g": 75
+    },
+    {
+     "item": "bell_pepper_green",
+     "g": 75
+    },
+    {
+     "item": "egg",
+     "g": 100
+    },
+    {
+     "item": "olive_oil",
+     "g": 14
+    },
+    {
+     "item": "paprika",
+     "g": 2
+    },
+    {
+     "item": "salt",
+     "g": 2
+    },
+    {
+     "item": "black_pepper",
+     "g": 1
+    }
+   ],
+   "nutrition": {
+    "kcal": 272,
+    "protein": 9.2,
+    "fat": 12.1,
+    "satfat": 2.6,
+    "carb": 32.6,
+    "fiber": 5.7,
+    "sugar": 8.2,
+    "sodium": 534,
+    "chol": 186.0,
+    "potassium": 657.1,
+    "calcium": 84.2,
+    "iron": 2.2,
+    "vitc": 36.1
+   }
+  },
+  {
+   "id": "banana-oat-pancakes",
+   "slot": "breakfast",
+   "name": "Banana Oat Pancakes",
+   "cuisine": "American",
+   "minutes": 20,
+   "servings": 2,
+   "servings_note": "2 servings (3 pancakes each)",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "2 ripe bananas",
+      "1 cup rolled oats",
+      "2 large eggs",
+      "1/4 cup milk",
+      "3/4 tsp baking powder",
+      "1/2 tsp cinnamon",
+      "2 tsp butter for the pan",
+      "1/2 cup sliced strawberries to top"
+     ]
+    }
+   ],
+   "steps": [
+    "Blend the bananas, oats, eggs, milk, baking powder and cinnamon until smooth. Let the batter rest 5 minutes.",
+    "Melt a little butter in a nonstick skillet over medium-low heat.",
+    "Pour in 1/4 cup of batter per pancake. Cook 2 to 3 minutes until bubbles form, flip, and cook 1 to 2 minutes more.",
+    "Serve topped with the strawberries."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [
+    "egg",
+    "gluten",
+    "milk"
+   ],
+   "contains": [],
+   "lines": [
+    {
+     "item": "banana",
+     "g": 236
+    },
+    {
+     "item": "oats_rolled",
+     "g": 80
+    },
+    {
+     "item": "egg",
+     "g": 100
+    },
+    {
+     "item": "milk_whole",
+     "g": 60
+    },
+    {
+     "item": "baking_powder",
+     "g": 3
+    },
+    {
+     "item": "cinnamon",
+     "g": 1
+    },
+    {
+     "item": "butter",
+     "g": 10
+    },
+    {
+     "item": "strawberries",
+     "g": 80
+    }
+   ],
+   "nutrition": {
+    "kcal": 397,
+    "protein": 14.1,
+    "fat": 12.9,
+    "satfat": 5.2,
+    "carb": 59.7,
+    "fiber": 8.2,
+    "sugar": 18.5,
+    "sodium": 248,
+    "chol": 199.8,
+    "potassium": 740.7,
+    "calcium": 189.3,
+    "iron": 3.3,
+    "vitc": 33.8
+   }
+  },
+  {
+   "id": "cottage-cheese-pineapple-bowl",
+   "slot": "breakfast",
+   "name": "Cottage Cheese Pineapple Bowl",
+   "cuisine": "American",
+   "minutes": 5,
+   "servings": 2,
+   "servings_note": "2 servings",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "2 cups low-fat cottage cheese",
+      "1 1/2 cups pineapple chunks",
+      "2 tbsp sunflower seeds",
+      "2 tsp chia seeds"
+     ]
+    }
+   ],
+   "steps": [
+    "Spoon the cottage cheese into two bowls.",
+    "Top with the pineapple, sunflower seeds and chia seeds.",
+    "Eat immediately for the best crunch."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [
+    "milk"
+   ],
+   "contains": [],
+   "lines": [
+    {
+     "item": "cottage_cheese",
+     "g": 454
+    },
+    {
+     "item": "pineapple",
+     "g": 240
+    },
+    {
+     "item": "sunflower_seeds",
+     "g": 20
+    },
+    {
+     "item": "chia_seeds",
+     "g": 10
+    }
+   ],
+   "nutrition": {
+    "kcal": 306,
+    "protein": 31.7,
+    "fat": 9.1,
+    "satfat": 2.1,
+    "carb": 26.0,
+    "fiber": 4.3,
+    "sugar": 18.3,
+    "sodium": 924,
+    "chol": 9.1,
+    "potassium": 410.9,
+    "calcium": 193.4,
+    "iron": 1.6,
+    "vitc": 57.6
+   }
+  },
+  {
+   "id": "chia-pudding",
+   "slot": "breakfast",
+   "name": "Strawberry Almond Chia Pudding",
+   "cuisine": "American",
+   "minutes": 5,
+   "servings": 2,
+   "servings_note": "2 servings (chill overnight)",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "2 cups unsweetened almond milk",
+      "1/3 cup chia seeds",
+      "1 ripe banana, mashed",
+      "3/4 cup sliced strawberries",
+      "1/2 tsp cinnamon"
+     ]
+    }
+   ],
+   "steps": [
+    "Whisk the almond milk, chia seeds, mashed banana and cinnamon in a bowl.",
+    "Wait 5 minutes and whisk again to break up clumps.",
+    "Cover and chill at least 4 hours or overnight until thick.",
+    "Stir, divide into bowls and top with the strawberries."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [
+    "tree_nut"
+   ],
+   "contains": [],
+   "lines": [
+    {
+     "item": "almond_milk",
+     "g": 480
+    },
+    {
+     "item": "chia_seeds",
+     "g": 60
+    },
+    {
+     "item": "banana",
+     "g": 118
+    },
+    {
+     "item": "strawberries",
+     "g": 120
+    },
+    {
+     "item": "cinnamon",
+     "g": 1
+    }
+   ],
+   "nutrition": {
+    "kcal": 255,
+    "protein": 7.0,
+    "fat": 11.9,
+    "satfat": 1.3,
+    "carb": 34.3,
+    "fiber": 13.8,
+    "sugar": 12.1,
+    "sodium": 179,
+    "chol": 0.0,
+    "potassium": 588.1,
+    "calcium": 648.5,
+    "iron": 3.4,
+    "vitc": 40.9
+   }
+  },
+  {
+   "id": "breakfast-burritos",
+   "slot": "breakfast",
+   "name": "Black Bean Breakfast Burritos",
+   "cuisine": "Mexican",
+   "minutes": 20,
+   "servings": 2,
+   "servings_note": "2 servings (1 burrito each)",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "2 flour tortillas (8 in)",
+      "4 large eggs",
+      "1/3 cup canned black beans, drained",
+      "1/3 cup shredded cheddar",
+      "1/4 cup salsa",
+      "1 cup baby spinach",
+      "1 tsp olive oil",
+      "pinch of salt"
+     ]
+    }
+   ],
+   "steps": [
+    "Whisk the eggs with the salt. Scramble them in the oil over medium heat until just set, about 3 minutes.",
+    "Warm the beans in a small pan or microwave. Warm the tortillas.",
+    "Fill each tortilla with eggs, beans, spinach, cheese and salsa.",
+    "Fold in the sides and roll tightly. Serve warm."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [
+    "egg",
+    "gluten",
+    "milk",
+    "wheat"
+   ],
+   "contains": [],
+   "lines": [
+    {
+     "item": "tortilla_flour",
+     "g": 90
+    },
+    {
+     "item": "egg",
+     "g": 200
+    },
+    {
+     "item": "black_beans_canned",
+     "g": 85
+    },
+    {
+     "item": "cheddar",
+     "g": 40
+    },
+    {
+     "item": "salsa",
+     "g": 60
+    },
+    {
+     "item": "spinach",
+     "g": 30
+    },
+    {
+     "item": "olive_oil",
+     "g": 5
+    },
+    {
+     "item": "salt",
+     "g": 1
+    }
+   ],
+   "nutrition": {
+    "kcal": 434,
+    "protein": 24.3,
+    "fat": 22.5,
+    "satfat": 8.6,
+    "carb": 33.2,
+    "fiber": 5.4,
+    "sugar": 3.5,
+    "sodium": 1081,
+    "chol": 391.8,
+    "potassium": 506.6,
+    "calcium": 302.6,
+    "iron": 4.8,
+    "vitc": 5.9
+   }
+  },
+  {
+   "id": "mediterranean-omelet",
+   "slot": "breakfast",
+   "name": "Mediterranean Feta Omelet",
+   "cuisine": "Mediterranean",
+   "minutes": 15,
+   "servings": 2,
+   "servings_note": "2 servings (2 eggs each)",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "4 large eggs",
+      "1/3 cup crumbled feta",
+      "1 tomato, diced",
+      "2 cups baby spinach",
+      "2 tsp olive oil",
+      "1/4 tsp black pepper",
+      "pinch of dried oregano"
+     ]
+    }
+   ],
+   "steps": [
+    "Beat the eggs with the pepper and oregano.",
+    "Heat half the oil in a nonstick skillet over medium heat. Pour in half the eggs and cook 2 minutes, lifting the edges so uncooked egg flows underneath.",
+    "Scatter half the spinach, tomato and feta on one side, fold the omelet over, and cook 1 more minute.",
+    "Slide onto a plate and repeat with the remaining ingredients."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [
+    "egg",
+    "milk"
+   ],
+   "contains": [],
+   "lines": [
+    {
+     "item": "egg",
+     "g": 200
+    },
+    {
+     "item": "feta",
+     "g": 40
+    },
+    {
+     "item": "tomato",
+     "g": 150
+    },
+    {
+     "item": "spinach",
+     "g": 60
+    },
+    {
+     "item": "olive_oil",
+     "g": 9
+    },
+    {
+     "item": "black_pepper",
+     "g": 1
+    },
+    {
+     "item": "oregano",
+     "g": 0.5
+    }
+   ],
+   "nutrition": {
+    "kcal": 258,
+    "protein": 17.0,
+    "fat": 18.6,
+    "satfat": 6.5,
+    "carb": 6.0,
+    "fiber": 1.8,
+    "sugar": 2.5,
+    "sodium": 398,
+    "chol": 389.8,
+    "potassium": 505.4,
+    "calcium": 198.1,
+    "iron": 3.1,
+    "vitc": 18.7
+   }
+  },
+  {
+   "id": "chicken-rice-bowl",
+   "slot": "lunch",
+   "name": "Chicken and Broccoli Rice Bowl",
+   "cuisine": "Asian",
+   "minutes": 30,
+   "servings": 2,
+   "servings_note": "2 servings",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "3/4 lb boneless skinless chicken breast, cubed",
+      "1/2 cup uncooked white rice",
+      "2 cups broccoli florets",
+      "2 carrots, sliced",
+      "1 tbsp soy sauce",
+      "2 cloves garlic, minced",
+      "2 tsp grated fresh ginger",
+      "1 tbsp canola oil"
+     ]
+    }
+   ],
+   "steps": [
+    "Cook the rice according to the package.",
+    "Heat the oil in a large skillet over medium-high heat. Cook the chicken 5 to 6 minutes until browned and cooked through (165°F). Move to a plate.",
+    "Add the broccoli, carrots, garlic and ginger with 3 tbsp water. Cover 3 minutes, then uncover and cook 2 more until tender-crisp.",
+    "Return the chicken, add the soy sauce, and toss for 1 minute. Serve over the rice."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [
+    "gluten",
+    "soy",
+    "wheat"
+   ],
+   "contains": [
+    "poultry"
+   ],
+   "lines": [
+    {
+     "item": "chicken_breast",
+     "g": 340
+    },
+    {
+     "item": "rice_white",
+     "g": 90
+    },
+    {
+     "item": "broccoli",
+     "g": 200
+    },
+    {
+     "item": "carrot",
+     "g": 120
+    },
+    {
+     "item": "soy_sauce",
+     "g": 18
+    },
+    {
+     "item": "garlic",
+     "g": 6
+    },
+    {
+     "item": "ginger",
+     "g": 6
+    },
+    {
+     "item": "canola_oil",
+     "g": 14
+    }
+   ],
+   "nutrition": {
+    "kcal": 500,
+    "protein": 45.8,
+    "fat": 12.4,
+    "satfat": 1.7,
+    "carb": 50.3,
+    "fiber": 5.1,
+    "sugar": 4.7,
+    "sodium": 648,
+    "chol": 124.1,
+    "potassium": 1191.2,
+    "calcium": 96.8,
+    "iron": 3.7,
+    "vitc": 93.8
+   }
+  },
+  {
+   "id": "chickpea-salad-wrap",
+   "slot": "lunch",
+   "name": "Smashed Chickpea Salad Wrap",
+   "cuisine": "Mediterranean",
+   "minutes": 10,
+   "servings": 2,
+   "servings_note": "2 servings (1 wrap each)",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "1 can (15 oz) chickpeas, drained",
+      "1 stalk celery, finely diced",
+      "1/4 cup finely diced onion",
+      "juice of 1 lemon",
+      "1 tbsp olive oil",
+      "1 tsp mustard",
+      "1/4 tsp black pepper",
+      "2 flour tortillas (8 in)",
+      "2 romaine leaves"
+     ]
+    }
+   ],
+   "steps": [
+    "Mash the chickpeas with a fork in a bowl, leaving some texture.",
+    "Stir in the celery, onion, lemon juice, oil, mustard and pepper.",
+    "Lay a romaine leaf on each tortilla and spoon the chickpea salad on top.",
+    "Roll up tightly, cut in half and serve."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [
+    "gluten",
+    "wheat"
+   ],
+   "contains": [],
+   "lines": [
+    {
+     "item": "chickpeas_canned",
+     "g": 240
+    },
+    {
+     "item": "celery",
+     "g": 60
+    },
+    {
+     "item": "onion",
+     "g": 40
+    },
+    {
+     "item": "lemon",
+     "g": 45
+    },
+    {
+     "item": "olive_oil",
+     "g": 14
+    },
+    {
+     "item": "mustard",
+     "g": 5
+    },
+    {
+     "item": "black_pepper",
+     "g": 1
+    },
+    {
+     "item": "tortilla_flour",
+     "g": 90
+    },
+    {
+     "item": "romaine",
+     "g": 60
+    }
+   ],
+   "nutrition": {
+    "kcal": 391,
+    "protein": 13.2,
+    "fat": 14.2,
+    "satfat": 2.6,
+    "carb": 55.0,
+    "fiber": 11.0,
+    "sugar": 8.7,
+    "sodium": 682,
+    "chol": 0.0,
+    "potassium": 422.4,
+    "calcium": 151.4,
+    "iron": 3.5,
+    "vitc": 12.4
+   }
+  },
+  {
+   "id": "turkey-hummus-wrap",
+   "slot": "lunch",
+   "name": "Turkey Hummus Veggie Wrap",
+   "cuisine": "Mediterranean",
+   "minutes": 10,
+   "servings": 2,
+   "servings_note": "2 servings (1 wrap each)",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "2 flour tortillas (8 in)",
+      "4 oz sliced turkey breast",
+      "1/4 cup hummus",
+      "2 romaine leaves",
+      "1 small tomato, sliced",
+      "1/4 cucumber, sliced"
+     ]
+    }
+   ],
+   "steps": [
+    "Spread the hummus over each tortilla.",
+    "Layer on the turkey, romaine, tomato and cucumber.",
+    "Fold in the sides and roll tightly.",
+    "Slice in half and serve."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [
+    "gluten",
+    "sesame",
+    "wheat"
+   ],
+   "contains": [
+    "poultry"
+   ],
+   "lines": [
+    {
+     "item": "tortilla_flour",
+     "g": 90
+    },
+    {
+     "item": "turkey_deli",
+     "g": 113
+    },
+    {
+     "item": "hummus",
+     "g": 60
+    },
+    {
+     "item": "romaine",
+     "g": 60
+    },
+    {
+     "item": "tomato",
+     "g": 100
+    },
+    {
+     "item": "cucumber",
+     "g": 80
+    }
+   ],
+   "nutrition": {
+    "kcal": 289,
+    "protein": 15.5,
+    "fat": 11.3,
+    "satfat": 2.6,
+    "carb": 32.3,
+    "fiber": 4.7,
+    "sugar": 4.7,
+    "sodium": 972,
+    "chol": 27.7,
+    "potassium": 610.9,
+    "calcium": 109.0,
+    "iron": 3.2,
+    "vitc": 9.2
+   }
+  },
+  {
+   "id": "quinoa-black-bean-bowl",
+   "slot": "lunch",
+   "name": "Quinoa Black Bean Bowl",
+   "cuisine": "Mexican",
+   "minutes": 25,
+   "servings": 2,
+   "servings_note": "2 servings",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "1/2 cup dry quinoa",
+      "1 cup canned black beans, drained",
+      "2/3 cup frozen corn, thawed",
+      "1 tomato, diced",
+      "1 avocado, sliced",
+      "juice of 1 lime",
+      "2 tbsp chopped cilantro",
+      "1 tsp ground cumin",
+      "1/3 tsp salt"
+     ]
+    }
+   ],
+   "steps": [
+    "Rinse the quinoa, then simmer it in 1 cup water, covered, for 15 minutes. Fluff and let steam 5 minutes.",
+    "Warm the beans and corn with the cumin and salt.",
+    "Divide the quinoa between bowls and top with the beans, corn and tomato.",
+    "Add the avocado, squeeze the lime over it, and sprinkle with cilantro."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [],
+   "contains": [],
+   "lines": [
+    {
+     "item": "quinoa",
+     "g": 90
+    },
+    {
+     "item": "black_beans_canned",
+     "g": 255
+    },
+    {
+     "item": "corn_frozen",
+     "g": 100
+    },
+    {
+     "item": "tomato",
+     "g": 150
+    },
+    {
+     "item": "avocado",
+     "g": 150
+    },
+    {
+     "item": "lime",
+     "g": 30
+    },
+    {
+     "item": "cilantro",
+     "g": 8
+    },
+    {
+     "item": "cumin",
+     "g": 2
+    },
+    {
+     "item": "salt",
+     "g": 2
+    }
+   ],
+   "nutrition": {
+    "kcal": 468,
+    "protein": 18.0,
+    "fat": 14.9,
+    "satfat": 2.1,
+    "carb": 71.5,
+    "fiber": 19.2,
+    "sugar": 4.3,
+    "sodium": 580,
+    "chol": 0.0,
+    "potassium": 1350.4,
+    "calcium": 98.6,
+    "iron": 6.1,
+    "vitc": 30.1
+   }
+  },
+  {
+   "id": "tuna-white-bean-salad",
+   "slot": "lunch",
+   "name": "Tuna and White Bean Salad",
+   "cuisine": "Italian",
+   "minutes": 10,
+   "servings": 2,
+   "servings_note": "2 servings",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "2 cans (5 oz) tuna in water, drained",
+      "1 cup canned white beans, drained",
+      "1 small stalk celery, diced",
+      "1/4 cup diced onion",
+      "juice of 1 lemon",
+      "1 tbsp olive oil",
+      "1/4 tsp black pepper",
+      "2 cups chopped romaine"
+     ]
+    }
+   ],
+   "steps": [
+    "Flake the tuna into a bowl.",
+    "Add the beans, celery, onion, lemon juice, oil and pepper and toss gently.",
+    "Serve over the chopped romaine."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [
+    "fish"
+   ],
+   "contains": [],
+   "lines": [
+    {
+     "item": "tuna_canned",
+     "g": 224
+    },
+    {
+     "item": "white_beans_canned",
+     "g": 255
+    },
+    {
+     "item": "celery",
+     "g": 40
+    },
+    {
+     "item": "onion",
+     "g": 40
+    },
+    {
+     "item": "lemon",
+     "g": 45
+    },
+    {
+     "item": "olive_oil",
+     "g": 14
+    },
+    {
+     "item": "black_pepper",
+     "g": 1
+    },
+    {
+     "item": "romaine",
+     "g": 60
+    }
+   ],
+   "nutrition": {
+    "kcal": 326,
+    "protein": 31.9,
+    "fat": 8.7,
+    "satfat": 1.3,
+    "carb": 32.4,
+    "fiber": 7.6,
+    "sugar": 2.4,
+    "sodium": 730,
+    "chol": 40.3,
+    "potassium": 964.5,
+    "calcium": 138.2,
+    "iron": 6.1,
+    "vitc": 12.0
+   }
+  },
+  {
+   "id": "minestrone-soup",
+   "slot": "lunch",
+   "name": "Hearty Minestrone Soup",
+   "cuisine": "Italian",
+   "minutes": 40,
+   "servings": 4,
+   "servings_note": "4 servings",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "2 oz spaghetti, broken into short pieces",
+      "1 cup canned white beans, drained",
+      "2 carrots, diced",
+      "2 stalks celery, diced",
+      "1 onion, diced",
+      "1 can (14.5 oz) diced tomatoes",
+      "1 cup green beans, cut in pieces",
+      "2 cups baby spinach",
+      "2 cloves garlic, minced",
+      "1 tbsp olive oil",
+      "1 tsp dried oregano",
+      "1/2 tsp salt"
+     ]
+    }
+   ],
+   "steps": [
+    "Heat the oil in a large pot over medium heat. Cook the onion, carrot and celery for 6 minutes. Add the garlic and oregano for 30 seconds.",
+    "Add the tomatoes, 4 cups water and the salt. Bring to a boil, then simmer 10 minutes.",
+    "Add the green beans, beans and pasta. Simmer 10 to 12 minutes until the pasta is tender.",
+    "Stir in the spinach until wilted and serve."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [
+    "gluten",
+    "wheat"
+   ],
+   "contains": [],
+   "lines": [
+    {
+     "item": "pasta_spaghetti",
+     "g": 60
+    },
+    {
+     "item": "white_beans_canned",
+     "g": 255
+    },
+    {
+     "item": "carrot",
+     "g": 120
+    },
+    {
+     "item": "celery",
+     "g": 80
+    },
+    {
+     "item": "onion",
+     "g": 110
+    },
+    {
+     "item": "tomatoes_canned",
+     "g": 411
+    },
+    {
+     "item": "green_beans",
+     "g": 100
+    },
+    {
+     "item": "spinach",
+     "g": 60
+    },
+    {
+     "item": "garlic",
+     "g": 6
+    },
+    {
+     "item": "olive_oil",
+     "g": 14
+    },
+    {
+     "item": "oregano",
+     "g": 2
+    },
+    {
+     "item": "salt",
+     "g": 3
+    }
+   ],
+   "nutrition": {
+    "kcal": 217,
+    "protein": 9.1,
+    "fat": 4.4,
+    "satfat": 0.7,
+    "carb": 37.4,
+    "fiber": 8.4,
+    "sugar": 7.0,
+    "sodium": 678,
+    "chol": 0.0,
+    "potassium": 856.1,
+    "calcium": 142.8,
+    "iron": 4.1,
+    "vitc": 25.1
+   }
+  },
+  {
+   "id": "egg-fried-rice",
+   "slot": "lunch",
+   "name": "Veggie Egg Fried Rice",
+   "cuisine": "Asian",
+   "minutes": 25,
+   "servings": 2,
+   "servings_note": "2 servings",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "1/2 cup uncooked white rice (or 1 1/2 cups leftover cooked rice)",
+      "2 large eggs",
+      "1/2 cup frozen peas",
+      "1 carrot, finely diced",
+      "1/4 cup diced onion",
+      "2 cloves garlic, minced",
+      "1 tbsp soy sauce",
+      "1 tbsp canola oil"
+     ]
+    }
+   ],
+   "steps": [
+    "Cook the rice ahead and cool it (day-old rice fries best).",
+    "Heat half the oil in a large skillet over medium-high heat. Scramble the eggs for 1 minute and move them to a plate.",
+    "Add the rest of the oil, then the onion, carrot and garlic. Cook 3 minutes. Add the peas and cook 1 minute.",
+    "Add the rice and soy sauce and stir-fry 3 minutes. Return the eggs and toss."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [
+    "egg",
+    "gluten",
+    "soy",
+    "wheat"
+   ],
+   "contains": [],
+   "lines": [
+    {
+     "item": "rice_white",
+     "g": 100
+    },
+    {
+     "item": "egg",
+     "g": 100
+    },
+    {
+     "item": "peas_frozen",
+     "g": 80
+    },
+    {
+     "item": "carrot",
+     "g": 60
+    },
+    {
+     "item": "onion",
+     "g": 40
+    },
+    {
+     "item": "garlic",
+     "g": 6
+    },
+    {
+     "item": "soy_sauce",
+     "g": 18
+    },
+    {
+     "item": "canola_oil",
+     "g": 14
+    }
+   ],
+   "nutrition": {
+    "kcal": 376,
+    "protein": 13.4,
+    "fat": 12.4,
+    "satfat": 2.2,
+    "carb": 52.0,
+    "fiber": 3.8,
+    "sugar": 4.6,
+    "sodium": 633,
+    "chol": 186.0,
+    "potassium": 364.1,
+    "calcium": 73.7,
+    "iron": 4.0,
+    "vitc": 11.4
+   }
+  },
+  {
+   "id": "lentil-spinach-stew",
+   "slot": "lunch",
+   "name": "Lentil and Spinach Stew",
+   "cuisine": "Middle Eastern",
+   "minutes": 45,
+   "servings": 3,
+   "servings_note": "3 servings",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "1 cup dry brown lentils, rinsed",
+      "5 oz (half a bag) baby spinach",
+      "1 onion, diced",
+      "2 carrots, diced",
+      "3 cloves garlic, minced",
+      "1 can (14.5 oz) diced tomatoes",
+      "1 tbsp olive oil",
+      "1 tsp ground cumin",
+      "1/2 tsp ground turmeric",
+      "1/2 tsp salt"
+     ]
+    }
+   ],
+   "steps": [
+    "Heat the oil in a pot over medium heat. Cook the onion and carrot 6 minutes, add the garlic, cumin and turmeric for 1 minute.",
+    "Add the lentils, tomatoes, salt and 3 cups water. Bring to a boil, then simmer, partly covered, 25 to 30 minutes until the lentils are tender.",
+    "Stir in the spinach until it wilts, about 2 minutes. Add a splash of water if it is too thick."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [],
+   "contains": [],
+   "lines": [
+    {
+     "item": "lentils_brown",
+     "g": 200
+    },
+    {
+     "item": "spinach",
+     "g": 142
+    },
+    {
+     "item": "onion",
+     "g": 110
+    },
+    {
+     "item": "carrot",
+     "g": 120
+    },
+    {
+     "item": "garlic",
+     "g": 9
+    },
+    {
+     "item": "tomatoes_canned",
+     "g": 411
+    },
+    {
+     "item": "olive_oil",
+     "g": 14
+    },
+    {
+     "item": "cumin",
+     "g": 2
+    },
+    {
+     "item": "turmeric",
+     "g": 1
+    },
+    {
+     "item": "salt",
+     "g": 3
+    }
+   ],
+   "nutrition": {
+    "kcal": 348,
+    "protein": 20.0,
+    "fat": 6.2,
+    "satfat": 0.9,
+    "carb": 57.5,
+    "fiber": 12.7,
+    "sugar": 8.6,
+    "sodium": 617,
+    "chol": 0.0,
+    "potassium": 1189.7,
+    "calcium": 149.5,
+    "iron": 7.3,
+    "vitc": 39.6
+   }
+  },
+  {
+   "id": "caprese-pasta-salad",
+   "slot": "lunch",
+   "name": "Caprese Pasta Salad",
+   "cuisine": "Italian",
+   "minutes": 20,
+   "servings": 2,
+   "servings_note": "2 servings",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "5 oz dry pasta",
+      "4 oz fresh mozzarella, cubed",
+      "2 tomatoes, diced",
+      "1/4 cup torn fresh basil",
+      "1 tbsp olive oil",
+      "1 tbsp red wine vinegar",
+      "1/3 tsp salt",
+      "1/4 tsp black pepper"
+     ]
+    }
+   ],
+   "steps": [
+    "Cook the pasta until just tender, drain, and rinse under cool water.",
+    "Toss the pasta with the oil, vinegar, salt and pepper.",
+    "Fold in the tomatoes, mozzarella and basil.",
+    "Serve at room temperature or chilled."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [
+    "gluten",
+    "milk",
+    "wheat"
+   ],
+   "contains": [],
+   "lines": [
+    {
+     "item": "pasta_spaghetti",
+     "g": 140
+    },
+    {
+     "item": "mozzarella",
+     "g": 113
+    },
+    {
+     "item": "tomato",
+     "g": 300
+    },
+    {
+     "item": "basil",
+     "g": 10
+    },
+    {
+     "item": "olive_oil",
+     "g": 14
+    },
+    {
+     "item": "vinegar_red_wine",
+     "g": 15
+    },
+    {
+     "item": "salt",
+     "g": 2
+    },
+    {
+     "item": "black_pepper",
+     "g": 1
+    }
+   ],
+   "nutrition": {
+    "kcal": 496,
+    "protein": 24.4,
+    "fat": 17.4,
+    "satfat": 6.9,
+    "carb": 60.1,
+    "fiber": 4.2,
+    "sugar": 6.5,
+    "sodium": 750,
+    "chol": 36.2,
+    "potassium": 583.5,
+    "calcium": 483.4,
+    "iron": 3.1,
+    "vitc": 21.5
+   }
+  },
+  {
+   "id": "chicken-greek-salad",
+   "slot": "lunch",
+   "name": "Chicken Greek Salad",
+   "cuisine": "Mediterranean",
+   "minutes": 25,
+   "servings": 2,
+   "servings_note": "2 servings",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "1/2 lb boneless skinless chicken breast",
+      "1 head romaine, chopped",
+      "1/2 cucumber, sliced",
+      "1 tomato, cut in wedges",
+      "1/3 cup crumbled feta",
+      "2 tbsp thinly sliced onion",
+      "1 tbsp olive oil",
+      "juice of 1 lemon",
+      "1/2 tsp dried oregano"
+     ]
+    }
+   ],
+   "steps": [
+    "Rub the chicken with half the oil and the oregano. Cook in a skillet over medium heat 5 to 6 minutes per side until it reaches 165°F. Rest 5 minutes, then slice.",
+    "Whisk the remaining oil with the lemon juice.",
+    "Toss the romaine, cucumber, tomato and onion with the dressing.",
+    "Top with the chicken and feta."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [
+    "milk"
+   ],
+   "contains": [
+    "poultry"
+   ],
+   "lines": [
+    {
+     "item": "chicken_breast",
+     "g": 227
+    },
+    {
+     "item": "romaine",
+     "g": 340
+    },
+    {
+     "item": "cucumber",
+     "g": 150
+    },
+    {
+     "item": "tomato",
+     "g": 150
+    },
+    {
+     "item": "feta",
+     "g": 60
+    },
+    {
+     "item": "onion",
+     "g": 30
+    },
+    {
+     "item": "olive_oil",
+     "g": 14
+    },
+    {
+     "item": "lemon",
+     "g": 45
+    },
+    {
+     "item": "oregano",
+     "g": 1
+    }
+   ],
+   "nutrition": {
+    "kcal": 344,
+    "protein": 33.3,
+    "fat": 17.3,
+    "satfat": 5.7,
+    "carb": 15.7,
+    "fiber": 5.4,
+    "sugar": 6.5,
+    "sodium": 413,
+    "chol": 109.6,
+    "potassium": 1157.0,
+    "calcium": 242.0,
+    "iron": 2.9,
+    "vitc": 29.0
+   }
+  },
+  {
+   "id": "shrimp-noodle-stir-fry",
+   "slot": "lunch",
+   "name": "Shrimp and Veggie Noodle Stir-Fry",
+   "cuisine": "Asian",
+   "minutes": 25,
+   "servings": 2,
+   "servings_note": "2 servings",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "1/2 lb peeled shrimp",
+      "5 oz spaghetti or thin noodles",
+      "1 red bell pepper, sliced",
+      "1 1/2 cups broccoli florets",
+      "4 tsp soy sauce",
+      "2 cloves garlic, minced",
+      "2 tsp grated ginger",
+      "1 tbsp canola oil"
+     ]
+    }
+   ],
+   "steps": [
+    "Cook the noodles until just tender and drain.",
+    "Heat the oil in a large skillet over high heat. Stir-fry the broccoli and pepper 4 minutes. Add the garlic and ginger for 30 seconds.",
+    "Add the shrimp and cook 2 to 3 minutes until pink and opaque.",
+    "Add the noodles and soy sauce, toss 1 minute, and serve."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [
+    "gluten",
+    "shellfish",
+    "soy",
+    "wheat"
+   ],
+   "contains": [],
+   "lines": [
+    {
+     "item": "shrimp",
+     "g": 227
+    },
+    {
+     "item": "pasta_spaghetti",
+     "g": 140
+    },
+    {
+     "item": "bell_pepper_red",
+     "g": 150
+    },
+    {
+     "item": "broccoli",
+     "g": 150
+    },
+    {
+     "item": "soy_sauce",
+     "g": 24
+    },
+    {
+     "item": "garlic",
+     "g": 6
+    },
+    {
+     "item": "ginger",
+     "g": 6
+    },
+    {
+     "item": "canola_oil",
+     "g": 14
+    }
+   ],
+   "nutrition": {
+    "kcal": 476,
+    "protein": 36.0,
+    "fat": 9.2,
+    "satfat": 1.0,
+    "carb": 63.9,
+    "fiber": 6.0,
+    "sugar": 6.4,
+    "sodium": 827,
+    "chol": 182.7,
+    "potassium": 927.7,
+    "calcium": 137.7,
+    "iron": 4.0,
+    "vitc": 163.8
+   }
+  },
+  {
+   "id": "sweet-potato-black-bean-tacos",
+   "slot": "lunch",
+   "name": "Sweet Potato Black Bean Tacos",
+   "cuisine": "Mexican",
+   "minutes": 35,
+   "servings": 2,
+   "servings_note": "2 servings (2 tacos each)",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "4 corn tortillas",
+      "2 small sweet potatoes, diced small",
+      "2/3 cup canned black beans, drained",
+      "1 1/2 cups shredded cabbage",
+      "1/2 avocado, sliced",
+      "juice of 1 lime",
+      "2 tsp olive oil",
+      "1 tsp ground cumin",
+      "1 tsp chili powder"
+     ]
+    }
+   ],
+   "steps": [
+    "Heat the oven to 425°F. Toss the sweet potato with the oil, cumin and chili powder and roast on a sheet pan 20 to 25 minutes, turning once.",
+    "Warm the beans. Warm the tortillas in a dry pan.",
+    "Fill the tortillas with the sweet potato, beans and cabbage.",
+    "Top with the avocado and a squeeze of lime."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [],
+   "contains": [],
+   "lines": [
+    {
+     "item": "tortilla_corn",
+     "g": 96
+    },
+    {
+     "item": "sweet_potato",
+     "g": 260
+    },
+    {
+     "item": "black_beans_canned",
+     "g": 170
+    },
+    {
+     "item": "cabbage",
+     "g": 100
+    },
+    {
+     "item": "avocado",
+     "g": 75
+    },
+    {
+     "item": "lime",
+     "g": 30
+    },
+    {
+     "item": "olive_oil",
+     "g": 9
+    },
+    {
+     "item": "cumin",
+     "g": 2
+    },
+    {
+     "item": "chili_powder",
+     "g": 2
+    }
+   ],
+   "nutrition": {
+    "kcal": 416,
+    "protein": 11.7,
+    "fat": 12.1,
+    "satfat": 1.8,
+    "carb": 70.0,
+    "fiber": 17.1,
+    "sugar": 8.2,
+    "sodium": 253,
+    "chol": 0.0,
+    "potassium": 1111.0,
+    "calcium": 146.9,
+    "iron": 4.3,
+    "vitc": 32.0
+   }
+  },
+  {
+   "id": "sheet-pan-salmon",
+   "slot": "dinner",
+   "name": "Sheet-Pan Salmon with Potatoes and Broccoli",
+   "cuisine": "American",
+   "minutes": 35,
+   "servings": 2,
+   "servings_note": "2 servings",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "3/4 lb salmon fillet, cut in 2 portions",
+      "2 medium potatoes, cut in 3/4-inch cubes",
+      "2 1/2 cups broccoli florets",
+      "2 tbsp olive oil",
+      "1 lemon (juice and slices)",
+      "2 cloves garlic, minced",
+      "1 tsp paprika",
+      "1/2 tsp salt",
+      "1/4 tsp black pepper"
+     ]
+    }
+   ],
+   "steps": [
+    "Heat the oven to 425°F. Toss the potatoes with half the oil, salt and pepper on a large sheet pan and roast 15 minutes.",
+    "Toss the broccoli with the rest of the oil and the garlic. Push the potatoes aside and add the broccoli.",
+    "Season the salmon with paprika and lemon juice and place it on the pan.",
+    "Roast 10 to 12 minutes more until the salmon reaches 145°F and flakes easily."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [
+    "fish"
+   ],
+   "contains": [],
+   "lines": [
+    {
+     "item": "salmon_fillet",
+     "g": 340
+    },
+    {
+     "item": "potato",
+     "g": 340
+    },
+    {
+     "item": "broccoli",
+     "g": 250
+    },
+    {
+     "item": "olive_oil",
+     "g": 27
+    },
+    {
+     "item": "lemon",
+     "g": 45
+    },
+    {
+     "item": "garlic",
+     "g": 6
+    },
+    {
+     "item": "paprika",
+     "g": 2
+    },
+    {
+     "item": "salt",
+     "g": 3
+    },
+    {
+     "item": "black_pepper",
+     "g": 1
+    }
+   ],
+   "nutrition": {
+    "kcal": 660,
+    "protein": 42.2,
+    "fat": 37.1,
+    "satfat": 7.3,
+    "carb": 41.4,
+    "fiber": 7.4,
+    "sugar": 4.2,
+    "sodium": 735,
+    "chol": 93.5,
+    "potassium": 1799.5,
+    "calcium": 106.2,
+    "iron": 3.3,
+    "vitc": 161.3
+   }
+  },
+  {
+   "id": "turkey-chili",
+   "slot": "dinner",
+   "name": "Weeknight Turkey Chili",
+   "cuisine": "American",
+   "minutes": 45,
+   "servings": 4,
+   "servings_note": "4 servings",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "1 lb ground turkey",
+      "1 can (15 oz) kidney beans, drained",
+      "1 can (15 oz) black beans",
+      "1 can (14.5 oz) diced tomatoes",
+      "1 onion, diced",
+      "1 green bell pepper, diced",
+      "3 cloves garlic, minced",
+      "1 tbsp chili powder",
+      "2 tsp ground cumin",
+      "1 tbsp olive oil",
+      "3/4 tsp salt"
+     ]
+    }
+   ],
+   "steps": [
+    "Heat the oil in a large pot over medium-high heat. Cook the turkey, breaking it up, until no pink remains and it reaches 165°F, about 7 minutes.",
+    "Add the onion and pepper and cook 5 minutes. Add the garlic, chili powder and cumin for 1 minute.",
+    "Stir in the tomatoes, both cans of beans with their liquid, the salt and 1 cup water.",
+    "Simmer uncovered 25 minutes, stirring now and then, until thick."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [],
+   "contains": [
+    "poultry"
+   ],
+   "lines": [
+    {
+     "item": "ground_turkey",
+     "g": 454
+    },
+    {
+     "item": "kidney_beans_canned",
+     "g": 255
+    },
+    {
+     "item": "black_beans_canned",
+     "g": 425
+    },
+    {
+     "item": "tomatoes_canned",
+     "g": 411
+    },
+    {
+     "item": "onion",
+     "g": 150
+    },
+    {
+     "item": "bell_pepper_green",
+     "g": 150
+    },
+    {
+     "item": "garlic",
+     "g": 9
+    },
+    {
+     "item": "chili_powder",
+     "g": 8
+    },
+    {
+     "item": "cumin",
+     "g": 4
+    },
+    {
+     "item": "olive_oil",
+     "g": 14
+    },
+    {
+     "item": "salt",
+     "g": 4
+    }
+   ],
+   "nutrition": {
+    "kcal": 429,
+    "protein": 34.9,
+    "fat": 14.8,
+    "satfat": 3.3,
+    "carb": 42.3,
+    "fiber": 14.9,
+    "sugar": 8.0,
+    "sodium": 940,
+    "chol": 84.0,
+    "potassium": 1128.2,
+    "calcium": 163.9,
+    "iron": 6.2,
+    "vitc": 49.7
+   }
+  },
+  {
+   "id": "beef-broccoli-stir-fry",
+   "slot": "dinner",
+   "name": "Beef and Broccoli Stir-Fry",
+   "cuisine": "Asian",
+   "minutes": 30,
+   "servings": 3,
+   "servings_note": "3 servings",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "3/4 lb sirloin steak, sliced thin against the grain",
+      "3/4 lb broccoli florets",
+      "3/4 cup uncooked white rice",
+      "2 tbsp soy sauce",
+      "3 cloves garlic, minced",
+      "1 tbsp grated ginger",
+      "2 tsp brown sugar",
+      "1 tbsp canola oil"
+     ]
+    }
+   ],
+   "steps": [
+    "Cook the rice. Mix the soy sauce, brown sugar and 1/4 cup water in a small bowl.",
+    "Heat the oil in a large skillet over high heat. Sear the beef in a single layer 1 to 2 minutes per side. Move to a plate.",
+    "Add the broccoli with 2 tbsp water, cover 3 minutes. Add the garlic and ginger for 30 seconds.",
+    "Return the beef, pour in the sauce, and cook 1 to 2 minutes until glossy. Serve over rice."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [
+    "gluten",
+    "soy",
+    "wheat"
+   ],
+   "contains": [
+    "meat"
+   ],
+   "lines": [
+    {
+     "item": "sirloin_steak",
+     "g": 340
+    },
+    {
+     "item": "broccoli",
+     "g": 340
+    },
+    {
+     "item": "rice_white",
+     "g": 150
+    },
+    {
+     "item": "soy_sauce",
+     "g": 36
+    },
+    {
+     "item": "garlic",
+     "g": 9
+    },
+    {
+     "item": "ginger",
+     "g": 9
+    },
+    {
+     "item": "sugar_brown",
+     "g": 8
+    },
+    {
+     "item": "canola_oil",
+     "g": 14
+    }
+   ],
+   "nutrition": {
+    "kcal": 528,
+    "protein": 30.6,
+    "fat": 21.7,
+    "satfat": 7.1,
+    "carb": 52.2,
+    "fiber": 3.8,
+    "sugar": 4.7,
+    "sodium": 758,
+    "chol": 88.4,
+    "potassium": 846.1,
+    "calcium": 107.7,
+    "iron": 4.9,
+    "vitc": 102.2
+   }
+  },
+  {
+   "id": "turkey-meat-sauce-spaghetti",
+   "slot": "dinner",
+   "name": "Spaghetti with Turkey Meat Sauce",
+   "cuisine": "Italian",
+   "minutes": 40,
+   "servings": 4,
+   "servings_note": "4 servings",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "3/4 lb spaghetti",
+      "3/4 lb ground turkey",
+      "2 cans (14.5 oz) diced tomatoes",
+      "1 onion, finely diced",
+      "3 cloves garlic, minced",
+      "1 tbsp olive oil",
+      "1 tsp dried oregano",
+      "3/4 tsp salt",
+      "1/4 tsp black pepper",
+      "1/4 cup grated Parmesan"
+     ]
+    }
+   ],
+   "steps": [
+    "Heat the oil in a large skillet over medium heat. Cook the onion 5 minutes, add the garlic for 30 seconds.",
+    "Add the turkey and cook, breaking it up, until no pink remains and it reaches 165°F.",
+    "Stir in the tomatoes, oregano, salt and pepper. Simmer 20 minutes until thickened.",
+    "Meanwhile cook the spaghetti, drain, and toss with the sauce. Top with the Parmesan."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [
+    "gluten",
+    "milk",
+    "wheat"
+   ],
+   "contains": [
+    "poultry"
+   ],
+   "lines": [
+    {
+     "item": "pasta_spaghetti",
+     "g": 340
+    },
+    {
+     "item": "ground_turkey",
+     "g": 340
+    },
+    {
+     "item": "tomatoes_canned",
+     "g": 822
+    },
+    {
+     "item": "onion",
+     "g": 110
+    },
+    {
+     "item": "garlic",
+     "g": 9
+    },
+    {
+     "item": "olive_oil",
+     "g": 14
+    },
+    {
+     "item": "oregano",
+     "g": 2
+    },
+    {
+     "item": "salt",
+     "g": 4
+    },
+    {
+     "item": "black_pepper",
+     "g": 1
+    },
+    {
+     "item": "parmesan",
+     "g": 28
+    }
+   ],
+   "nutrition": {
+    "kcal": 552,
+    "protein": 31.1,
+    "fat": 14.4,
+    "satfat": 3.7,
+    "carb": 75.4,
+    "fiber": 7.4,
+    "sugar": 8.7,
+    "sodium": 816,
+    "chol": 68.9,
+    "potassium": 834.6,
+    "calcium": 183.0,
+    "iron": 5.3,
+    "vitc": 28.6
+   }
+  },
+  {
+   "id": "chickpea-spinach-curry",
+   "slot": "dinner",
+   "name": "Chickpea and Spinach Curry",
+   "cuisine": "Indian",
+   "minutes": 35,
+   "servings": 3,
+   "servings_note": "3 servings",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "2 cans (15 oz) chickpeas, drained",
+      "5 oz baby spinach",
+      "1 can (14.5 oz) diced tomatoes",
+      "1 onion, diced",
+      "3 cloves garlic, minced",
+      "1 tbsp grated ginger",
+      "1 tbsp curry powder",
+      "1 tbsp olive oil",
+      "2/3 cup uncooked white rice",
+      "1/2 tsp salt"
+     ]
+    }
+   ],
+   "steps": [
+    "Cook the rice. Heat the oil in a large pan over medium heat and cook the onion 6 minutes.",
+    "Add the garlic, ginger and curry powder and stir for 1 minute.",
+    "Add the tomatoes, chickpeas, salt and 1/2 cup water. Simmer 15 minutes, mashing a few chickpeas to thicken it.",
+    "Stir in the spinach until wilted and serve over the rice."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [],
+   "contains": [],
+   "lines": [
+    {
+     "item": "chickpeas_canned",
+     "g": 480
+    },
+    {
+     "item": "spinach",
+     "g": 142
+    },
+    {
+     "item": "tomatoes_canned",
+     "g": 411
+    },
+    {
+     "item": "onion",
+     "g": 150
+    },
+    {
+     "item": "garlic",
+     "g": 9
+    },
+    {
+     "item": "ginger",
+     "g": 12
+    },
+    {
+     "item": "curry_powder",
+     "g": 6
+    },
+    {
+     "item": "olive_oil",
+     "g": 14
+    },
+    {
+     "item": "rice_white",
+     "g": 135
+    },
+    {
+     "item": "salt",
+     "g": 3
+    }
+   ],
+   "nutrition": {
+    "kcal": 495,
+    "protein": 18.0,
+    "fat": 10.3,
+    "satfat": 1.2,
+    "carb": 86.0,
+    "fiber": 16.5,
+    "sugar": 12.4,
+    "sodium": 982,
+    "chol": 0.0,
+    "potassium": 904.3,
+    "calcium": 205.0,
+    "iron": 6.3,
+    "vitc": 35.6
+   }
+  },
+  {
+   "id": "tofu-veggie-stir-fry",
+   "slot": "dinner",
+   "name": "Crispy Tofu Veggie Stir-Fry",
+   "cuisine": "Asian",
+   "minutes": 35,
+   "servings": 3,
+   "servings_note": "3 servings",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "1 block (14 oz) extra-firm tofu",
+      "2 cups broccoli florets",
+      "1 red bell pepper, sliced",
+      "2 carrots, sliced thin",
+      "2/3 cup uncooked white rice",
+      "5 tsp soy sauce",
+      "3 cloves garlic, minced",
+      "1 tbsp grated ginger",
+      "1 tbsp canola oil"
+     ]
+    }
+   ],
+   "steps": [
+    "Cook the rice. Press the tofu 10 minutes between towels, then cut into 3/4-inch cubes.",
+    "Heat the oil in a large nonstick skillet over medium-high heat. Brown the tofu on all sides, about 8 minutes. Move to a plate.",
+    "Add the broccoli, carrot and pepper with 3 tbsp water. Cover 3 minutes, then cook uncovered 2 minutes. Add the garlic and ginger for 30 seconds.",
+    "Return the tofu, add the soy sauce, toss 1 minute, and serve over the rice."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [
+    "gluten",
+    "soy",
+    "wheat"
+   ],
+   "contains": [],
+   "lines": [
+    {
+     "item": "tofu_firm",
+     "g": 397
+    },
+    {
+     "item": "broccoli",
+     "g": 200
+    },
+    {
+     "item": "bell_pepper_red",
+     "g": 150
+    },
+    {
+     "item": "carrot",
+     "g": 120
+    },
+    {
+     "item": "rice_white",
+     "g": 135
+    },
+    {
+     "item": "soy_sauce",
+     "g": 30
+    },
+    {
+     "item": "garlic",
+     "g": 9
+    },
+    {
+     "item": "ginger",
+     "g": 9
+    },
+    {
+     "item": "canola_oil",
+     "g": 14
+    }
+   ],
+   "nutrition": {
+    "kcal": 460,
+    "protein": 29.9,
+    "fat": 17.1,
+    "satfat": 2.2,
+    "carb": 52.9,
+    "fiber": 7.7,
+    "sugar": 5.3,
+    "sodium": 623,
+    "chol": 0.0,
+    "potassium": 877.5,
+    "calcium": 973.7,
+    "iron": 6.5,
+    "vitc": 127.0
+   }
+  },
+  {
+   "id": "shrimp-rice-skillet",
+   "slot": "dinner",
+   "name": "One-Pan Shrimp and Rice Skillet",
+   "cuisine": "Cajun",
+   "minutes": 35,
+   "servings": 3,
+   "servings_note": "3 servings",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "3/4 lb peeled shrimp",
+      "2/3 cup uncooked white rice",
+      "1 green bell pepper, diced",
+      "1 onion, diced",
+      "1 can (14.5 oz) diced tomatoes",
+      "2 cloves garlic, minced",
+      "1 tbsp paprika",
+      "1 tbsp olive oil",
+      "1/2 tsp salt",
+      "1/4 tsp crushed red pepper"
+     ]
+    }
+   ],
+   "steps": [
+    "Heat the oil in a large deep skillet over medium heat. Cook the onion and pepper 5 minutes. Add the garlic, paprika and red pepper for 30 seconds.",
+    "Add the rice, tomatoes, salt and 1 cup water. Cover and simmer on low 15 minutes.",
+    "Nestle the shrimp into the rice, cover, and cook 5 to 6 minutes until the shrimp are pink and the rice is tender.",
+    "Fluff with a fork and serve."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [
+    "shellfish"
+   ],
+   "contains": [],
+   "lines": [
+    {
+     "item": "shrimp",
+     "g": 340
+    },
+    {
+     "item": "rice_white",
+     "g": 135
+    },
+    {
+     "item": "bell_pepper_green",
+     "g": 150
+    },
+    {
+     "item": "onion",
+     "g": 110
+    },
+    {
+     "item": "tomatoes_canned",
+     "g": 411
+    },
+    {
+     "item": "garlic",
+     "g": 6
+    },
+    {
+     "item": "paprika",
+     "g": 3
+    },
+    {
+     "item": "olive_oil",
+     "g": 14
+    },
+    {
+     "item": "salt",
+     "g": 3
+    },
+    {
+     "item": "red_pepper",
+     "g": 1
+    }
+   ],
+   "nutrition": {
+    "kcal": 355,
+    "protein": 28.2,
+    "fat": 6.2,
+    "satfat": 1.0,
+    "carb": 47.9,
+    "fiber": 5.1,
+    "sugar": 6.5,
+    "sodium": 686,
+    "chol": 182.5,
+    "potassium": 791.3,
+    "calcium": 150.5,
+    "iron": 3.9,
+    "vitc": 61.1
+   }
+  },
+  {
+   "id": "pork-chops-sweet-potato",
+   "slot": "dinner",
+   "name": "Pork Chops with Sweet Potato and Green Beans",
+   "cuisine": "American",
+   "minutes": 35,
+   "servings": 2,
+   "servings_note": "2 servings",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "2 boneless pork loin chops (about 6 oz each)",
+      "2 small sweet potatoes, cut in wedges",
+      "1/2 lb green beans, trimmed",
+      "4 tsp olive oil",
+      "1 tsp paprika",
+      "1 clove garlic, minced",
+      "1/2 tsp salt",
+      "1/4 tsp black pepper"
+     ]
+    }
+   ],
+   "steps": [
+    "Heat the oven to 425°F. Toss the sweet potato wedges with 2 tsp oil and half the salt and roast on a sheet pan 15 minutes.",
+    "Rub the chops with the paprika, pepper and remaining salt. Toss the green beans with 1 tsp oil and the garlic and add them to the pan.",
+    "Sear the chops in a hot skillet with the last tsp of oil, 3 minutes per side.",
+    "Move the chops to the sheet pan and roast 5 to 7 minutes until they reach 145°F. Rest 3 minutes."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [],
+   "contains": [
+    "meat"
+   ],
+   "lines": [
+    {
+     "item": "pork_chop",
+     "g": 340
+    },
+    {
+     "item": "sweet_potato",
+     "g": 300
+    },
+    {
+     "item": "green_beans",
+     "g": 227
+    },
+    {
+     "item": "olive_oil",
+     "g": 18
+    },
+    {
+     "item": "paprika",
+     "g": 2
+    },
+    {
+     "item": "garlic",
+     "g": 3
+    },
+    {
+     "item": "salt",
+     "g": 3
+    },
+    {
+     "item": "black_pepper",
+     "g": 1
+    }
+   ],
+   "nutrition": {
+    "kcal": 514,
+    "protein": 41.4,
+    "fat": 21.3,
+    "satfat": 5.5,
+    "carb": 39.4,
+    "fiber": 8.1,
+    "sugar": 10.1,
+    "sodium": 754,
+    "chol": 113.9,
+    "potassium": 1414.8,
+    "calcium": 106.6,
+    "iron": 3.3,
+    "vitc": 17.9
+   }
+  },
+  {
+   "id": "bean-cheese-quesadillas",
+   "slot": "dinner",
+   "name": "Black Bean Quesadillas with Side Salad",
+   "cuisine": "Mexican",
+   "minutes": 25,
+   "servings": 2,
+   "servings_note": "2 servings (2 quesadillas each)",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "4 flour tortillas (8 in)",
+      "1 cup canned black beans, drained",
+      "3/4 cup shredded cheddar",
+      "1/2 green bell pepper, diced",
+      "1/2 head romaine, chopped",
+      "1 tomato, diced",
+      "juice of 1 lime",
+      "2 tsp olive oil",
+      "1/2 tsp ground cumin"
+     ]
+    }
+   ],
+   "steps": [
+    "Mash half the beans with the cumin and mix in the whole beans and pepper.",
+    "Spread the bean mix and cheese on half of each tortilla and fold over.",
+    "Cook in a dry skillet over medium heat 2 to 3 minutes per side until golden and the cheese melts.",
+    "Toss the romaine and tomato with the lime juice and oil. Serve with the quesadillas."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [
+    "gluten",
+    "milk",
+    "wheat"
+   ],
+   "contains": [],
+   "lines": [
+    {
+     "item": "tortilla_flour",
+     "g": 180
+    },
+    {
+     "item": "black_beans_canned",
+     "g": 255
+    },
+    {
+     "item": "cheddar",
+     "g": 85
+    },
+    {
+     "item": "bell_pepper_green",
+     "g": 75
+    },
+    {
+     "item": "romaine",
+     "g": 170
+    },
+    {
+     "item": "tomato",
+     "g": 150
+    },
+    {
+     "item": "lime",
+     "g": 30
+    },
+    {
+     "item": "olive_oil",
+     "g": 9
+    },
+    {
+     "item": "cumin",
+     "g": 1
+    }
+   ],
+   "nutrition": {
+    "kcal": 644,
+    "protein": 27.0,
+    "fat": 26.8,
+    "satfat": 11.4,
+    "carb": 75.9,
+    "fiber": 15.4,
+    "sugar": 8.0,
+    "sodium": 1129,
+    "chol": 42.1,
+    "potassium": 1017.4,
+    "calcium": 523.9,
+    "iron": 7.3,
+    "vitc": 51.8
+   }
+  },
+  {
+   "id": "baked-cod-tomatoes-potatoes",
+   "slot": "dinner",
+   "name": "Baked Cod with Tomatoes and Potatoes",
+   "cuisine": "Mediterranean",
+   "minutes": 40,
+   "servings": 2,
+   "servings_note": "2 servings",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "3/4 lb cod fillets",
+      "2 medium potatoes, sliced thin",
+      "2 tomatoes, sliced",
+      "2 tbsp olive oil",
+      "2 cloves garlic, minced",
+      "1/2 tsp dried oregano",
+      "1 lemon (juice)",
+      "1/2 tsp salt",
+      "1/4 tsp black pepper"
+     ]
+    }
+   ],
+   "steps": [
+    "Heat the oven to 425°F. Toss the potato slices with half the oil and half the salt, spread in a baking dish, and roast 15 minutes.",
+    "Layer the tomatoes and garlic over the potatoes and sprinkle with the oregano.",
+    "Place the cod on top, drizzle with the remaining oil and the lemon juice, and season with the rest of the salt and pepper.",
+    "Bake 12 to 15 minutes until the cod reaches 145°F and flakes easily."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [
+    "fish"
+   ],
+   "contains": [],
+   "lines": [
+    {
+     "item": "cod_fillet",
+     "g": 340
+    },
+    {
+     "item": "potato",
+     "g": 300
+    },
+    {
+     "item": "tomato",
+     "g": 300
+    },
+    {
+     "item": "olive_oil",
+     "g": 27
+    },
+    {
+     "item": "garlic",
+     "g": 6
+    },
+    {
+     "item": "oregano",
+     "g": 1
+    },
+    {
+     "item": "lemon",
+     "g": 45
+    },
+    {
+     "item": "salt",
+     "g": 3
+    },
+    {
+     "item": "black_pepper",
+     "g": 1
+    }
+   ],
+   "nutrition": {
+    "kcal": 413,
+    "protein": 35.0,
+    "fat": 15.2,
+    "satfat": 2.2,
+    "carb": 35.3,
+    "fiber": 5.4,
+    "sugar": 5.8,
+    "sodium": 691,
+    "chol": 73.1,
+    "potassium": 1743.5,
+    "calcium": 77.7,
+    "iron": 2.6,
+    "vitc": 61.5
+   }
+  },
+  {
+   "id": "stuffed-bell-peppers",
+   "slot": "dinner",
+   "name": "Beef and Rice Stuffed Peppers",
+   "cuisine": "American",
+   "minutes": 60,
+   "servings": 4,
+   "servings_note": "4 servings (1 pepper each)",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "4 large bell peppers, tops cut off and seeded",
+      "3/4 lb ground beef",
+      "1/2 cup uncooked white rice",
+      "1 can (14.5 oz) diced tomatoes",
+      "1 onion, diced",
+      "2 cloves garlic, minced",
+      "1/2 cup shredded cheddar",
+      "2 tsp olive oil",
+      "1/2 tsp salt",
+      "1/2 tsp dried oregano"
+     ]
+    }
+   ],
+   "steps": [
+    "Heat the oven to 375°F. Cook the rice according to the package.",
+    "Cook the onion in the oil 4 minutes. Add the beef and garlic and cook until no pink remains (160°F). Stir in the rice, tomatoes, salt and oregano.",
+    "Stand the peppers in a baking dish and fill them with the mixture. Add 1/4 cup water to the dish and cover with foil.",
+    "Bake 35 minutes, uncover, top with the cheese, and bake 5 more minutes until melted."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [
+    "milk"
+   ],
+   "contains": [
+    "meat"
+   ],
+   "lines": [
+    {
+     "item": "bell_pepper_red",
+     "g": 600
+    },
+    {
+     "item": "ground_beef",
+     "g": 340
+    },
+    {
+     "item": "rice_white",
+     "g": 90
+    },
+    {
+     "item": "tomatoes_canned",
+     "g": 411
+    },
+    {
+     "item": "onion",
+     "g": 110
+    },
+    {
+     "item": "garlic",
+     "g": 6
+    },
+    {
+     "item": "cheddar",
+     "g": 60
+    },
+    {
+     "item": "olive_oil",
+     "g": 9
+    },
+    {
+     "item": "salt",
+     "g": 3
+    },
+    {
+     "item": "oregano",
+     "g": 1
+    }
+   ],
+   "nutrition": {
+    "kcal": 415,
+    "protein": 23.6,
+    "fat": 20.9,
+    "satfat": 8.2,
+    "carb": 34.3,
+    "fiber": 6.0,
+    "sugar": 10.2,
+    "sodium": 572,
+    "chol": 72.6,
+    "potassium": 850.2,
+    "calcium": 183.2,
+    "iron": 4.2,
+    "vitc": 207.0
+   }
+  },
+  {
+   "id": "mushroom-spinach-pasta",
+   "slot": "dinner",
+   "name": "Garlicky Mushroom Spinach Pasta",
+   "cuisine": "Italian",
+   "minutes": 25,
+   "servings": 3,
+   "servings_note": "3 servings",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "9 oz spaghetti",
+      "8 oz mushrooms, sliced",
+      "5 oz baby spinach",
+      "3 cloves garlic, sliced",
+      "2 tbsp olive oil",
+      "1/3 cup grated Parmesan",
+      "1/2 tsp salt",
+      "1/4 tsp black pepper",
+      "1/4 tsp crushed red pepper"
+     ]
+    }
+   ],
+   "steps": [
+    "Cook the spaghetti, saving 1/2 cup of the pasta water, then drain.",
+    "Heat the oil in a large skillet over medium-high heat. Cook the mushrooms 6 to 7 minutes until browned. Add the garlic and red pepper for 30 seconds.",
+    "Add the spinach and salt and cook until wilted, 1 to 2 minutes.",
+    "Toss in the pasta with a splash of pasta water, the pepper and the Parmesan."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [
+    "gluten",
+    "milk",
+    "wheat"
+   ],
+   "contains": [],
+   "lines": [
+    {
+     "item": "pasta_spaghetti",
+     "g": 270
+    },
+    {
+     "item": "mushrooms",
+     "g": 227
+    },
+    {
+     "item": "spinach",
+     "g": 142
+    },
+    {
+     "item": "garlic",
+     "g": 9
+    },
+    {
+     "item": "olive_oil",
+     "g": 27
+    },
+    {
+     "item": "parmesan",
+     "g": 42
+    },
+    {
+     "item": "salt",
+     "g": 3
+    },
+    {
+     "item": "black_pepper",
+     "g": 1
+    },
+    {
+     "item": "red_pepper",
+     "g": 1
+    }
+   ],
+   "nutrition": {
+    "kcal": 506,
+    "protein": 19.7,
+    "fat": 14.8,
+    "satfat": 3.7,
+    "carb": 74.7,
+    "fiber": 4.9,
+    "sugar": 4.2,
+    "sodium": 688,
+    "chol": 12.0,
+    "potassium": 754.0,
+    "calcium": 195.2,
+    "iron": 4.9,
+    "vitc": 16.1
+   }
+  },
+  {
+   "id": "chickpea-breakfast-skillet",
+   "slot": "breakfast",
+   "name": "Savory Chickpea Breakfast Skillet",
+   "cuisine": "Mediterranean",
+   "minutes": 20,
+   "servings": 2,
+   "servings_note": "2 servings",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "1 can (15 oz) chickpeas, drained",
+      "2 cups baby spinach",
+      "1 tomato, diced",
+      "1/4 cup diced onion",
+      "1 clove garlic, minced",
+      "1 tbsp olive oil",
+      "1 tsp ground cumin",
+      "1/2 tsp paprika",
+      "1/3 tsp salt",
+      "pinch of black pepper"
+     ]
+    }
+   ],
+   "steps": [
+    "Heat the oil in a skillet over medium heat. Cook the onion 3 minutes, then add the garlic, cumin and paprika for 30 seconds.",
+    "Add the chickpeas and tomato and cook 6 minutes, mashing a few chickpeas with the back of a spoon.",
+    "Stir in the spinach, salt and pepper until the spinach wilts, about 1 minute.",
+    "Spoon into bowls and serve hot."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [],
+   "contains": [],
+   "lines": [
+    {
+     "item": "chickpeas_canned",
+     "g": 240
+    },
+    {
+     "item": "spinach",
+     "g": 60
+    },
+    {
+     "item": "tomato",
+     "g": 150
+    },
+    {
+     "item": "onion",
+     "g": 40
+    },
+    {
+     "item": "garlic",
+     "g": 3
+    },
+    {
+     "item": "olive_oil",
+     "g": 14
+    },
+    {
+     "item": "cumin",
+     "g": 2
+    },
+    {
+     "item": "paprika",
+     "g": 1
+    },
+    {
+     "item": "salt",
+     "g": 2
+    },
+    {
+     "item": "black_pepper",
+     "g": 0.5
+    }
+   ],
+   "nutrition": {
+    "kcal": 265,
+    "protein": 10.6,
+    "fat": 10.9,
+    "satfat": 1.3,
+    "carb": 34.3,
+    "fiber": 10.0,
+    "sugar": 7.8,
+    "sodium": 714,
+    "chol": 0.0,
+    "potassium": 564.3,
+    "calcium": 110.4,
+    "iron": 3.2,
+    "vitc": 20.9
+   }
+  },
+  {
+   "id": "avocado-black-bean-tacos",
+   "slot": "breakfast",
+   "name": "Avocado Black Bean Breakfast Tacos",
+   "cuisine": "Mexican",
+   "minutes": 15,
+   "servings": 2,
+   "servings_note": "2 servings (2 tacos each)",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "4 corn tortillas",
+      "1 ripe avocado, sliced",
+      "2/3 cup canned black beans, drained",
+      "1/4 cup salsa",
+      "juice of 1/2 lime",
+      "2 tbsp chopped cilantro",
+      "pinch of salt"
+     ]
+    }
+   ],
+   "steps": [
+    "Warm the beans in a small pan with the salt for 3 minutes, mashing about half.",
+    "Warm the tortillas in a dry skillet, 30 seconds per side.",
+    "Fill each tortilla with beans and avocado.",
+    "Top with the salsa, cilantro and a squeeze of lime."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [],
+   "contains": [],
+   "lines": [
+    {
+     "item": "tortilla_corn",
+     "g": 96
+    },
+    {
+     "item": "avocado",
+     "g": 150
+    },
+    {
+     "item": "black_beans_canned",
+     "g": 170
+    },
+    {
+     "item": "salsa",
+     "g": 60
+    },
+    {
+     "item": "lime",
+     "g": 15
+    },
+    {
+     "item": "cilantro",
+     "g": 8
+    },
+    {
+     "item": "salt",
+     "g": 1
+    }
+   ],
+   "nutrition": {
+    "kcal": 314,
+    "protein": 9.9,
+    "fat": 12.7,
+    "satfat": 1.9,
+    "carb": 44.7,
+    "fiber": 14.6,
+    "sugar": 2.5,
+    "sodium": 553,
+    "chol": 0.0,
+    "potassium": 827.0,
+    "calcium": 90.5,
+    "iron": 2.8,
+    "vitc": 13.7
+   }
+  },
+  {
+   "id": "berry-walnut-oatmeal",
+   "slot": "breakfast",
+   "name": "Warm Berry Walnut Oatmeal",
+   "cuisine": "American",
+   "minutes": 10,
+   "servings": 2,
+   "servings_note": "2 servings",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "1 cup rolled oats",
+      "2 cups unsweetened almond milk",
+      "1/2 cup blueberries",
+      "1/4 cup chopped walnuts",
+      "1/2 tsp cinnamon"
+     ]
+    }
+   ],
+   "steps": [
+    "Bring the almond milk to a simmer in a saucepan.",
+    "Stir in the oats and cinnamon and cook 5 minutes, stirring, until thick and creamy.",
+    "Fold in half the blueberries and cook 1 more minute.",
+    "Divide into bowls and top with the remaining blueberries and the walnuts."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [
+    "gluten",
+    "tree_nut"
+   ],
+   "contains": [],
+   "lines": [
+    {
+     "item": "oats_rolled",
+     "g": 80
+    },
+    {
+     "item": "almond_milk",
+     "g": 480
+    },
+    {
+     "item": "blueberries",
+     "g": 85
+    },
+    {
+     "item": "walnuts",
+     "g": 28
+    },
+    {
+     "item": "cinnamon",
+     "g": 1
+    }
+   ],
+   "nutrition": {
+    "kcal": 305,
+    "protein": 8.7,
+    "fat": 14.2,
+    "satfat": 1.5,
+    "carb": 38.7,
+    "fiber": 6.7,
+    "sugar": 6.9,
+    "sodium": 176,
+    "chol": 0.0,
+    "potassium": 402.2,
+    "calcium": 483.7,
+    "iron": 2.9,
+    "vitc": 4.3
+   }
+  },
+  {
+   "id": "pb-almond-smoothie",
+   "slot": "breakfast",
+   "name": "Peanut Butter Almond Milk Smoothie",
+   "cuisine": "American",
+   "minutes": 5,
+   "servings": 2,
+   "servings_note": "2 servings",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "2 cups unsweetened almond milk",
+      "2 frozen bananas",
+      "2 tbsp peanut butter",
+      "1 tbsp chia seeds"
+     ]
+    }
+   ],
+   "steps": [
+    "Add the almond milk, bananas, peanut butter and chia seeds to a blender.",
+    "Blend on high for 1 minute until smooth and thick.",
+    "Pour into two glasses and serve right away."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [
+    "peanut",
+    "tree_nut"
+   ],
+   "contains": [],
+   "lines": [
+    {
+     "item": "almond_milk",
+     "g": 480
+    },
+    {
+     "item": "banana",
+     "g": 236
+    },
+    {
+     "item": "peanut_butter",
+     "g": 32
+    },
+    {
+     "item": "chia_seeds",
+     "g": 12
+    }
+   ],
+   "nutrition": {
+    "kcal": 264,
+    "protein": 6.7,
+    "fat": 12.5,
+    "satfat": 2.0,
+    "carb": 36.5,
+    "fiber": 6.5,
+    "sugar": 17.4,
+    "sodium": 251,
+    "chol": 0.0,
+    "potassium": 702.4,
+    "calcium": 494.0,
+    "iron": 1.8,
+    "vitc": 10.4
+   }
+  },
+  {
+   "id": "pb-banana-toast",
+   "slot": "breakfast",
+   "name": "Peanut Butter Banana Toast",
+   "cuisine": "American",
+   "minutes": 5,
+   "servings": 2,
+   "servings_note": "2 servings (2 slices each)",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "4 slices whole-wheat bread",
+      "2 tbsp peanut butter",
+      "2 bananas, sliced",
+      "1/2 tsp cinnamon"
+     ]
+    }
+   ],
+   "steps": [
+    "Toast the bread until golden.",
+    "Spread the peanut butter on each slice.",
+    "Layer on the banana slices and sprinkle with the cinnamon."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [
+    "gluten",
+    "peanut",
+    "wheat"
+   ],
+   "contains": [],
+   "lines": [
+    {
+     "item": "bread_whole_wheat",
+     "g": 112
+    },
+    {
+     "item": "peanut_butter",
+     "g": 32
+    },
+    {
+     "item": "banana",
+     "g": 236
+    },
+    {
+     "item": "cinnamon",
+     "g": 1
+    }
+   ],
+   "nutrition": {
+    "kcal": 342,
+    "protein": 11.8,
+    "fat": 10.3,
+    "satfat": 2.1,
+    "carb": 55.1,
+    "fiber": 7.6,
+    "sugar": 17.9,
+    "sodium": 332,
+    "chol": 0.0,
+    "potassium": 661.6,
+    "calcium": 109.7,
+    "iron": 2.1,
+    "vitc": 10.3
+   }
+  },
+  {
+   "id": "berry-seed-yogurt-bowl",
+   "slot": "breakfast",
+   "name": "Berry Seed Yogurt Bowl",
+   "cuisine": "American",
+   "minutes": 5,
+   "servings": 2,
+   "servings_note": "2 servings",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "1 1/2 cups plain nonfat Greek yogurt",
+      "1 cup sliced strawberries",
+      "1/2 cup blueberries",
+      "2 tbsp sunflower seeds",
+      "2 tsp chia seeds",
+      "2 tsp honey"
+     ]
+    }
+   ],
+   "steps": [
+    "Spoon the yogurt into two bowls.",
+    "Top with the strawberries, blueberries, sunflower seeds and chia seeds.",
+    "Drizzle with the honey and serve."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [
+    "milk"
+   ],
+   "contains": [
+    "honey"
+   ],
+   "lines": [
+    {
+     "item": "yogurt_greek",
+     "g": 340
+    },
+    {
+     "item": "strawberries",
+     "g": 160
+    },
+    {
+     "item": "blueberries",
+     "g": 85
+    },
+    {
+     "item": "sunflower_seeds",
+     "g": 20
+    },
+    {
+     "item": "chia_seeds",
+     "g": 10
+    },
+    {
+     "item": "honey",
+     "g": 10
+    }
+   ],
+   "nutrition": {
+    "kcal": 248,
+    "protein": 21.1,
+    "fat": 7.7,
+    "satfat": 0.8,
+    "carb": 26.6,
+    "fiber": 5.2,
+    "sugar": 18.0,
+    "sodium": 64,
+    "chol": 8.5,
+    "potassium": 482.3,
+    "calcium": 242.0,
+    "iron": 1.5,
+    "vitc": 51.4
+   }
+  },
+  {
+   "id": "chickpea-quinoa-salad",
+   "slot": "lunch",
+   "name": "Mediterranean Chickpea Quinoa Salad",
+   "cuisine": "Mediterranean",
+   "minutes": 25,
+   "servings": 2,
+   "servings_note": "2 servings",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "1/2 cup dry quinoa",
+      "1 can (15 oz) chickpeas, drained",
+      "1/2 cucumber, diced",
+      "1 tomato, diced",
+      "2 tbsp finely diced onion",
+      "juice of 1 lemon",
+      "1 tbsp olive oil",
+      "1/2 tsp dried oregano",
+      "1/3 tsp salt"
+     ]
+    }
+   ],
+   "steps": [
+    "Rinse the quinoa and simmer in 1 cup water, covered, 15 minutes. Fluff and cool 10 minutes.",
+    "Whisk the lemon juice, oil, oregano and salt.",
+    "Toss the quinoa with the chickpeas, cucumber, tomato, onion and dressing.",
+    "Serve at room temperature or chilled."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [],
+   "contains": [],
+   "lines": [
+    {
+     "item": "quinoa",
+     "g": 90
+    },
+    {
+     "item": "chickpeas_canned",
+     "g": 240
+    },
+    {
+     "item": "cucumber",
+     "g": 150
+    },
+    {
+     "item": "tomato",
+     "g": 150
+    },
+    {
+     "item": "onion",
+     "g": 30
+    },
+    {
+     "item": "lemon",
+     "g": 45
+    },
+    {
+     "item": "olive_oil",
+     "g": 14
+    },
+    {
+     "item": "oregano",
+     "g": 1
+    },
+    {
+     "item": "salt",
+     "g": 2
+    }
+   ],
+   "nutrition": {
+    "kcal": 431,
+    "protein": 16.3,
+    "fat": 13.4,
+    "satfat": 1.6,
+    "carb": 64.8,
+    "fiber": 12.6,
+    "sugar": 9.3,
+    "sodium": 691,
+    "chol": 0.0,
+    "potassium": 744.1,
+    "calcium": 107.7,
+    "iron": 4.0,
+    "vitc": 22.3
+   }
+  },
+  {
+   "id": "sweet-potato-lentil-soup",
+   "slot": "lunch",
+   "name": "Sweet Potato Red Lentil Soup",
+   "cuisine": "Middle Eastern",
+   "minutes": 35,
+   "servings": 3,
+   "servings_note": "3 servings",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "3/4 cup dry red lentils, rinsed",
+      "2 small sweet potatoes, peeled and diced",
+      "1 onion, diced",
+      "1 carrot, diced",
+      "2 cloves garlic, minced",
+      "1 tbsp olive oil",
+      "1 tsp ground cumin",
+      "1/2 tsp ground turmeric",
+      "1/2 tsp salt"
+     ]
+    }
+   ],
+   "steps": [
+    "Heat the oil in a pot over medium heat. Cook the onion and carrot 5 minutes, then the garlic, cumin and turmeric for 1 minute.",
+    "Add the sweet potato, lentils, salt and 4 cups water. Bring to a boil.",
+    "Simmer, partly covered, 20 minutes until everything is soft.",
+    "Mash lightly with a spoon or blend part of it for a thicker soup."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [],
+   "contains": [],
+   "lines": [
+    {
+     "item": "red_lentils",
+     "g": 150
+    },
+    {
+     "item": "sweet_potato",
+     "g": 260
+    },
+    {
+     "item": "onion",
+     "g": 110
+    },
+    {
+     "item": "carrot",
+     "g": 60
+    },
+    {
+     "item": "garlic",
+     "g": 6
+    },
+    {
+     "item": "olive_oil",
+     "g": 14
+    },
+    {
+     "item": "cumin",
+     "g": 2
+    },
+    {
+     "item": "turmeric",
+     "g": 1
+    },
+    {
+     "item": "salt",
+     "g": 3
+    }
+   ],
+   "nutrition": {
+    "kcal": 324,
+    "protein": 14.2,
+    "fat": 6.0,
+    "satfat": 0.9,
+    "carb": 55.5,
+    "fiber": 9.4,
+    "sugar": 6.2,
+    "sodium": 456,
+    "chol": 0.0,
+    "potassium": 770.6,
+    "calcium": 75.7,
+    "iron": 5.0,
+    "vitc": 7.5
+   }
+  },
+  {
+   "id": "corn-black-bean-bowl",
+   "slot": "lunch",
+   "name": "Corn and Black Bean Salad Bowl",
+   "cuisine": "Mexican",
+   "minutes": 15,
+   "servings": 2,
+   "servings_note": "2 servings",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "1 cup canned black beans, drained",
+      "1 cup frozen corn, thawed",
+      "1 tomato, diced",
+      "1 avocado, diced",
+      "1/2 red bell pepper, diced",
+      "juice of 1 lime",
+      "2 tbsp chopped cilantro",
+      "1/2 tsp ground cumin",
+      "1/3 tsp salt"
+     ]
+    }
+   ],
+   "steps": [
+    "Combine the beans, corn, tomato and pepper in a bowl.",
+    "Stir in the lime juice, cumin, salt and cilantro.",
+    "Fold in the avocado gently just before serving."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [],
+   "contains": [],
+   "lines": [
+    {
+     "item": "black_beans_canned",
+     "g": 255
+    },
+    {
+     "item": "corn_frozen",
+     "g": 150
+    },
+    {
+     "item": "tomato",
+     "g": 150
+    },
+    {
+     "item": "avocado",
+     "g": 150
+    },
+    {
+     "item": "bell_pepper_red",
+     "g": 75
+    },
+    {
+     "item": "lime",
+     "g": 30
+    },
+    {
+     "item": "cilantro",
+     "g": 8
+    },
+    {
+     "item": "cumin",
+     "g": 1
+    },
+    {
+     "item": "salt",
+     "g": 2
+    }
+   ],
+   "nutrition": {
+    "kcal": 332,
+    "protein": 12.7,
+    "fat": 12.4,
+    "satfat": 1.8,
+    "carb": 49.8,
+    "fiber": 17.3,
+    "sugar": 6.5,
+    "sodium": 579,
+    "chol": 0.0,
+    "potassium": 1220.5,
+    "calcium": 76.4,
+    "iron": 3.9,
+    "vitc": 79.5
+   }
+  },
+  {
+   "id": "sweet-potato-black-bean-chili",
+   "slot": "dinner",
+   "name": "Sweet Potato Black Bean Chili",
+   "cuisine": "American",
+   "minutes": 45,
+   "servings": 4,
+   "servings_note": "4 servings",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "1 can (15 oz) black beans",
+      "1 can (15 oz) kidney beans, drained",
+      "2 small sweet potatoes, peeled and diced",
+      "1 can (14.5 oz) diced tomatoes",
+      "1 onion, diced",
+      "3 cloves garlic, minced",
+      "1 tbsp chili powder",
+      "2 tsp ground cumin",
+      "1 tbsp olive oil",
+      "1/2 tsp salt"
+     ]
+    }
+   ],
+   "steps": [
+    "Heat the oil in a large pot over medium heat. Cook the onion 5 minutes, then the garlic, chili powder and cumin for 1 minute.",
+    "Add the sweet potato, tomatoes, both cans of beans with their liquid, the salt and 1 1/2 cups water.",
+    "Simmer, partly covered, 25 to 30 minutes until the sweet potato is tender and the chili is thick.",
+    "Taste and add salt if needed."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [],
+   "contains": [],
+   "lines": [
+    {
+     "item": "black_beans_canned",
+     "g": 425
+    },
+    {
+     "item": "kidney_beans_canned",
+     "g": 255
+    },
+    {
+     "item": "sweet_potato",
+     "g": 260
+    },
+    {
+     "item": "tomatoes_canned",
+     "g": 411
+    },
+    {
+     "item": "onion",
+     "g": 150
+    },
+    {
+     "item": "garlic",
+     "g": 9
+    },
+    {
+     "item": "chili_powder",
+     "g": 8
+    },
+    {
+     "item": "cumin",
+     "g": 4
+    },
+    {
+     "item": "olive_oil",
+     "g": 14
+    },
+    {
+     "item": "salt",
+     "g": 3
+    }
+   ],
+   "nutrition": {
+    "kcal": 307,
+    "protein": 14.3,
+    "fat": 5.3,
+    "satfat": 0.8,
+    "carb": 53.6,
+    "fiber": 16.2,
+    "sugar": 9.8,
+    "sodium": 800,
+    "chol": 0.0,
+    "potassium": 1039.9,
+    "calcium": 155.8,
+    "iron": 5.1,
+    "vitc": 21.1
+   }
+  },
+  {
+   "id": "lentil-bolognese-spaghetti",
+   "slot": "dinner",
+   "name": "Lentil Bolognese Spaghetti",
+   "cuisine": "Italian",
+   "minutes": 45,
+   "servings": 4,
+   "servings_note": "4 servings",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "3/4 lb spaghetti",
+      "3/4 cup dry brown lentils, rinsed",
+      "2 cans (14.5 oz) diced tomatoes",
+      "1 onion, finely diced",
+      "2 carrots, finely diced",
+      "2 stalks celery, finely diced",
+      "3 cloves garlic, minced",
+      "1 tbsp olive oil",
+      "1 tsp dried oregano",
+      "3/4 tsp salt"
+     ]
+    }
+   ],
+   "steps": [
+    "Heat the oil in a large pot over medium heat. Cook the onion, carrot and celery 8 minutes, then the garlic and oregano for 1 minute.",
+    "Add the lentils, tomatoes, salt and 1 1/2 cups water. Simmer, partly covered, 30 minutes until the lentils are soft and the sauce is thick.",
+    "Cook the spaghetti, drain, and top with the sauce."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [
+    "gluten",
+    "wheat"
+   ],
+   "contains": [],
+   "lines": [
+    {
+     "item": "pasta_spaghetti",
+     "g": 340
+    },
+    {
+     "item": "lentils_brown",
+     "g": 150
+    },
+    {
+     "item": "tomatoes_canned",
+     "g": 822
+    },
+    {
+     "item": "onion",
+     "g": 110
+    },
+    {
+     "item": "carrot",
+     "g": 120
+    },
+    {
+     "item": "celery",
+     "g": 80
+    },
+    {
+     "item": "garlic",
+     "g": 9
+    },
+    {
+     "item": "olive_oil",
+     "g": 14
+    },
+    {
+     "item": "oregano",
+     "g": 2
+    },
+    {
+     "item": "salt",
+     "g": 4
+    }
+   ],
+   "nutrition": {
+    "kcal": 542,
+    "protein": 22.9,
+    "fat": 5.9,
+    "satfat": 0.9,
+    "carb": 101.5,
+    "fiber": 12.5,
+    "sugar": 11.2,
+    "sodium": 670,
+    "chol": 0.0,
+    "potassium": 1039.5,
+    "calcium": 135.3,
+    "iron": 6.9,
+    "vitc": 32.7
+   }
+  },
+  {
+   "id": "quinoa-stuffed-peppers",
+   "slot": "dinner",
+   "name": "Quinoa Black Bean Stuffed Peppers",
+   "cuisine": "Mexican",
+   "minutes": 60,
+   "servings": 4,
+   "servings_note": "4 servings (1 pepper each)",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "4 large bell peppers, tops cut off and seeded",
+      "1/2 cup dry quinoa",
+      "1 cup canned black beans, drained",
+      "2/3 cup frozen corn",
+      "1 can (14.5 oz) diced tomatoes",
+      "1 onion, diced",
+      "1 1/2 tsp ground cumin",
+      "2 tsp olive oil",
+      "1/2 tsp salt"
+     ]
+    }
+   ],
+   "steps": [
+    "Heat the oven to 375°F. Simmer the quinoa in 1 cup water, covered, for 15 minutes.",
+    "Cook the onion in the oil 4 minutes. Stir in the quinoa, beans, corn, half the tomatoes, cumin and salt.",
+    "Stand the peppers in a baking dish, fill them with the mixture, and pour the remaining tomatoes around them. Cover with foil.",
+    "Bake 35 minutes, then uncover and bake 5 more minutes."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [],
+   "contains": [],
+   "lines": [
+    {
+     "item": "bell_pepper_red",
+     "g": 600
+    },
+    {
+     "item": "quinoa",
+     "g": 90
+    },
+    {
+     "item": "black_beans_canned",
+     "g": 255
+    },
+    {
+     "item": "corn_frozen",
+     "g": 100
+    },
+    {
+     "item": "tomatoes_canned",
+     "g": 411
+    },
+    {
+     "item": "onion",
+     "g": 110
+    },
+    {
+     "item": "cumin",
+     "g": 3
+    },
+    {
+     "item": "olive_oil",
+     "g": 9
+    },
+    {
+     "item": "salt",
+     "g": 3
+    }
+   ],
+   "nutrition": {
+    "kcal": 252,
+    "protein": 10.5,
+    "fat": 4.9,
+    "satfat": 0.7,
+    "carb": 45.7,
+    "fiber": 12.1,
+    "sugar": 10.9,
+    "sodium": 507,
+    "chol": 0.0,
+    "potassium": 942.7,
+    "calcium": 91.8,
+    "iron": 4.1,
+    "vitc": 209.9
+   }
+  },
+  {
+   "id": "roasted-veggie-white-bean-bowl",
+   "slot": "dinner",
+   "name": "Roasted Veggie and White Bean Quinoa Bowl",
+   "cuisine": "Mediterranean",
+   "minutes": 40,
+   "servings": 3,
+   "servings_note": "3 servings",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "3/4 cup dry quinoa",
+      "1 cup canned white beans, drained",
+      "2 1/2 cups broccoli florets",
+      "2 small sweet potatoes, cubed",
+      "2 tbsp olive oil",
+      "juice of 1 lemon",
+      "2 cloves garlic, minced",
+      "1/2 tsp salt",
+      "1/4 tsp black pepper"
+     ]
+    }
+   ],
+   "steps": [
+    "Heat the oven to 425°F. Toss the sweet potato with half the oil and half the salt and roast 15 minutes.",
+    "Add the broccoli, garlic and remaining oil, salt and pepper to the pan and roast 15 more minutes.",
+    "Meanwhile simmer the quinoa in 1 1/2 cups water, covered, 15 minutes.",
+    "Warm the beans, then pile everything over the quinoa and squeeze the lemon on top."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [],
+   "contains": [],
+   "lines": [
+    {
+     "item": "quinoa",
+     "g": 135
+    },
+    {
+     "item": "white_beans_canned",
+     "g": 255
+    },
+    {
+     "item": "broccoli",
+     "g": 250
+    },
+    {
+     "item": "sweet_potato",
+     "g": 260
+    },
+    {
+     "item": "olive_oil",
+     "g": 27
+    },
+    {
+     "item": "lemon",
+     "g": 45
+    },
+    {
+     "item": "garlic",
+     "g": 6
+    },
+    {
+     "item": "salt",
+     "g": 3
+    },
+    {
+     "item": "black_pepper",
+     "g": 1
+    }
+   ],
+   "nutrition": {
+    "kcal": 452,
+    "protein": 16.4,
+    "fat": 12.4,
+    "satfat": 1.7,
+    "carb": 71.8,
+    "fiber": 12.2,
+    "sugar": 5.7,
+    "sodium": 755,
+    "chol": 0.0,
+    "potassium": 1222.7,
+    "calcium": 154.7,
+    "iron": 5.9,
+    "vitc": 82.8
+   }
+  },
+  {
+   "id": "peanut-noodle-bowl",
+   "slot": "dinner",
+   "name": "Peanut Noodle Bowl",
+   "cuisine": "Asian",
+   "minutes": 25,
+   "servings": 3,
+   "servings_note": "3 servings",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "9 oz spaghetti or thin noodles",
+      "1/4 cup peanut butter",
+      "2 tbsp soy sauce",
+      "1/2 cucumber, sliced into strips",
+      "2 carrots, shredded",
+      "juice of 1 lime",
+      "1 tbsp grated ginger",
+      "2 cloves garlic, minced",
+      "1/4 tsp crushed red pepper"
+     ]
+    }
+   ],
+   "steps": [
+    "Cook the noodles, saving 1/2 cup of the cooking water, then drain.",
+    "Whisk the peanut butter, soy sauce, lime juice, ginger, garlic and red pepper with 1/4 cup of the hot noodle water until smooth.",
+    "Toss the noodles with the sauce, adding more water if it is thick.",
+    "Top with the cucumber and carrot and serve warm or cold."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [
+    "gluten",
+    "peanut",
+    "soy",
+    "wheat"
+   ],
+   "contains": [],
+   "lines": [
+    {
+     "item": "pasta_spaghetti",
+     "g": 270
+    },
+    {
+     "item": "peanut_butter",
+     "g": 64
+    },
+    {
+     "item": "soy_sauce",
+     "g": 36
+    },
+    {
+     "item": "cucumber",
+     "g": 150
+    },
+    {
+     "item": "carrot",
+     "g": 120
+    },
+    {
+     "item": "lime",
+     "g": 30
+    },
+    {
+     "item": "ginger",
+     "g": 9
+    },
+    {
+     "item": "garlic",
+     "g": 6
+    },
+    {
+     "item": "red_pepper",
+     "g": 1
+    }
+   ],
+   "nutrition": {
+    "kcal": 498,
+    "protein": 18.4,
+    "fat": 12.2,
+    "satfat": 2.3,
+    "carb": 80.8,
+    "fiber": 5.8,
+    "sugar": 6.8,
+    "sodium": 796,
+    "chol": 0.0,
+    "potassium": 619.6,
+    "calcium": 61.6,
+    "iron": 4.0,
+    "vitc": 7.8
+   }
+  },
+  {
+   "id": "white-bean-tomato-pasta",
+   "slot": "dinner",
+   "name": "White Bean Tomato Basil Pasta",
+   "cuisine": "Italian",
+   "minutes": 25,
+   "servings": 3,
+   "servings_note": "3 servings",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "9 oz spaghetti",
+      "1 cup canned white beans, drained",
+      "1 can (14.5 oz) diced tomatoes",
+      "1/4 cup torn fresh basil",
+      "3 cloves garlic, sliced",
+      "2 tbsp olive oil",
+      "1/2 tsp salt",
+      "1/4 tsp black pepper",
+      "1/4 tsp crushed red pepper"
+     ]
+    }
+   ],
+   "steps": [
+    "Cook the spaghetti and drain, saving a little pasta water.",
+    "Warm the oil in a large skillet over medium heat. Cook the garlic and red pepper 1 minute.",
+    "Add the tomatoes, beans, salt and pepper and simmer 10 minutes, lightly crushing some beans.",
+    "Toss in the pasta, adding pasta water if needed, and finish with the basil."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [
+    "gluten",
+    "wheat"
+   ],
+   "contains": [],
+   "lines": [
+    {
+     "item": "pasta_spaghetti",
+     "g": 270
+    },
+    {
+     "item": "white_beans_canned",
+     "g": 255
+    },
+    {
+     "item": "tomatoes_canned",
+     "g": 411
+    },
+    {
+     "item": "basil",
+     "g": 10
+    },
+    {
+     "item": "garlic",
+     "g": 9
+    },
+    {
+     "item": "olive_oil",
+     "g": 27
+    },
+    {
+     "item": "salt",
+     "g": 3
+    },
+    {
+     "item": "black_pepper",
+     "g": 1
+    },
+    {
+     "item": "red_pepper",
+     "g": 1
+    }
+   ],
+   "nutrition": {
+    "kcal": 539,
+    "protein": 19.4,
+    "fat": 11.1,
+    "satfat": 1.6,
+    "carb": 91.5,
+    "fiber": 9.9,
+    "sugar": 6.2,
+    "sodium": 840,
+    "chol": 0.0,
+    "potassium": 881.4,
+    "calcium": 139.8,
+    "iron": 6.6,
+    "vitc": 19.1
+   }
+  },
+  {
+   "id": "spinach-feta-sweet-potatoes",
+   "slot": "dinner",
+   "name": "Spinach and Feta Stuffed Sweet Potatoes",
+   "cuisine": "Mediterranean",
+   "minutes": 60,
+   "servings": 4,
+   "servings_note": "4 servings (1 potato each)",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "4 small sweet potatoes",
+      "5 oz baby spinach",
+      "1/2 cup crumbled feta",
+      "1 can (15 oz) chickpeas, drained",
+      "1/4 cup diced onion",
+      "2 cloves garlic, minced",
+      "1 tbsp olive oil",
+      "1/4 tsp black pepper"
+     ]
+    }
+   ],
+   "steps": [
+    "Heat the oven to 425°F. Prick the sweet potatoes and bake on a sheet pan 40 to 45 minutes until soft.",
+    "Meanwhile cook the onion and garlic in the oil 3 minutes. Add the chickpeas and cook 4 minutes, then the spinach until wilted.",
+    "Split the potatoes open and mash the flesh slightly.",
+    "Fill with the chickpea-spinach mix, top with the feta and pepper, and serve."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [
+    "milk"
+   ],
+   "contains": [],
+   "lines": [
+    {
+     "item": "sweet_potato",
+     "g": 520
+    },
+    {
+     "item": "spinach",
+     "g": 142
+    },
+    {
+     "item": "feta",
+     "g": 85
+    },
+    {
+     "item": "chickpeas_canned",
+     "g": 240
+    },
+    {
+     "item": "onion",
+     "g": 40
+    },
+    {
+     "item": "garlic",
+     "g": 6
+    },
+    {
+     "item": "olive_oil",
+     "g": 14
+    },
+    {
+     "item": "black_pepper",
+     "g": 1
+    }
+   ],
+   "nutrition": {
+    "kcal": 298,
+    "protein": 10.5,
+    "fat": 10.0,
+    "satfat": 3.5,
+    "carb": 43.4,
+    "fiber": 8.8,
+    "sugar": 8.4,
+    "sodium": 490,
+    "chol": 18.9,
+    "potassium": 748.9,
+    "calcium": 212.1,
+    "iron": 2.6,
+    "vitc": 14.4
+   }
+  },
+  {
+   "id": "veggie-frittata",
+   "slot": "dinner",
+   "name": "Spinach Mushroom Frittata",
+   "cuisine": "Italian",
+   "minutes": 30,
+   "servings": 4,
+   "servings_note": "4 servings",
+   "ingredients": [
+    {
+     "heading": "",
+     "items": [
+      "8 large eggs",
+      "5 oz baby spinach",
+      "2 cups sliced mushrooms",
+      "1/2 onion, diced",
+      "1/2 cup shredded cheddar",
+      "1 tbsp olive oil",
+      "1/2 tsp salt",
+      "1/4 tsp black pepper"
+     ]
+    }
+   ],
+   "steps": [
+    "Heat the oven to 400°F. Whisk the eggs with the salt and pepper.",
+    "Heat the oil in a 10-inch oven-safe skillet over medium heat. Cook the onion and mushrooms 6 minutes, then the spinach 1 minute.",
+    "Pour in the eggs and sprinkle with the cheese. Cook 2 minutes without stirring.",
+    "Bake 12 to 15 minutes until set in the center (160°F). Let it rest 5 minutes and cut into wedges."
+   ],
+   "notes": [],
+   "assumptions": "",
+   "source": {
+    "title": "Muse Coach original recipe",
+    "url": "",
+    "history": "",
+    "revision": 0,
+    "license": "original",
+    "license_url": ""
+   },
+   "allergens": [
+    "egg",
+    "milk"
+   ],
+   "contains": [],
+   "lines": [
+    {
+     "item": "egg",
+     "g": 400
+    },
+    {
+     "item": "spinach",
+     "g": 142
+    },
+    {
+     "item": "mushrooms",
+     "g": 150
+    },
+    {
+     "item": "onion",
+     "g": 75
+    },
+    {
+     "item": "cheddar",
+     "g": 60
+    },
+    {
+     "item": "olive_oil",
+     "g": 14
+    },
+    {
+     "item": "salt",
+     "g": 3
+    },
+    {
+     "item": "black_pepper",
+     "g": 1
+    }
+   ],
+   "nutrition": {
+    "kcal": 259,
+    "protein": 18.4,
+    "fat": 18.3,
+    "satfat": 6.5,
+    "carb": 5.6,
+    "fiber": 1.5,
+    "sugar": 2.1,
+    "sodium": 561,
+    "chol": 386.9,
+    "potassium": 497.5,
+    "calcium": 204.4,
+    "iron": 3.0,
+    "vitc": 12.2
    }
   }
  ]

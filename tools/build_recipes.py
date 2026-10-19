@@ -1,5 +1,6 @@
 """Builds app/data/recipes.json.
 
+Builds the recipe set: 9 recipes scraped from Wikibooks Cookbook plus the original recipes in tools/recipes_original.json.
 Scrapes ingredients and instructions from Wikibooks Cookbook (text licensed CC BY-SA 4.0, so every recipe
 keeps its source page, revision and license), and COMPUTES nutrition from the USDA knowledge base using the
 curated weights in tools/recipes_src.json. Nothing nutritional is scraped.
@@ -122,10 +123,44 @@ def nutrition_per_serving(kb, lines, servings):
     return out
 
 
+def tags_for(lines: list[dict], catalog: dict) -> tuple[list[str], list[str]]:
+    """Allergens (the 9 majors + gluten) and diet flags (meat/poultry/honey) are the union over the ingredients."""
+    allergens, contains = set(), set()
+    for ln in lines:
+        item = catalog[ln["item"]]
+        allergens.update(item["allergens"])
+        contains.update(item["contains"])
+    return sorted(allergens), sorted(contains)
+
+
+def finish(recipe: dict, lines: list[dict], catalog: dict, kb: dict) -> dict:
+    """Attach the computed fields every recipe carries: grocery lines, nutrition, allergens and diet flags."""
+    merged: dict[str, float] = {}
+    for ln in lines:  # the same item can appear twice in a scraped recipe (e.g. two kinds of walnut): add the grams up
+        merged[ln["item"]] = round(merged.get(ln["item"], 0) + ln["g"], 2)
+    lines = [{"item": k, "g": v} for k, v in merged.items()]
+    by_item = {k: v["fdc"] for k, v in catalog.items()}
+    for ln in lines:
+        if ln["item"] not in catalog:
+            raise SystemExit(f"{recipe['id']}: unknown catalog item {ln['item']!r}")
+    nutr = nutrition_per_serving(kb, [{"fdc": by_item[ln["item"]], "g": ln["g"], "what": ln["item"]} for ln in lines], recipe["servings"])
+    assert 50 <= nutr["kcal"] <= 1200, f"{recipe['id']} has implausible calories: {nutr['kcal']}"
+    recipe["allergens"], recipe["contains"] = tags_for(lines, catalog)
+    recipe["lines"] = lines
+    recipe["nutrition"] = nutr
+    return recipe
+
+
 def main() -> None:
     kb = json.loads((ROOT / "app/data/nutrition.json").read_text(encoding="utf-8"))
+    catalog = json.loads((ROOT / "app/data/ingredients.json").read_text(encoding="utf-8"))["items"]
+    item_for_fdc = {}
+    for k, v in catalog.items():
+        item_for_fdc.setdefault(v["fdc"], k)
     src = json.loads((ROOT / "tools/recipes_src.json").read_text(encoding="utf-8"))["recipes"]
     recipes = []
+
+    # 1. Wikibooks recipes: text scraped live (CC BY-SA); my curated gram weights are mapped onto catalog items
     for r in src:
         wikitext, revid = fetch_page(r["page"])
         sec = sections(wikitext)
@@ -133,14 +168,17 @@ def main() -> None:
         steps = parse_steps(sec.get("procedure", ""))
         if not groups or not steps:
             raise SystemExit(f"could not parse {r['page']}: ingredients={bool(groups)} steps={bool(steps)}")
-        nutr = nutrition_per_serving(kb, r["nutrition"], r["servings"])
-        assert 50 <= nutr["kcal"] <= 1200, f"{r['id']} has implausible calories: {nutr['kcal']}"
+        lines = []
+        for ln in r["nutrition"]:
+            if ln["fdc"] not in item_for_fdc:
+                raise SystemExit(f"{r['id']}: no catalog item for FDC id {ln['fdc']} ({ln['what']})")
+            lines.append({"item": item_for_fdc[ln["fdc"]], "g": ln["g"]})
         title = r["page"].split(":", 1)[1]
-        recipes.append({
-            "id": r["id"], "slot": r["slot"], "name": title,
+        rec = {
+            "id": r["id"], "slot": r["slot"], "name": title, "cuisine": r["cuisine"], "minutes": r["minutes"],
             "servings": r["servings"], "servings_note": r["servings_note"],
             "ingredients": groups, "steps": steps, "notes": parse_notes(sec.get("notes, tips, and variations", "")),
-            "nutrition": nutr, "assumptions": r["assumptions"],
+            "assumptions": r["assumptions"],
             "source": {
                 "title": f"{title} (Wikibooks Cookbook)",
                 "url": "https://en.wikibooks.org/wiki/" + urllib.parse.quote(r["page"].replace(" ", "_")),
@@ -148,17 +186,39 @@ def main() -> None:
                 "revision": revid, "license": LICENSE,
                 "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
             },
-        })
-        print(f"{r['id']:24} {nutr['kcal']:4} kcal/serving  P{nutr['protein']:5.1f} F{nutr['fat']:5.1f} C{nutr['carb']:5.1f} Na{nutr['sodium']:5}  rev {revid}")
+        }
+        recipes.append(finish(rec, lines, catalog, kb))
+
+    # 2. Original recipes written for this app (no scraping, no license strings attached)
+    originals = json.loads((ROOT / "tools/recipes_original.json").read_text(encoding="utf-8"))["recipes"]
+    for r in originals:
+        lines = [{"item": item, "g": g} for item, g, _ in r["ingredients"]]
+        if len(r["steps"]) < 3:
+            raise SystemExit(f"{r['id']}: needs at least 3 steps")
+        rec = {
+            "id": r["id"], "slot": r["slot"], "name": r["name"], "cuisine": r["cuisine"], "minutes": r["minutes"],
+            "servings": r["servings"], "servings_note": r["servings_note"],
+            "ingredients": [{"heading": "", "items": [text for _, _, text in r["ingredients"]]}],
+            "steps": r["steps"], "notes": r.get("notes", []), "assumptions": "",
+            "source": {"title": "Muse Coach original recipe", "url": "", "history": "", "revision": 0, "license": "original", "license_url": ""},
+        }
+        recipes.append(finish(rec, lines, catalog, kb))
+
+    ids = [r["id"] for r in recipes]
+    assert len(ids) == len(set(ids)), "duplicate recipe ids"
+    for r in recipes:
+        n = r["nutrition"]
+        print(f"{r['id']:34} {r['slot']:9} {n['kcal']:4} kcal  P{n['protein']:5.1f}  allergens: {','.join(r['allergens']) or '-':30} contains: {','.join(r['contains']) or '-'}")
+    counts = {s: sum(1 for r in recipes if r["slot"] == s) for s in ("breakfast", "lunch", "dinner")}
     out = {
-        "_license": ("Ingredient lists and instructions are from Wikibooks Cookbook contributors, licensed CC BY-SA 4.0 "
-                     "(https://creativecommons.org/licenses/by-sa/4.0/), reformatted for this app. Each recipe links its page and edit "
-                     "history for attribution. Nutrition is computed by this project from USDA FoodData Central (public domain). "
-                     "This file is therefore also available under CC BY-SA 4.0."),
+        "_license": ("Wikibooks-sourced recipes (those whose source.license is CC BY-SA 4.0): ingredient lists and instructions are from Wikibooks Cookbook "
+                     "contributors, licensed CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/), reformatted for this app, with page and edit-history "
+                     "links for attribution. The other recipes are original to this project. Nutrition is computed from USDA FoodData Central (public domain). "
+                     "This file is therefore available under CC BY-SA 4.0."),
         "recipes": recipes,
     }
     (ROOT / "app/data/recipes.json").write_text(json.dumps(out, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
-    print(f"wrote {len(recipes)} recipes")
+    print(f"wrote {len(recipes)} recipes {counts}")
 
 
 if __name__ == "__main__":
